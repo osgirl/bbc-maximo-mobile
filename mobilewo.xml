@@ -36,7 +36,7 @@
 			<mobilemboattribute name="TARGSTARTDATE" mboattribute="TARGSTARTDATE"/>
 			<mobilemboattribute name="TARGCOMPDATE" mboattribute="TARGCOMPDATE"/>
 			<mobilemboattribute name="LOCATION" mboattribute="LOCATION"/>
-			<mobilemboattribute name="LOCATION_DESCRIPTION" mboattribute="LOCATIONS.DESCRIPTION" readonly="true"/>
+			<mobilemboattribute name="LOCATION_DESCRIPTION" mboattribute="WOLOC.DESCRIPTION" readonly="true"/>
 			<mobilemboattribute name="WOCLASS" mboattribute="WOCLASS"/>
 			<mobilemboattribute name="ORIGRECORDCLASS" mboattribute="ORIGRECORDCLASS"/>
 			<mobilemboattribute name="ORIGRECORDID" mboattribute="ORIGRECORDID"/>
@@ -175,6 +175,12 @@
 			<mobilembo name="PLUSCPLUSCWODS" mobilemboname="PLUSCWODS" mborelationship="PLUSCWODS">
 				<mobilerelation>
 					<match parentmobilemboattribute="WONUM" childmobilemboattribute="WONUM"/>
+					<match parentmobilemboattribute="SITEID" childmobilemboattribute="SITEID"/>
+				</mobilerelation>
+			</mobilembo>
+			<mobilembo name="WOLOC" mobilemboname="LOCATIONS" mborelationship="LOCATION">
+				<mobilerelation>
+					<match parentmobilemboattribute="LOCATION" childmobilemboattribute="WONUM"/>
 					<match parentmobilemboattribute="SITEID" childmobilemboattribute="SITEID"/>
 				</mobilerelation>
 			</mobilembo>
