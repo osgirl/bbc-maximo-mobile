@@ -36,7 +36,6 @@
 			<mobilemboattribute name="TARGSTARTDATE" mboattribute="TARGSTARTDATE"/>
 			<mobilemboattribute name="TARGCOMPDATE" mboattribute="TARGCOMPDATE"/>
 			<mobilemboattribute name="LOCATION" mboattribute="LOCATION"/>
-			<mobilemboattribute name="LOCATION_DESCRIPTION" mboattribute="WOLOC.DESCRIPTION" readonly="true"/>
 			<mobilemboattribute name="WOCLASS" mboattribute="WOCLASS"/>
 			<mobilemboattribute name="ORIGRECORDCLASS" mboattribute="ORIGRECORDCLASS"/>
 			<mobilemboattribute name="ORIGRECORDID" mboattribute="ORIGRECORDID"/>
@@ -62,6 +61,7 @@
 			<mobilemboattribute name="POSTALCODE" mboattribute="SERVICEADDRESS.POSTALCODE" /> 
 			<mobilemboattribute name="COUNTRY" mboattribute="SERVICEADDRESS.COUNTRY" /> 
 			<mobilemboattribute name="IRVOLDSTATUS" maxtype="UPPER" persistent="false"/>
+			<mobilemboattribute name="LOC_DESC" mboattribute="LOCATION.DESCRIPTION"/>
 			<!-- IRV Modification Finish-->
 			<mobilemboattribute name="ISTASK" mboattribute="ISTASK"/>
 			<mobilemboattribute name="ACTFINISH" mboattribute="ACTFINISH"/>
@@ -175,12 +175,6 @@
 			<mobilembo name="PLUSCPLUSCWODS" mobilemboname="PLUSCWODS" mborelationship="PLUSCWODS">
 				<mobilerelation>
 					<match parentmobilemboattribute="WONUM" childmobilemboattribute="WONUM"/>
-					<match parentmobilemboattribute="SITEID" childmobilemboattribute="SITEID"/>
-				</mobilerelation>
-			</mobilembo>
-			<mobilembo name="WOLOC" mobilemboname="LOCATIONS" mborelationship="LOCATION">
-				<mobilerelation>
-					<match parentmobilemboattribute="LOCATION" childmobilemboattribute="WONUM"/>
 					<match parentmobilemboattribute="SITEID" childmobilemboattribute="SITEID"/>
 				</mobilerelation>
 			</mobilembo>
@@ -7382,7 +7376,8 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 							<!-- Issue 10-13680 RWK - menu changed to assetdetailsmenuwithlu2 and detailpage removed -->
 							<textbox id="wodesctxt3" dataattribute="ASSETNUM" handler="wohandler" displayevent="isReadOnlyBasedOnStatus" descmobilembo="ASSET" descattribute="DESCRIPTION" menu="assetdetailsmenuwithlu2" lookup="assetlookup" validateevent="assetchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="ASSET" domainattribute="ASSETNUM"/>
 							<!-- Issue 10-13680 RWK - menu changed to locdetailsmenuwithlu2 and detailpage removed -->
-							<textbox id="wodesctxt4" dataattribute="LOCATION_DESCRIPTION" label="Location" handler="wohandler" displayevent="isReadOnlyBasedOnStatus" descmobilembo="LOCATIONS" descattribute="LOCATION_DESCRIPTION" menu="locdetailsmenuwithlu2" lookup="loclookup" validateevent="locationchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="LOCATIONS" domainattribute="LOCATION"/>		
+							<textbox id="wodesctxt4" dataattribute="LOCATION" label="Location" handler="wohandler" displayevent="isReadOnlyBasedOnStatus" descmobilembo="LOCATIONS" descattribute="LOCATION_DESCRIPTION" menu="locdetailsmenuwithlu2" lookup="loclookup" validateevent="locationchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="LOCATIONS" domainattribute="LOCATION"/>		
+							<textbox id="wodesctxt90" dataattribute="LOC_DESC" inputmode="readonly" label="Location Description"/>
 							<!-- IRV Start -->
 							<dropdown id="woother32" dataattribute="IRVRISKASSESSMENT" label="Have you reviewed the Risk Assessment?" addblankitem="true" listdatasrcname="IRVRISKASSESSMENT" displaydataattribute="VALUE" valuedataattribute="VALUE"/>
 							<!-- textbox id="wodesctxt4a" dataattribute="ADDRESSCODE" displayevent="isReadOnlyBasedOnStatus"/ -->
@@ -7394,7 +7389,6 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 							<!-- ISSUE 08-20587: Added menu attribute -->
 							<textbox id="woCIMain" dataattribute="CINUM" menu="multicimenu" displayevent="showCIField" descmobilembo="CI" descattribute="DESCRIPTION" lookup="cilookup" domain="CI" domainattribute="CINUM" validateevent="cichanged"/>
 							<textbox id="woTargetDescMain" dataattribute="TARGETDESC" displayevent="showTargetDescField" longdescattribute="TARGETDESC_LONGDESCRIPTION"/>
-							<!-- IRV Start Removed wopriority -->
 							<!-- IRV Start Removed wopriority -->
 							<textbox id="wodesctxt5" dataattribute="IRVCUSTPRI" inputmode="readonly"/>
 							<textbox id="wodesctxt6" dataattribute="STATUS" inputmode="readonly"/>
@@ -7463,14 +7457,6 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 								</tablecolumn>
 							</table>
 							<link id="womain_worklogsBscL1" targetid="worklog_details" event="insertlog" label="New Row" displayevent="canInsertLog" image="/img/btn_newRow.png" noesig="true" sigoption="WORKLOG"/>
-						</section>
-						<section id="womain_worklogsT1B">
-							<sectionrow id="womain_worklogsBs">
-								<sectioncol id="womain_worklogsBsc" align="right">
-									<!-- ISSUE 09-17216: Used the new noesig attribute to ignore esignature as it will be validated in the save of the page -->
-									<!--<link id="womain_worklogsBscL1" targetid="worklog_details" event="insertlog" label="New Row" displayevent="canInsertLog" image="/img/btn_newRow.png" noesig="true" sigoption="WORKLOG"/>-->
-								</sectioncol>
-							</sectionrow>
 						</section>
 					</tab>		
 					<tab id="womainTab6" label="Agreed Delay">
