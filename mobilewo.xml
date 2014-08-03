@@ -2349,7 +2349,7 @@
 			<mobilemboattribute name="WARRANTYEXPDATE" mboattribute="WARRANTYEXPDATE"/>
 			<mobilemboattribute name="ISINVENTORYLOCATION" maxtype="YORN"/>
 			<mobilemboattribute name="LOCPRIORITY" mboattribute="LOCPRIORITY"/>
-			
+			<mobilemboattribute name="PLUSPCUSTOMER" mboattribute="PLUSPCUSTOMER"/>
 			<!-- Calibration fields begin -->
 			<mobilemboattribute name="PLUSCLOOP" mboattribute="PLUSCLOOP"/>
 			<!-- Calibration fields end -->
@@ -4795,6 +4795,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 		<mobilembo name="TICKET" mboname="TICKET" type="workset" usequeries="true" queryrequired="true"
 					multisitetype="SYSTEM" orgattribute="ORGID" siteattribute="SITEID" description="Ticket">
 			<mobilemboattribute name="ACTLABCOST" mboattribute="ACTLABCOST"/>
+			<mobilemboattribute name="PLUSPCUSTOMER" mboattribute="PLUSPCUSTOMER"/>
 			<mobilemboattribute name="ACTLABHRS" mboattribute="ACTLABHRS"/>
 			<mobilemboattribute name="ACTUALCONTACTDATE" mboattribute="ACTUALCONTACTDATE"/>
 			<mobilemboattribute name="ACTUALFINISH" mboattribute="ACTUALFINISH"/>
@@ -11835,10 +11836,10 @@ END CAL -->
 				<textbox id="assetparentfiltertxt5" dataattribute="LOCATION_DESCRIPTION"/>
 			</section>
 		</page>
-		<lookup id="loclookup" datasrcname="LOCATIONS" mobilembo="LOCATIONS" returnattribute="LOCATION">
+		<lookup id="loclookup" datasrcname="LOCATIONS" mobilembo="LOCATIONS" returnattribute="LOCATION" nextreturnattributes="PLUSPCUSTOMER" nextsetattributes="PLUSPCUSTOMER">
 			<table id="loclookuptbl" rowsperpage="10" toolbar="lookuptoolbar" filterpage="locfilter">
 				<tablecolumn id="loclookup1" displaymode="fixed" dataattribute="LOCATION">
-					<link id="loclookup1L" event="select" label="{0}" labelattribute="LOCATION"/>
+					<link id="loclookup1L" event="multiselect" label="{0}" labelattribute="LOCATION"/>
 				</tablecolumn>
 				<tablecolumn id="loclookup2" dataattribute="DESCRIPTION" />
 				<tablecolumn id="loclookup3" displaymode="fixed">
@@ -13498,6 +13499,7 @@ END CAL -->
 							<textbox id="tktdesctxt9" dataattribute="LOCATION" inputmode="required" descmobilembo="LOCATIONS" descattribute="DESCRIPTION" menu="locdetailsmenuwithlu2" lookup="loclookup" validateevent="locationchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="LOCATIONS" domainattribute="LOCATION"/>
 							<!-- Issue 10-13680 RWK - menu changed to assetdetailsmenuwithlu2 and detailpage removed -->
 							<textbox id="tktdesctxt8" dataattribute="ASSETNUM" descmobilembo="ASSET" descattribute="DESCRIPTION" menu="assetdetailsmenuwithlu2" lookup="assetlookup" validateevent="assetchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="ASSET" domainattribute="ASSETNUM"/>
+							<textbox id="tktdesccust3" dataattribute="PLUSPCUSTOMER" inputmode="required"/>
 							<!-- ISSUE: 07-30106 -->
 							<!-- IRV textbox id="tkCIMain" dataattribute="CINUM" descmobilembo="CI" descattribute="DESCRIPTION" lookup="cilookup" domain="CI" domainattribute="CINUM" validateevent="cichanged"/-->
 							<!-- IRV textbox id="tkTargetDescMain" dataattribute="TARGETDESC" longdescattribute="TARGETDESC_LONGDESCRIPTION"/ -->
