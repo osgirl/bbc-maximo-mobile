@@ -12979,7 +12979,7 @@ END CAL -->
 				<textbox id="persongroupfltr2" dataattribute="DESCRIPTION"/>
 			</section>
 		</page>
-		<lookup id="personlookup" datasrcname="PERSONS" mobilembo="PERSONS" returnattribute="PERSONID" nextreturnattributes="IRVPRIMARYEMAIL,IRVPRIMARYPHONE" nextsetattributes="REPORTEDEMAIL,REPORTEDPHONE">
+		<lookup id="personlookup" datasrcname="PERSONS" mobilembo="PERSONS" returnattribute="PERSONID" nextreturnattributes="IRVPRIMARYEMAIL,IRVPRIMARYPHONE,PERSONID" nextsetattributes="REPORTEDEMAIL,REPORTEDPHONE,AFFECTEDPERSONID">
 			<table id="personlookuptbl" rowsperpage="10" toolbar="lookuptoolbar" filterpage="personfilter">
 				<tablecolumn id="personlookup1" displaymode="fixed" dataattribute="PERSONID">
 					<link id="personlookup1L" event="multiselect" label="{0}" labelattribute="PERSONID"/>
@@ -12992,6 +12992,22 @@ END CAL -->
 				<tablecolumn id="personlookup5" dataattribute="LASTNAME" displaymode="invisible"/>
 				<tablecolumn id="personlookup6" displaymode="fixed">
 					<button id="personlookup6but1" event="adhocdownloadprompt" image="/img/btntb_adhocdownload.png" displayevent="displayadhocdownload"/>
+				</tablecolumn>
+			</table>
+		</lookup>
+		<lookup id="affpersonlookup" datasrcname="PERSONS" mobilembo="PERSONS" returnattribute="PERSONID">
+			<table id="affpersonlookuptbl" rowsperpage="10" toolbar="lookuptoolbar" filterpage="personfilter">
+				<tablecolumn id="affpersonlookup1" displaymode="fixed" dataattribute="PERSONID">
+					<link id="affpersonlookup1L" event="multiselect" label="{0}" labelattribute="PERSONID"/>
+				</tablecolumn>
+				<tablecolumn id="affpersonlookup2" dataattribute="DISPLAYNAME" displaymode="visible"/>
+				<tablecolumn id="affpersonlookupcust1" dataattribute="IRVPRIMARYEMAIL" displaymode="visible"/>
+				<tablecolumn id="affpersonlookupcust2" dataattribute="IRVPRIMARYPHONE" displaymode="visible"/>
+				<tablecolumn id="affpersonlookup3" dataattribute="TITLE" displaymode="invisible"/>
+				<tablecolumn id="affpersonlookup4" dataattribute="FIRSTNAME" displaymode="invisible"/>
+				<tablecolumn id="affpersonlookup5" dataattribute="LASTNAME" displaymode="invisible"/>
+				<tablecolumn id="affpersonlookup6" displaymode="fixed">
+					<button id="affpersonlookup6but1" event="adhocdownloadprompt" image="/img/btntb_adhocdownload.png" displayevent="displayadhocdownload"/>
 				</tablecolumn>
 			</table>
 		</lookup>
@@ -13476,7 +13492,7 @@ END CAL -->
 							<textbox id="tktdesctxt5" dataattribute="REPORTEDBYID" descmobilembo="PERSONS" descmobilembokeyattr="PERSONID" descattribute="DISPLAYNAME" lookup="personlookup" domain="PERSONS" domainattribute="PERSONID" validateevent="reportedbychanged"/>
 							<textbox id="tktdesccust1" dataattribute="REPORTEDEMAIL" inputmode="required"/>
 							<textbox id="tktdesccust2" dataattribute="REPORTEDPHONE" inputmode="required"/>
-							<textbox id="tktdesctxt6" dataattribute="AFFECTEDPERSONID" descmobilembo="PERSONS" descmobilembokeyattr="PERSONID" descattribute="DISPLAYNAME" lookup="personlookup" domain="PERSONS" domainattribute="PERSONID" validateevent="affectedpersonchanged"/>
+							<textbox id="tktdesctxt6" dataattribute="AFFECTEDPERSONID" descmobilembo="PERSONS" descmobilembokeyattr="PERSONID" descattribute="DISPLAYNAME" lookup="affpersonlookup" domain="PERSONS" domainattribute="PERSONID" validateevent="affectedpersonchanged"/>
 							<textbox id="tktdesctxt7" dataattribute="DESCRIPTION" label="Summary" descattribute="DESCRIPTION" longdescattribute="DESCRIPTION_LONGDESCRIPTION"/>
 							<!-- Issue 10-13680 RWK - menu changed to locdetailsmenuwithlu2 and detailpage removed -->
 							<textbox id="tktdesctxt9" dataattribute="LOCATION" inputmode="required" descmobilembo="LOCATIONS" descattribute="DESCRIPTION" menu="locdetailsmenuwithlu2" lookup="loclookup" validateevent="locationchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="LOCATIONS" domainattribute="LOCATION"/>
