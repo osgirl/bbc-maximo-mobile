@@ -3469,6 +3469,8 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="ORGID" mboattribute="ORGID"/>
 			<mobilemboattribute name="SITEID" mboattribute="SITEID"/>
 			<mobilemboattribute name="CLASSSTRUCTUREID" mboattribute="CLASSSTRUCTUREID"/>
+			<mobilemboattribute name="CLASSIFICATIONID" mboattribute="CLASSIFICATIONID"/>
+			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mbodependentfilter dependson="WORKORDER">
 				<match mobilemboattribute="CLASSSTRUCTUREID" dependsonmobilemboattribute="CLASSSTRUCTUREID"/>
 			</mbodependentfilter>
@@ -12974,12 +12976,30 @@ END CAL -->
 				<textbox id="personfltr5" dataattribute="LASTNAME"/>
 			</section>
 		</page>
+		<page id="classfilter" label="Search Classifications" datasrcname="CLASSSTRUCTURE" toolbar="searchtoolbar">
+			<section id="classdetails" inputmode="query">
+				<textbox id="classfilter1" dataattribute="CLASSIFICATIONID"/>
+				<textbox id="classfilter2" dataattribute="DESCRIPTION"/>
+
+			</section>
+		</page>
 		<page id="persongroupfilter" label="Search Person Groups" datasrcname="PERSONGROUP" toolbar="searchtoolbar">
 			<section id="persongroupfltr" inputmode="query">
 				<textbox id="persongroupfltr1" dataattribute="PERSONGROUP"/>
 				<textbox id="persongroupfltr2" dataattribute="DESCRIPTION"/>
 			</section>
 		</page>
+		<lookup id="classlookup" datasrcname="CLASSSTRUCTURE" mobilembo="CLASSSTRUCTURE" returnattribute="CLASSSTRUCTUREID" nextreturnattributes="DESCRIPTION" nextsetattributes="DESCRIPTION">
+			<table id="classlookuptbl" rowsperpage="10" toolbar="lookuptoolbar" filterpage="classfilter">
+				<tablecolumn id="classlookup1" displaymode="fixed" dataattribute="CLASSIFICATIONID">
+					<link id="classlookup1L" event="multiselect" label="{0}" labelattribute="CLASSIFICATIONID"/>
+				</tablecolumn>
+				<tablecolumn id="classlookup3" dataattribute="DESCRIPTION" displaymode="visible"/>
+				<tablecolumn id="classlookup4" displaymode="fixed">
+					<button id="classlookup4but1" event="adhocdownloadprompt" image="/img/btntb_adhocdownload.png" displayevent="displayadhocdownload"/>
+				</tablecolumn>
+			</table>
+		</lookup>
 		<lookup id="personlookup" datasrcname="PERSONS" mobilembo="PERSONS" returnattribute="PERSONID" nextreturnattributes="IRVPRIMARYEMAIL,IRVPRIMARYPHONE,PERSONID" nextsetattributes="REPORTEDEMAIL,REPORTEDPHONE,AFFECTEDPERSONID">
 			<table id="personlookuptbl" rowsperpage="10" toolbar="lookuptoolbar" filterpage="personfilter">
 				<tablecolumn id="personlookup1" displaymode="fixed" dataattribute="PERSONID">
@@ -13487,19 +13507,18 @@ END CAL -->
 					<tab id="tktmainTab1" label="Ticket" default="true">
 						<section id="tktmainTab1S1">
 							<textbox id="tktdesctxt1" dataattribute="TICKETID" inputmode="readonly"/>
-							<textbox id="tktdesctxt2" dataattribute="OWNER" inputmode="readonly"/>
-							<textbox id="tktdesctxt3" dataattribute="OWNERGROUP" inputmode="readonly"/>
 							<textbox id="tktdesctxt4" dataattribute="STATUS" inputmode="readonly"/>
 							<textbox id="tktdesctxt5" dataattribute="REPORTEDBYID" descmobilembo="PERSONS" descmobilembokeyattr="PERSONID" descattribute="DISPLAYNAME" lookup="personlookup" domain="PERSONS" domainattribute="PERSONID" validateevent="reportedbychanged"/>
 							<textbox id="tktdesccust1" dataattribute="REPORTEDEMAIL" inputmode="required"/>
 							<textbox id="tktdesccust2" dataattribute="REPORTEDPHONE" inputmode="required"/>
 							<textbox id="tktdesctxt6" dataattribute="AFFECTEDPERSONID" descmobilembo="PERSONS" descmobilembokeyattr="PERSONID" descattribute="DISPLAYNAME" lookup="affpersonlookup" domain="PERSONS" domainattribute="PERSONID" validateevent="affectedpersonchanged"/>
-							<textbox id="tktdesctxt7" dataattribute="DESCRIPTION" label="Summary" descattribute="DESCRIPTION" longdescattribute="DESCRIPTION_LONGDESCRIPTION"/>
 							<!-- Issue 10-13680 RWK - menu changed to locdetailsmenuwithlu2 and detailpage removed -->
 							<textbox id="tktdesctxt9" dataattribute="LOCATION" inputmode="required" descmobilembo="LOCATIONS" descattribute="DESCRIPTION" menu="locdetailsmenuwithlu2" lookup="loclookup" validateevent="locationchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="LOCATIONS" domainattribute="LOCATION"/>
 							<!-- Issue 10-13680 RWK - menu changed to assetdetailsmenuwithlu2 and detailpage removed -->
 							<textbox id="tktdesctxt8" dataattribute="ASSETNUM" descmobilembo="ASSET" descattribute="DESCRIPTION" menu="assetdetailsmenuwithlu2" lookup="assetlookup" validateevent="assetchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="ASSET" domainattribute="ASSETNUM"/>
-							<textbox id="tktdesccust3" dataattribute="PLUSPCUSTOMER" inputmode="required"/>
+							<textbox id="tktdesccust3" dataattribute="PLUSPCUSTOMER" inputmode="readonly"/>
+							<textbox id="tktdesccust7" label="Classification" dataattribute="CLASSSTRUCTUREID" inputmode="required" lookup="classlookup"/>
+							<textbox id="tktdesctxt7" dataattribute="DESCRIPTION" label="Summary" descattribute="DESCRIPTION" longdescattribute="DESCRIPTION_LONGDESCRIPTION" inputmode="readonly"/>							
 							<!-- ISSUE: 07-30106 -->
 							<!-- IRV textbox id="tkCIMain" dataattribute="CINUM" descmobilembo="CI" descattribute="DESCRIPTION" lookup="cilookup" domain="CI" domainattribute="CINUM" validateevent="cichanged"/-->
 							<!-- IRV textbox id="tkTargetDescMain" dataattribute="TARGETDESC" longdescattribute="TARGETDESC_LONGDESCRIPTION"/ -->
