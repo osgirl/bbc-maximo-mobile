@@ -2825,6 +2825,8 @@
 			<mobilemboattribute name="TITLE" mboattribute="TITLE"/>
 			<mobilemboattribute name="FIRSTNAME" mboattribute="FIRSTNAME"/>
 			<mobilemboattribute name="LASTNAME" mboattribute="LASTNAME"/>
+			<mobilemboattribute name="IRVPRIMARYEMAIL" mboattribute="PRIMARYEMAIL.EMAILADDRESS"/>
+			<mobilemboattribute name="IRVPRIMARYPHONE" mboattribute="PRIMARYPHONE.PHONENUM"/>
 			<mbodependentfilter dependson="TICKET">
 				<match mobilemboattribute="PERSONID" dependsonmobilemboattribute="REPORTEDBY"/>
 				<filtercondition/>
@@ -7374,7 +7376,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 							<!-- Issue 10-13680 RWK - menu changed to assetdetailsmenuwithlu2 and detailpage removed -->
 							<textbox id="wodesctxt3" dataattribute="ASSETNUM" handler="wohandler" displayevent="isReadOnlyBasedOnStatus" descmobilembo="ASSET" descattribute="DESCRIPTION" menu="assetdetailsmenuwithlu2" lookup="assetlookup" validateevent="assetchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="ASSET" domainattribute="ASSETNUM"/>
 							<!-- Issue 10-13680 RWK - menu changed to locdetailsmenuwithlu2 and detailpage removed -->
-							<textbox id="wodesctxt4" dataattribute="LOCATION" label="Location" handler="wohandler" displayevent="isReadOnlyBasedOnStatus" descmobilembo="LOCATIONS" descattribute="LOCATION_DESCRIPTION" menu="locdetailsmenuwithlu2" lookup="loclookup" validateevent="locationchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="LOCATIONS" domainattribute="LOCATION"/>		
+							<textbox id="wodesctxt4" dataattribute="LOCATION" label="Location" handler="customwohandler" displayevent="isReadOnlyBasedOnStatus" descmobilembo="LOCATIONS" descattribute="LOCATION_DESCRIPTION" menu="locdetailsmenuwithlu2" lookup="loclookup" validateevent="locationchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="LOCATIONS" domainattribute="LOCATION"/>		
 							<textbox id="wodesctxt90" dataattribute="LOC_DESC" inputmode="readonly" label="Location Description"/>
 							<!-- IRV Start -->
 							<dropdown id="woother32" dataattribute="IRVRISKASSESSMENT" label="Have you reviewed the Risk Assessment?" addblankitem="true" listdatasrcname="IRVRISKASSESSMENT" displaydataattribute="VALUE" valuedataattribute="VALUE"/>
@@ -12977,12 +12979,14 @@ END CAL -->
 				<textbox id="persongroupfltr2" dataattribute="DESCRIPTION"/>
 			</section>
 		</page>
-		<lookup id="personlookup" datasrcname="PERSONS" mobilembo="PERSONS" returnattribute="PERSONID">
+		<lookup id="personlookup" datasrcname="PERSONS" mobilembo="PERSONS" returnattribute="PERSONID" nextreturnattributes="IRVPRIMARYEMAIL,IRVPRIMARYPHONE" nextsetattributes="REPORTEDEMAIL,REPORTEDPHONE">
 			<table id="personlookuptbl" rowsperpage="10" toolbar="lookuptoolbar" filterpage="personfilter">
 				<tablecolumn id="personlookup1" displaymode="fixed" dataattribute="PERSONID">
-					<link id="personlookup1L" event="select" label="{0}" labelattribute="PERSONID"/>
+					<link id="personlookup1L" event="multiselect" label="{0}" labelattribute="PERSONID"/>
 				</tablecolumn>
 				<tablecolumn id="personlookup2" dataattribute="DISPLAYNAME" displaymode="visible"/>
+				<tablecolumn id="personlookupcust1" dataattribute="IRVPRIMARYEMAIL" displaymode="visible"/>
+				<tablecolumn id="personlookupcust2" dataattribute="IRVPRIMARYPHONE" displaymode="visible"/>
 				<tablecolumn id="personlookup3" dataattribute="TITLE" displaymode="invisible"/>
 				<tablecolumn id="personlookup4" dataattribute="FIRSTNAME" displaymode="invisible"/>
 				<tablecolumn id="personlookup5" dataattribute="LASTNAME" displaymode="invisible"/>
@@ -13465,26 +13469,22 @@ END CAL -->
 				<tabgroup id="tktmainTab">
 					<tab id="tktmainTab1" label="Ticket" default="true">
 						<section id="tktmainTab1S1">
-							<textbox id="tktdesctxt17" dataattribute="CLASS" inputmode="readonly"/>
 							<textbox id="tktdesctxt1" dataattribute="TICKETID" inputmode="readonly"/>
 							<textbox id="tktdesctxt2" dataattribute="OWNER" inputmode="readonly"/>
 							<textbox id="tktdesctxt3" dataattribute="OWNERGROUP" inputmode="readonly"/>
 							<textbox id="tktdesctxt4" dataattribute="STATUS" inputmode="readonly"/>
 							<textbox id="tktdesctxt5" dataattribute="REPORTEDBYID" descmobilembo="PERSONS" descmobilembokeyattr="PERSONID" descattribute="DISPLAYNAME" lookup="personlookup" domain="PERSONS" domainattribute="PERSONID" validateevent="reportedbychanged"/>
+							<textbox id="tktdesccust1" dataattribute="REPORTEDEMAIL" inputmode="required"/>
+							<textbox id="tktdesccust2" dataattribute="REPORTEDPHONE" inputmode="required"/>
 							<textbox id="tktdesctxt6" dataattribute="AFFECTEDPERSONID" descmobilembo="PERSONS" descmobilembokeyattr="PERSONID" descattribute="DISPLAYNAME" lookup="personlookup" domain="PERSONS" domainattribute="PERSONID" validateevent="affectedpersonchanged"/>
 							<textbox id="tktdesctxt7" dataattribute="DESCRIPTION" label="Summary" descattribute="DESCRIPTION" longdescattribute="DESCRIPTION_LONGDESCRIPTION"/>
+							<!-- Issue 10-13680 RWK - menu changed to locdetailsmenuwithlu2 and detailpage removed -->
+							<textbox id="tktdesctxt9" dataattribute="LOCATION" inputmode="required" descmobilembo="LOCATIONS" descattribute="DESCRIPTION" menu="locdetailsmenuwithlu2" lookup="loclookup" validateevent="locationchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="LOCATIONS" domainattribute="LOCATION"/>
 							<!-- Issue 10-13680 RWK - menu changed to assetdetailsmenuwithlu2 and detailpage removed -->
 							<textbox id="tktdesctxt8" dataattribute="ASSETNUM" descmobilembo="ASSET" descattribute="DESCRIPTION" menu="assetdetailsmenuwithlu2" lookup="assetlookup" validateevent="assetchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="ASSET" domainattribute="ASSETNUM"/>
-							<!-- Issue 10-13680 RWK - menu changed to locdetailsmenuwithlu2 and detailpage removed -->
-							<textbox id="tktdesctxt9" dataattribute="LOCATION" descmobilembo="LOCATIONS" descattribute="DESCRIPTION" menu="locdetailsmenuwithlu2" lookup="loclookup" validateevent="locationchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="LOCATIONS" domainattribute="LOCATION"/>
 							<!-- ISSUE: 07-30106 -->
 							<!-- IRV textbox id="tkCIMain" dataattribute="CINUM" descmobilembo="CI" descattribute="DESCRIPTION" lookup="cilookup" domain="CI" domainattribute="CINUM" validateevent="cichanged"/-->
 							<!-- IRV textbox id="tkTargetDescMain" dataattribute="TARGETDESC" longdescattribute="TARGETDESC_LONGDESCRIPTION"/ -->
-							<textbox id="tktdesctxt10" dataattribute="CLASSSTRUCTURE_HIERARCHYPATH" descattribute="CLASSSTRUCTURE_DESCRIPTION" label="Classification" inputmode="readonly"/>
-							<dropdown id="tktdesctxt11" dataattribute="REPORTEDPRIORITY" addblankitem="true" descmobilembo="TICKETPRIORITY" descmobilembokeyattr="VALUE" descattribute="DESCRIPTION" listdatasrcname="TICKETPRIORITY" displaydataattribute="NEWVALUE" valuedataattribute="NEWVALUE" >
-							</dropdown>
-							<dropdown id="tktdesctxt12" dataattribute="INTERNALPRIORITY" addblankitem="true" descmobilembo="TICKETPRIORITY" descmobilembokeyattr="VALUE" descattribute="DESCRIPTION" listdatasrcname="TICKETPRIORITY" displaydataattribute="NEWVALUE" valuedataattribute="NEWVALUE" >
-							</dropdown>
 							<!-- BFK - waiting on framework team to add where clause for domain validation (where parent is null) -->
 							<!-- IRV textbox id="tktdesctxt13" dataattribute="COMMODITYGROUP" label="Service Group" domain="COMMODITIES" domainattribute="COMMODITY" lookup="servicegrouplookup" validateevent="validateservicegroup"/ -->
 							<!-- BFK - waiting on framework team to add where clause for domain validation (where parent is not null) -->
