@@ -7374,7 +7374,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 						<section id="womainTab1S1">
 							<!-- IRV Removed textbox id="wodesctxt9" dataattribute="WOCLASS" inputmode="readonly"/ -->
 							<textbox id="wodesctxt1" dataattribute="WONUM" inputmode="readonly"/>
-							<textbox id="wodesctxt2" dataattribute="DESCRIPTION"  handler="wohandler" displayevent="readOnlyIfNotNew"  descattribute="DESCRIPTION" longdescattribute="DESCRIPTION_LONGDESCRIPTION" />
+							<textbox id="wodesctxt2" dataattribute="DESCRIPTION"  handler="customwohandler" displayevent="readOnlyIfNotNew"  descattribute="DESCRIPTION" longdescattribute="DESCRIPTION_LONGDESCRIPTION" />
 							<!-- Issue 09-12233 - added display event to fields ASSETNUM and LOCATION -->
 							<!-- Issue 10-13680 RWK - menu changed to assetdetailsmenuwithlu2 and detailpage removed -->
 							<textbox id="wodesctxt3" dataattribute="ASSETNUM" handler="wohandler" displayevent="isReadOnlyBasedOnStatus" descmobilembo="ASSET" descattribute="DESCRIPTION" menu="assetdetailsmenuwithlu2" lookup="assetlookup" validateevent="assetchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="ASSET" domainattribute="ASSETNUM"/>
