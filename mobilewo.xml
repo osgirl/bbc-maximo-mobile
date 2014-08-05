@@ -13518,7 +13518,8 @@ END CAL -->
 							<textbox id="tktdesctxt8" dataattribute="ASSETNUM" descmobilembo="ASSET" descattribute="DESCRIPTION" menu="assetdetailsmenuwithlu2" lookup="assetlookup" validateevent="assetchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="ASSET" domainattribute="ASSETNUM"/>
 							<textbox id="tktdesccust3" dataattribute="PLUSPCUSTOMER" inputmode="readonly"/>
 							<textbox id="tktdesccust7" label="Classification" dataattribute="CLASSSTRUCTUREID" inputmode="required" lookup="classlookup"/>
-							<textbox id="tktdesctxt7" dataattribute="DESCRIPTION" label="Summary" descattribute="DESCRIPTION" longdescattribute="DESCRIPTION_LONGDESCRIPTION" inputmode="readonly"/>							
+							<textbox id="tktdesctxt7" dataattribute="DESCRIPTION" label="Summary" descattribute="DESCRIPTION" longdescattribute="DESCRIPTION_LONGDESCRIPTION" inputmode="readonly"/>	
+							<textbox id="tktdesccust10" dataattribute="DESCRIPTION_LONGDESCRIPTION" label="Details"/>							
 							<!-- ISSUE: 07-30106 -->
 							<!-- IRV textbox id="tkCIMain" dataattribute="CINUM" descmobilembo="CI" descattribute="DESCRIPTION" lookup="cilookup" domain="CI" domainattribute="CINUM" validateevent="cichanged"/-->
 							<!-- IRV textbox id="tkTargetDescMain" dataattribute="TARGETDESC" longdescattribute="TARGETDESC_LONGDESCRIPTION"/ -->
