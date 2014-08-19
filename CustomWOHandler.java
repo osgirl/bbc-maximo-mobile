@@ -205,7 +205,7 @@ public class CustomWOHandler extends DefaultEventHandler {
 	            databean.getMobileMbo().setBooleanValue("IRVISSIGNATURE", true);
 	        }
 		}
-        return true;
+		return EVENT_HANDLED;
     }	
 
 	
@@ -244,7 +244,7 @@ public class CustomWOHandler extends DefaultEventHandler {
             
             }
         }
-        return true;
+        return EVENT_HANDLED;
     }
 
 	/**
@@ -270,7 +270,7 @@ public class CustomWOHandler extends DefaultEventHandler {
             
             }
         }
-        return true;
+        return EVENT_HANDLED;
     }
 
 
@@ -371,7 +371,6 @@ public class CustomWOHandler extends DefaultEventHandler {
 			wodatabean.setValue("NEWOWNERGROUP","NSCSD");
 			wodatabean.setValue("OWNERGROUP","NSCSD");
 		}
-
 		return EVENT_HANDLED;
 	}
 	
