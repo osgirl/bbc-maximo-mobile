@@ -3542,6 +3542,58 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			</mbolookupfilter>
 			<!-- Issue 08-17256 - Item Status - END -->
 		</mobilembo>
+		<mobilembo name="MR" mboname="MR" type="workset" multisitetype="SITE" orgattribute="ORGID" siteattribute="SITEID" description="Material Request">
+			<mobilemboattribute name="SITEID" mboattribute="SITEID"/>
+			<mobilemboattribute name="ORGID" mboattribute="ORGID"/>
+			<mobilemboattribute name="MRNUM" mboattribute="MRNUM"/>
+			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
+			<mobilemboattribute name="REQUESTEDBY" mboattribute="REQUESTEDBY"/>
+			<mobilemboattribute name="REQUESTEDFOR" mboattribute="REQUESTEDFOR"/>
+			<mobilemboattribute name="REQUIREDDATE" mboattribute="REQUIREDDATE"/>
+			<mobilemboattribute name="PRIORITY" mboattribute="PRIORITY"/>
+			<mobilemboattribute name="SHIPTO" mboattribute="SHIPTO"/>
+			<mobilemboattribute name="DROPPOINT" mboattribute="DROPPOINT"/>
+			<mobilemboattribute name="WONUM" mboattribute="WONUM"/>
+			<mobilemboattribute name="LOCATION" mboattribute="LOCATION"/>
+			<mobilemboattribute name="ASSETNUM" mboattribute="ASSETNUM"/>
+			<mobilemboattribute name="CREATEDATE" maxtype="DATETIME"/>
+			<mbofilter>
+				<filtercondition>1=2</filtercondition>
+			</mbofilter>
+			<mobilembo name="MRLINE" mboname="MRLINE" mborelationship="MRLINE" type="workset" multisitetype="SITE" orgattribute="ORGID" siteattribute="SITEID" description="Material Request Line">
+				<mobilemboattribute name="SITEID" mboattribute="SITEID"/>
+				<mobilemboattribute name="ORGID" mboattribute="ORGID"/>
+				<mobilemboattribute name="MRLINENUM" mboattribute="MRLINENUM"/>
+				<mobilemboattribute name="LINETYPE" mboattribute="LINETYPE"/>
+				<mobilemboattribute name="ITEMNUM" mboattribute="ITEMNUM"/>
+				<mobilemboattribute name="ITEMSETID" mboattribute="ITEMSETID"/>
+				<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
+				<mobilemboattribute name="MANUFACTURER" mboattribute="MANUFACTURER"/>
+				<mobilemboattribute name="MODELNUM" mboattribute="MODELNUM"/>
+				<mobilemboattribute name="CATALOGCODE" mboattribute="CATALOGCODE"/>
+				<mobilemboattribute name="QTY" mboattribute="QTY"/>
+				<mobilemboattribute name="ORDERUNIT" mboattribute="ORDERUNIT"/>
+				<mobilemboattribute name="CONVERSION" mboattribute="CONVERSION"/>
+				<mobilemboattribute name="VENDOR" mboattribute="VENDOR"/>
+				<mobilemboattribute name="STORELOC" mboattribute="STORELOC"/>
+				<mobilemboattribute name="STORELOCSITE" mboattribute="STORELOCSITE"/>
+				<mobilemboattribute name="ITEM" mboattribute="ITEMNUM"/>
+				<mobilemboattribute name="TOOL" mboattribute="ITEMNUM"/>
+				<mobilemboattribute name="SERVICE" mboattribute="ITEMNUM"/>
+				<mobilemboattribute name="RESTYPE" mboattribute="RESTYPE"/>				
+			</mobilembo>
+		</mobilembo>
+		<mobilembo name="ADDRESS" mboname="ADDRESS" usequeries="true" multisitetype="ORG" orgattribute="ORGID" description="Address">
+			<mobilemboattribute name="ORGID" mboattribute="ORGID"/>
+			<mobilemboattribute name="ADDRESS1" mboattribute="ADDRESS1"/>
+			<mobilemboattribute name="ADDRESS2" mboattribute="ADDRESS2"/>
+			<mobilemboattribute name="ADDRESS3" mboattribute="ADDRESS3"/>
+			<mobilemboattribute name="ADDRESS4" mboattribute="ADDRESS4"/>
+			<mobilemboattribute name="ADDRESS5" mboattribute="ADDRESS5"/>
+			<mobilemboattribute name="ADDRESSCODE" mboattribute="ADDRESSCODE"/>
+			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
+			<mobilemboattribute name="DESCRIPTION_LONGDESCRIPTION" mboattribute="DESCRIPTION_LONGDESCRIPTION"/>
+		</mobilembo>
 		<mobilembo name="STDSERVICE" mboname="SERVICEITEMS" usequeries="true" queryrequired="true" itemsetattribute="ITEMSETID" description="Std. Service" type="localworksetdownload">
 			<mobilemboattribute name="ITEMNUM" mboattribute="ITEMNUM"/>
 			<mobilemboattribute name="ITEMSETID" mboattribute="ITEMSETID"/>
@@ -5666,6 +5718,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 							<label id="startctrsec21_0" label="Error Alert:" styleoverride="startctr-errorfont"/>
 							<link id="startctrsec21_A" styleoverride="startctr-errorlinkfont" displayevent="check4errors" event="gotoerrorpage" value="woresults" targettabid="woresultsT1" datasrcname="WORKLIST" mobilembo="WORKLIST" label="Work List ({0}) " labelattribute="errorcount" />
 							<link id="startctrsec21_3" styleoverride="startctr-errorlinkfont" displayevent="check4errors" event="gotoerrorpage" value="woresults" targettabid="woresultsT5" datasrcname="COMMLOG" mobilembo="COMMLOG" label="Communication ({0})" labelattribute="errorcount" />
+							<link id="startctrsec21_4" styleoverride="startctr-errorlinkfont" displayevent="check4errors" event="gotoerrorpage" value="woresults" targettabid="woresultsT6" datasrcname="MR" mobilembo="MR" label="MR ({0})" labelattribute="errorcount" />
 						</sectioncol>
 					</sectionrow>
 				</section>
@@ -5978,6 +6031,30 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 							<popupmenu id="commetbl5pop1" menu="commlistrowmenu" image="/img/btn_detailmenu.png"/>
 						</tablecolumn>
 					</table>
+				</tab>
+				<tab id="woresultsT6" tabimage="/img/btntab_failedMaterialRequests.png" label="Material Request" datasrcname="MR" mobilembo="MR" displayevent="displayMRTab">
+					<section id="amtT6B">
+						<table id="mretbl" rowsperpage="6" toolbar="errtabletbar" filterpage="mrfilter" initevent="initmr">
+							<!-- Issue 10-13274 - changed dataattribute's value from MRLINE.ITEMNUM to MRLINE.ITEM -->
+							<tablecolumn id="mretbl1" dataattribute="MRLINE.ITEM" displaymode="fixed" sortable="false">
+								<link id="mretbl1L" event="gotopage" value="matrequesterror" dataattribute="MRLINE.ITEM"/>
+							</tablecolumn>
+							<tablecolumn id="mretbl2" dataattribute="MRLINE.DESCRIPTION" displaymode="visible" sortable="false"/>
+							<tablecolumn id="mretbl3" dataattribute="MRLINE.QTY" displaymode="invisible" sortable="false"/>
+							<tablecolumn id="mretbl4" dataattribute="PRIORITY" displaymode="invisible"/>
+							<tablecolumn id="mretbl5" dataattribute="REQUIREDDATE" displaymode="invisible"/>
+							<tablecolumn id="mretbl6" dataattribute="MRLINE.VENDOR" displaymode="invisible" sortable="false"/>
+							<tablecolumn id="mretbl7" dataattribute="MRLINE.STORELOC" displaymode="invisible" sortable="false"/>
+							<tablecolumn id="mretbl8" dataattribute="MRLINE.MANUFACTURER" displaymode="invisible" sortable="false"/>
+							<tablecolumn id="mretbl9" dataattribute="WONUM" displaymode="visible"/>
+							<tablecolumn id="mretbl10" displaymode="fixed">
+								<popupmenu id="mretbl10pop1" menu="mrlistrowmenu" image="/img/btn_detailmenu.png"/>
+							</tablecolumn>
+						</table>
+					</section>
+					<section id="amtT6C" datasrcname="WPALLFLAGS" mobilembo="WPALLFLAGS">
+						<checkbox id="amtT2C1" dataattribute="SHOWMRERRORSONLY" label="Show Errors Only" validateevent="toggleShowMRErrors"/>
+					</section>
 				</tab>
 			</tabgroup>
 		</page>
@@ -11132,6 +11209,87 @@ END CAL -->
 				<checkbox id="loctkdet8" dataattribute="HISTORYFLAG"/>
 			</section>
 		</page>
+		<page id="mrfilter" label="Search Material Request" datasrcname="MR" toolbar="searchtoolbar">
+			<section id="mrfltr" inputmode="query">
+				<!-- ISSUE 09-11301: Removed field because relationship fields are not supported -->
+				<!--
+				<textbox id="mrfltr1" dataattribute="MRLINE.ITEM" label="Item"></textbox>
+				<textbox id="mrfltr2" dataattribute="MRLINE.DESCRIPTION" ></textbox>
+				<textbox id="mrfltr3" dataattribute="MRLINE.QTY"></textbox>
+				 -->
+				<textbox id="mrfltr4" dataattribute="PRIORITY"/>
+				<textbox id="mrfltr5" dataattribute="REQUIREDDATE" lookup="calendar"/>
+				<!-- ISSUE 09-11301: Removed field because relationship fields are not supported -->
+				<!--
+				<textbox id="mrfltr6" dataattribute="MRLINE.VENDOR" ></textbox>
+				<textbox id="mrfltr7" dataattribute="MRLINE.STORELOC" ></textbox>
+				<textbox id="mrfltr8" dataattribute="MRLINE.MANUFACTURER" ></textbox>
+				 -->
+				<textbox id="mrfltr9" dataattribute="WONUM"/>
+			</section>
+		</page>
+		<!-- ISSUE 09-17216: Added sigoption so e-sig will be asked when save if enabled -->
+		<page id="matrequest" toolbar="dialogbar_matreq" datasrcname="MR" mobilembo="MR" stackpage="true" title="({0} {1})" titleattribute="WONUM,DESCRIPTION" titledatasrc="WORKORDER" titleinappbar="true" label="Request Material" handler="materialrequesthandler" initevent="initpage" sigoption="MATREQ" >
+			<section id="matreqSm">
+				<section id="matreqSb">
+					<textbox id="matreqSb1" dataattribute="MRNUM" descattribute="DESCRIPTION" inputmode="readonly"/>
+				</section>
+				<section id="matreqSa" datasrcname="MRLINE" mobilembo="MRLINE" parentdatasrc="MR">
+					<dropdown id="matreqSa1" dataattribute="LINETYPE" listdatasrcname="MRLINETYPE" valuedataattribute="VALUE" filterevent="filtermrlinetype" validateevent="mrlinetypechanged">
+					</dropdown>
+					<!-- ISSUE 08-19114: Included the lookup attribute in the ITEM field -->
+					<textbox id="matreqSa2a" dataattribute="ITEM" validateevent="validateitemnum" menu="mrlineitemmenu" lookup="itemlookup" handler="materialrequesthandler" descmobilembo="ITEM" descattribute="DESCRIPTION" domain="ITEM" domainattribute="ITEMNUM" displayevent="displayitemfield"/>
+					<!-- ISSUE 08-18941: Added handler attribute to handle the lookup event and apply the QBE -->
+					<textbox id="matreqSa2b" dataattribute="TOOL" label="Tool" validateevent="validatetool" lookup="toollookup" descmobilembo="TOOL" descattribute="DESCRIPTION" domain="TOOL" domainattribute="ITEMNUM" displayevent="displaytoolfield" handler="materialrequesthandler"/>
+					<textbox id="matreqSa2c" dataattribute="SERVICE" label="Service" validateevent="validateservice" lookup="stdservicelookup" descmobilembo="STDSERVICE" descattribute="DESCRIPTION" domain="STDSERVICE" domainattribute="ITEMNUM" displayevent="displaystdservicefield" handler="materialrequesthandler"/>
+					<textbox id="matreqSa3" dataattribute="DESCRIPTION" displayevent="displaydescfield"/>
+					<textbox id="matreqSa7" dataattribute="QTY"/>
+					<textbox id="matreqSa8" dataattribute="ORDERUNIT" descmobilembo="MEASUREUNIT" descattribute="DESCRIPTION" lookup="measureunitlookup" domain="MEASUREUNIT" domainattribute="MEASUREUNITID"/>
+					<textbox id="matreqSb2" datasrcname="MR" dataattribute="REQUIREDDATE" lookup="calendar" validateevent="validatrequireddate"/>
+					<textbox id="matreqSb3" datasrcname="MR" dataattribute="PRIORITY" inputmode="required" size="2"/>
+					<!-- ISSUE 11-11049: Made the field required -->
+					<textbox id="matreqSa12" dataattribute="RESTYPE" lookup="restypelookup" domain="DISPLAYRESTYPE" domainattribute="VALUE" validateevent="updateRequireDateStatus" inputmode="required"/>
+					<textbox id="matreqSb4" datasrcname="MR" dataattribute="SHIPTO" domain="ADDRESS" domainattribute="ADDRESSCODE" descmobilembo="ADDRESS" descattribute="DESCRIPTION" longdescattribute="DESCRIPTION_LONGDESCRIPTION" lookup="addresslookup"/>
+					<textbox id="matreqSb5" datasrcname="MR" dataattribute="DROPPOINT"/>
+					<textbox id="matreqSa4" dataattribute="MANUFACTURER" descmobilembo="COMPANIES" descattribute="NAME" lookup="companylookup" domain="COMPANIES" domainattribute="COMPANY" validateevent="validatemanufacturer"/>
+					<textbox id="matreqSa5" dataattribute="MODELNUM" validateevent="validatemodelnum"/>
+					<textbox id="matreqSa6" dataattribute="CATALOGCODE" validateevent="validatecatalogcode"/>
+					<textbox id="matreqSa11" dataattribute="STORELOC" label="Storeroom" lookup="rmstoreroomlookup" domain="STOREROOMS" domainattribute="LOCATION" descmobilembo="STOREROOMS" descattribute="DESCRIPTION" validateevent="validatestoreloc"/>
+					<textbox id="matreqSa10" dataattribute="VENDOR" descmobilembo="COMPANIES" descattribute="NAME" descmobilembokeyattr="COMPANY" lookup="companylookup" domain="COMPANIES" domainattribute="COMPANY" validateevent="validatevendor"/>
+					<textbox id="matreqSa9" dataattribute="CONVERSION"/>
+				</section>
+			</section>
+		</page>
+		<!-- ISSUE 11-11048: Made the error screen to show exactly the same fields as the main form, including the order of them -->
+		<page id="matrequesterror" toolbar="dialogbar_matreq" datasrcname="MR" mobilembo="MR" stackpage="true" title="({0} {1})" titleattribute="WONUM,DESCRIPTION" titledatasrc="WORKORDER" titleinappbar="true" label="Request Material" handler="materialrequesthandler" >
+			<section id="matreqESm">
+				<section id="matreqESb">
+					<textbox id="matreqESb1" dataattribute="MRNUM" descattribute="DESCRIPTION" inputmode="readonly"/>
+				</section>
+				<section id="matreqESa" datasrcname="MRLINE" mobilembo="MRLINE" parentdatasrc="MR">
+					<dropdown id="matreqSEa1" dataattribute="LINETYPE" listdatasrcname="MRLINETYPE" valuedataattribute="VALUE" filterevent="filtermrlinetype" validateevent="mrlinetypechanged">
+					</dropdown>
+					<!-- ISSUE 10-13281 - Related to 08-19114. Included the lookup attribute in the ITEM field. -->
+					<textbox id="matreqESa2a" dataattribute="ITEM" validateevent="validateitemnum" menu="mrlineitemmenu" lookup="itemlookup" handler="materialrequesthandler" descmobilembo="ITEM" descattribute="DESCRIPTION" domain="ITEM" domainattribute="ITEMNUM" displayevent="displayitemfield"/>
+					<textbox id="matreqESa2b" dataattribute="TOOL" label="Tool" validateevent="validatetool" lookup="toollookup" descmobilembo="TOOL" descattribute="DESCRIPTION" domain="TOOL" domainattribute="ITEMNUM" displayevent="displaytoolfield" handler="materialrequesthandler"/>
+					<textbox id="matreqESa2c" dataattribute="SERVICE" label="Service" validateevent="validateservice" lookup="stdservicelookup" descmobilembo="STDSERVICE" descattribute="DESCRIPTION" domain="STDSERVICE" domainattribute="ITEMNUM" displayevent="displaystdservicefield" handler="materialrequesthandler"/>
+					<textbox id="matreqESa3" dataattribute="DESCRIPTION" displayevent="displaydescfield"/>
+					<textbox id="matreqESa7" dataattribute="QTY"/>
+					<textbox id="matreqESa8" dataattribute="ORDERUNIT" descmobilembo="MEASUREUNIT" descattribute="DESCRIPTION" lookup="measureunitlookup" domain="MEASUREUNIT" domainattribute="MEASUREUNITID"/>
+					<textbox id="matreqESb2" datasrcname="MR" dataattribute="REQUIREDDATE" lookup="calendar" validateevent="validatrequireddate"/>
+					<textbox id="matreqESb3" datasrcname="MR" dataattribute="PRIORITY" inputmode="required" size="2"/>
+					<textbox id="matreqESb22" dataattribute="RESTYPE" lookup="restypelookup" domain="DISPLAYRESTYPE" domainattribute="VALUE" validateevent="updateRequireDateStatus"/>
+					<textbox id="matreqESb4" datasrcname="MR" dataattribute="SHIPTO" domain="ADDRESS" domainattribute="ADDRESSCODE" descmobilembo="ADDRESS" descattribute="DESCRIPTION" longdescattribute="DESCRIPTION_LONGDESCRIPTION" lookup="addresslookup"/>
+					<textbox id="matreqESb5" datasrcname="MR" dataattribute="DROPPOINT"/>
+					<textbox id="matreqESa4" dataattribute="MANUFACTURER" descmobilembo="COMPANIES" descattribute="NAME" lookup="companylookup" domain="COMPANIES" domainattribute="COMPANY" validateevent="validatemanufacturer"/>
+					<textbox id="matreqESa5" dataattribute="MODELNUM" validateevent="validatemodelnum"/>
+					<textbox id="matreqESa6" dataattribute="CATALOGCODE" validateevent="validatecatalogcode"/>
+					<textbox id="matreqESa11" dataattribute="STORELOC" label="Storeroom" lookup="rmstoreroomlookup" domain="STOREROOMS" domainattribute="LOCATION" descmobilembo="STOREROOMS" descattribute="DESCRIPTION" validateevent="validatestoreloc"/>
+					<textbox id="matreqESa10" dataattribute="VENDOR" descmobilembo="COMPANIES" descattribute="NAME" descmobilembokeyattr="COMPANY" lookup="companylookup" domain="COMPANIES" domainattribute="COMPANY" validateevent="validatevendor"/>
+					<textbox id="matreqESa9" dataattribute="CONVERSION"/>
+				</section>
+			</section>
+		</page>
 		<page id="tkcapturesig" initevent="capturesignature" datasrcname="TKATTACHMENTS" parentdatasrc="TICKET" mobilembo="TKATTACHMENTS" toolbar="dialogbar1" stackpage="true" label="Capture Signature">
 			<section id="tkcapturesigS1" padding-top="15">
 				<sectionrow id="tkcapturesigS1R1" indents="1">
@@ -13018,6 +13176,31 @@ END CAL -->
 				<tablecolumn id="invlookup3" dataattribute="SITEID" displaymode="visible"/>
 			</table>
 		</page>
+		<page id="addrfilter" label="Search Addresses" datasrcname="ADDRESS" toolbar="searchtoolbar">
+			<section id="addrfilterdetails" inputmode="query">
+				<textbox id="addrfltr1" dataattribute="ADDRESSCODE"/>
+				<textbox id="addrfltr2" dataattribute="DESCRIPTION"/>
+				<textbox id="addrfltr3" dataattribute="ADDRESS1"/>
+				<textbox id="addrfltr4" dataattribute="ADDRESS2"/>
+				<textbox id="addrfltr5" dataattribute="ADDRESS3"/>
+				<textbox id="addrfltr6" dataattribute="ADDRESS4"/>
+				<textbox id="addrfltr7" dataattribute="ADDRESS5"/>
+			</section>
+		</page>
+		<lookup id="addresslookup" datasrcname="ADDRESS" mobilembo="ADDRESS" returnattribute="ADDRESSCODE">
+			<table id="addrlookuptbl" rowsperpage="10" toolbar="lookuptoolbarnc" filterpage="addrfilter">
+				<tablecolumn id="addrlookup1" displaymode="fixed" dataattribute="ADDRESSCODE">
+					<link id="addrlookup1L" event="select" label="{0}" labelattribute="ADDRESSCODE"/>
+				</tablecolumn>
+				<tablecolumn id="addrlookup2" dataattribute="DESCRIPTION" displaymode="visible" />
+				<tablecolumn id="addrlookup3" dataattribute="ADDRESS1" displaymode="invisible" />
+				<tablecolumn id="addrlookup4" dataattribute="ADDRESS2" displaymode="invisible" />
+				<tablecolumn id="addrlookup5" dataattribute="ADDRESS3" displaymode="invisible" />
+				<tablecolumn id="addrlookup6" dataattribute="ADDRESS4" displaymode="invisible" />
+				<tablecolumn id="addrlookup7" dataattribute="ADDRESS5" displaymode="invisible" />
+				<tablecolumn id="addrlookup8" dataattribute="ORGID" displaymode="invisible" />
+			</table>
+		</lookup>
 		<page id="companyfilter" label="Search Companies" datasrcname="COMPANIES" toolbar="searchtoolbar">
 			<section id="compfilterdetails" inputmode="query">
 				<textbox id="compfltr1" dataattribute="COMPANY"/>
