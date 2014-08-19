@@ -5681,10 +5681,6 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 							<button id="startctrsec3R1C1_1" event="insertwo" image="/img/btn_createWO.png" noesig="true" mobilembo="WORKORDER" datasrcname="WORKORDER" sigoption="NEWWO"/>
 							<link id="startctrsec3R1C1_2" event="insertwo" label="WO" mobilembo="WORKORDER" noesig="true" datasrcname="WORKORDER" sigoption="NEWWO"/>
 						</sectioncol>
-						<sectioncol id="startctrsec3R1C2">
-							<button id="startctrsec3R1C2_1" event="insertsr" image="/img/btn_createSR.png" noesig="true" mobilembo="TICKET" datasrcname="TICKET" sigoption="NEWSR"/>
-							<link id="startctrsec3R1C2_2" event="insertsr" label="SR" mobilembo="TICKET" noesig="true" datasrcname="TICKET" sigoption="NEWSR"/>
-						</sectioncol> 
 						<sectioncol id="startctrsec3R1C3">
 							<!-- ISSUE 09-17216: Used the new noesig attribute to ignore esignature as it will be validated in the save of the page -->
 							<button id="startctrsec3R1C3_1" event="insertincident" image="/img/btn_createIncident.png" noesig="true" mobilembo="TICKET" datasrcname="TICKET" sigoption="NEWINC"/>
