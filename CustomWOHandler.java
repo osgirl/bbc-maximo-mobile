@@ -81,7 +81,7 @@ public class CustomWOHandler extends DefaultEventHandler {
 			String status = (wodatabean.getValue("STATUS") == null) ? "" : wodatabean.getValue("STATUS");
 			if (status != null) {
 				// When the work order’s status is changed to START the mobile work manager will automatically set the actual start date 
-				if(status.equalsIgnoreCase("START") && wodatabean.getValue("IRVOLDSTATUS").equals("ONSITE")) {
+				if(status.equalsIgnoreCase("ONSITE") && wodatabean.getValue("ACTSTART") == null && wodatabean.getValue("IRVOLDSTATUS").equals("ONSITE")) {
 					wodatabean.getMobileMbo().setDateValue("ACTSTART",wodatabean.getCurrentTime());
 				} 
 				// When the work order’s status is changed to WOCOMP the mobile work manager will automatically set the actual finish date 
