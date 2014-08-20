@@ -7296,7 +7296,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 							<textbox id="wodesctxt2" dataattribute="DESCRIPTION"  handler="customwohandler" displayevent="readOnlyIfNotNew"  descattribute="DESCRIPTION" longdescattribute="DESCRIPTION_LONGDESCRIPTION" />
 							<!-- Issue 09-12233 - added display event to fields ASSETNUM and LOCATION -->
 							<!-- Issue 10-13680 RWK - menu changed to assetdetailsmenuwithlu2 and detailpage removed -->
-							<textbox id="wodesctxt3" dataattribute="ASSETNUM" descmobilembo="ASSET" descattribute="DESCRIPTION" menu="assetdetailsmenuwithlu2" lookup="assetlookup" validateevent="assetchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="ASSET" domainattribute="ASSETNUM"/>
+							<textbox id="wodesctxt3" dataattribute="ASSETNUM" descmobilembo="ASSET" descattribute="DESCRIPTION" menu="assetdetailsmenuwithlu2" lookup="assetlookup" handler="wohandler" validateevent="assetchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="ASSET" domainattribute="ASSETNUM"/>
 							<!-- Issue 10-13680 RWK - menu changed to locdetailsmenuwithlu2 and detailpage removed -->
 							<textbox id="wodesctxt4" dataattribute="LOCATION" label="Location" handler="customwohandler" displayevent="isReadOnlyBasedOnStatus" descmobilembo="LOCATIONS" descattribute="LOCATION_DESCRIPTION" menu="locdetailsmenuwithlu2" lookup="loclookup" validateevent="locationchanged" longdescattribute="DESCRIPTION_LONGDESCRIPTION" domain="LOCATIONS" domainattribute="LOCATION"/>		
 							<textbox id="wodesctxt90" dataattribute="LOC_DESC" inputmode="readonly" label="Location Description"/>
