@@ -8,8 +8,7 @@ import com.mro.mobile.ui.event.UIEvent;
 import com.mro.mobile.ui.event.UIEventHandler;
 import com.mro.mobile.ui.res.UIUtil;
 import com.mro.mobile.ui.res.controls.AbstractMobileControl;
-import com.mro.mobileapp.WOApp;
-
+ 
 
 /**
  * Custom Default Handler for the BBC Maximo Mobile implementation
@@ -205,7 +204,7 @@ public class CustomWOHandler extends DefaultEventHandler {
 	            databean.getMobileMbo().setBooleanValue("IRVISSIGNATURE", true);
 	        }
 		}
-		return EVENT_HANDLED;
+        return true;
     }	
 
 	
@@ -244,7 +243,7 @@ public class CustomWOHandler extends DefaultEventHandler {
             
             }
         }
-        return EVENT_HANDLED;
+        return true;
     }
 
 	/**
@@ -270,7 +269,7 @@ public class CustomWOHandler extends DefaultEventHandler {
             
             }
         }
-        return EVENT_HANDLED;
+        return true;
     }
 
 
@@ -293,21 +292,17 @@ public class CustomWOHandler extends DefaultEventHandler {
 		return EVENT_HANDLED;
 	}
 	
-	public boolean readOnlyIfNotNew(UIEvent event) throws MobileApplicationException{
-			    MobileMboDataBean wodatabean = ((AbstractMobileControl)event.getCreatingObject()).getDataBean();
-			    if (wodatabean != null)
-			    {
-			      WOApp app = (WOApp)UIUtil.getApplication();
-			      String status = app.getInternalValue(wodatabean, "WOSTATUS", wodatabean.getValue("STATUS"));
-			     
-			      if (status.equals("WAPPR")) {
-			        ((AbstractMobileControl)event.getCreatingObject()).setReadonly(false);
-			      } else {
-			        ((AbstractMobileControl)event.getCreatingObject()).setReadonly(true);
-			      }
-			    }
-			    return EVENT_HANDLED;
-			  }
+	public boolean readOnlyIfNotNew(UIEvent event) throws MobileApplicationException {
+		MobileMboDataBean databean = UIUtil.getCurrentScreen().getDataBean();
+		String status = databean.getValue("NEWSTATUSDISPLAY");
+
+		if (status.equals("NEW")) {
+			((AbstractMobileControl)event.getCreatingObject()).setReadonly(false);
+		} else {
+			((AbstractMobileControl)event.getCreatingObject()).setReadonly(true);
+		}
+		return EVENT_HANDLED;
+	}
 
 	/**
 	 * Hides the drop down for No Signature Code on the Change Status page if the status is not COMP
@@ -371,6 +366,7 @@ public class CustomWOHandler extends DefaultEventHandler {
 			wodatabean.setValue("NEWOWNERGROUP","NSCSD");
 			wodatabean.setValue("OWNERGROUP","NSCSD");
 		}
+
 		return EVENT_HANDLED;
 	}
 	
