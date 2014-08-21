@@ -1,5 +1,7 @@
 package com.mro.mobile.app.mobilewo;
 
+import java.util.Date;
+
 import com.mro.mobile.MobileApplicationException;
 import com.mro.mobile.app.DefaultEventHandler;
 import com.mro.mobile.ui.MobileMboDataBean;
@@ -8,7 +10,8 @@ import com.mro.mobile.ui.event.UIEvent;
 import com.mro.mobile.ui.event.UIEventHandler;
 import com.mro.mobile.ui.res.UIUtil;
 import com.mro.mobile.ui.res.controls.AbstractMobileControl;
- 
+import com.mro.mobileapp.WOApp;
+
 
 /**
  * Custom Default Handler for the BBC Maximo Mobile implementation
@@ -74,13 +77,17 @@ public class CustomWOHandler extends DefaultEventHandler {
 	public boolean interceptValidateChangeStatusPage(UIEvent event) throws MobileApplicationException {
 		UIHandlerManager hMan = UIHandlerManager.getInstance();
 		UIEventHandler wochangestatushandler = hMan.getUIHandler("wochangestatushandler");
-		if(wochangestatushandler != null){
+		if(wochangestatushandler != null){			
+			
+			MobileMboDataBean wodatabeanPrev = ((AbstractMobileControl) event.getCreatingObject()).getDataBean();
+			Date wofinish = wodatabeanPrev.getMobileMbo().getDateValue("ACTFINISH");
 			wochangestatushandler.performEvent(event);
-			MobileMboDataBean wodatabean = ((AbstractMobileControl) event.getCreatingObject()).getDataBean();
+			MobileMboDataBean wodatabean = ((AbstractMobileControl)event.getCreatingObject()).getDataBean();
+			
 			String status = (wodatabean.getValue("STATUS") == null) ? "" : wodatabean.getValue("STATUS");
 			if (status != null) {
 				// When the work order’s status is changed to START the mobile work manager will automatically set the actual start date 
-				if(status.equalsIgnoreCase("ONSITE") && wodatabean.getValue("ACTSTART") == null && wodatabean.getValue("IRVOLDSTATUS").equals("ONSITE")) {
+				if(status.equalsIgnoreCase("ONSITE") && wodatabean.getMobileMbo().isNull("ACTSTART")  ) {
 					wodatabean.getMobileMbo().setDateValue("ACTSTART",wodatabean.getCurrentTime());
 				} 
 				// When the work order’s status is changed to WOCOMP the mobile work manager will automatically set the actual finish date 
@@ -108,6 +115,9 @@ public class CustomWOHandler extends DefaultEventHandler {
 					worklogBean.getDataBeanManager().save();
 				}
 				else if(status.equalsIgnoreCase("COMP")) {
+					
+					wodatabean.getMobileMbo().setDateValue("ACTFINISH",wofinish);
+					
 					MobileMboDataBean attachments = wodatabean.getDataBean("WOATTACHMENTS");
 					int attachmentCount = attachments.count();
 					if (attachmentCount > 0) {
@@ -144,6 +154,8 @@ public class CustomWOHandler extends DefaultEventHandler {
 //					} else if (remedy.trim().length() <= 0) {
 //						throw new MobileApplicationException("irvFailValidation", new Object[] { "Remedy" });
 //					}
+					
+					
 					
 				} 
 				else if (status.equalsIgnoreCase("START")) {
@@ -204,7 +216,7 @@ public class CustomWOHandler extends DefaultEventHandler {
 	            databean.getMobileMbo().setBooleanValue("IRVISSIGNATURE", true);
 	        }
 		}
-        return true;
+		return EVENT_HANDLED;
     }	
 
 	
@@ -243,7 +255,7 @@ public class CustomWOHandler extends DefaultEventHandler {
             
             }
         }
-        return true;
+        return EVENT_HANDLED;
     }
 
 	/**
@@ -263,13 +275,16 @@ public class CustomWOHandler extends DefaultEventHandler {
             for(int i = dropdownbean.count() - 1; i >= 0; i--) {            	
                 System.out.println(dropdownbean.getValue(i, "VALUE"));                
                 String ddValue = dropdownbean.getValue(i, "VALUE");
+                if(ddValue.equalsIgnoreCase("Quote Required") || ddValue.equalsIgnoreCase("Reassign to Me")  ||ddValue.equalsIgnoreCase("Further Work Required") ||ddValue.equalsIgnoreCase("Require Assistance")) {
+                	dropdownbean.remove(i);
+	            }
                 if(!status.equals("TRAVEL") && ddValue.equalsIgnoreCase("Abandon")) {
                 	dropdownbean.remove(i);
 	            }
             
             }
         }
-        return true;
+        return EVENT_HANDLED;
     }
 
 
@@ -292,17 +307,21 @@ public class CustomWOHandler extends DefaultEventHandler {
 		return EVENT_HANDLED;
 	}
 	
-	public boolean readOnlyIfNotNew(UIEvent event) throws MobileApplicationException {
-		MobileMboDataBean databean = UIUtil.getCurrentScreen().getDataBean();
-		String status = databean.getValue("NEWSTATUSDISPLAY");
-
-		if (status.equals("NEW")) {
-			((AbstractMobileControl)event.getCreatingObject()).setReadonly(false);
-		} else {
-			((AbstractMobileControl)event.getCreatingObject()).setReadonly(true);
-		}
-		return EVENT_HANDLED;
-	}
+	public boolean readOnlyIfNotNew(UIEvent event) throws MobileApplicationException{
+			    MobileMboDataBean wodatabean = ((AbstractMobileControl)event.getCreatingObject()).getDataBean();
+			    if (wodatabean != null)
+			    {
+			      WOApp app = (WOApp)UIUtil.getApplication();
+			      String status = app.getInternalValue(wodatabean, "WOSTATUS", wodatabean.getValue("STATUS"));
+			     
+			      if (status.equals("WAPPR")) {
+			        ((AbstractMobileControl)event.getCreatingObject()).setReadonly(false);
+			      } else {
+			        ((AbstractMobileControl)event.getCreatingObject()).setReadonly(true);
+			      }
+			    }
+			    return EVENT_HANDLED;
+			  }
 
 	/**
 	 * Hides the drop down for No Signature Code on the Change Status page if the status is not COMP
@@ -366,7 +385,6 @@ public class CustomWOHandler extends DefaultEventHandler {
 			wodatabean.setValue("NEWOWNERGROUP","NSCSD");
 			wodatabean.setValue("OWNERGROUP","NSCSD");
 		}
-
 		return EVENT_HANDLED;
 	}
 	
