@@ -3593,6 +3593,9 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="ADDRESSCODE" mboattribute="ADDRESSCODE"/>
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DESCRIPTION_LONGDESCRIPTION" mboattribute="DESCRIPTION_LONGDESCRIPTION"/>
+			<mbofilter>
+				<filtercondition>1=2</filtercondition>
+			</mbofilter>
 		</mobilembo>
 		<mobilembo name="STDSERVICE" mboname="SERVICEITEMS" usequeries="true" queryrequired="true" itemsetattribute="ITEMSETID" description="Std. Service" type="localworksetdownload">
 			<mobilemboattribute name="ITEMNUM" mboattribute="ITEMNUM"/>
@@ -3830,7 +3833,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="PARENT" mboattribute="PARENT"/>
 			<mobilemboattribute name="SERVICETYPE" mboattribute="SERVICETYPE"/>
 			<mbofilter>
-				<filtercondition>servicetype in (select value from synonymdomain where domainid='SERVICETYPE' and maxvalue in ('PROVIDE', 'BOTH'))</filtercondition>
+				<filtercondition>1=2</filtercondition>
 			</mbofilter>
 		</mobilembo>
 		<!-- DOMAINS -->
@@ -4560,7 +4563,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="VALUE" mboattribute="VALUE"/>
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'YOFFSETREF' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4580,7 +4583,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="VALUE" mboattribute="VALUE"/>
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'ZOFFSETREF' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -5452,7 +5455,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="PERSONID" mboattribute="PERSONID"/>
 			<mobilemboattribute name="DISPLAYNAME" mboattribute="DISPLAYNAME"/>
 			<mbofilter>
-				<filtercondition>personid in (select distinct(personid) from labor)</filtercondition>
+				<filtercondition>1=2</filtercondition>
 			</mbofilter>
 		</mobilembo>
 		<mobilembo name="SHIFT" mboname="SHIFT" usequeries="false" type="workset" description="Shift mbo" multisitetype="ORG" orgattribute="ORGID">
@@ -5468,6 +5471,9 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="STARTTIME" mboattribute="STARTTIME"/>
 			<mobilemboattribute name="ENDTIME" mboattribute="ENDTIME"/>
 			<mobilemboattribute name="ORGID" mboattribute="ORGID"/>
+			<mbofilter>
+				<filtercondition>1=2</filtercondition>
+			</mbofilter>
 		</mobilembo>
 		<mobilembo name="DAYNAME" mboname="SYNONYMDOMAIN" usequeries="false" description="Dayname domain" multisitetype="SYSTEM" siteattribute="SITEID" orgattribute="ORGID">
 			<mobilemboattribute name="ORGID" mboattribute="ORGID"/>
