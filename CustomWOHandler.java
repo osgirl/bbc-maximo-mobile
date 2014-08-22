@@ -93,6 +93,8 @@ public class CustomWOHandler extends DefaultEventHandler {
 				// When the work order’s status is changed to WOCOMP the mobile work manager will automatically set the actual finish date 
 				else if(status.equalsIgnoreCase("WOCOMP")) {
 					wodatabean.getMobileMbo().setDateValue("ACTFINISH",wodatabean.getCurrentTime());
+					
+					return EVENT_HANDLED;
 				} 
 				else if(status.equalsIgnoreCase("RETURN")) {
 					// Need a Return reason code.  
@@ -113,6 +115,8 @@ public class CustomWOHandler extends DefaultEventHandler {
 					worklogBean.setValue("DESCRIPTION_LONGDESCRIPTION", "The work order was returned with the reason: " + wodatabean.getValue("IRV_RETURNSTATUSCODE"));
 
 					worklogBean.getDataBeanManager().save();
+					
+					return EVENT_HANDLED;
 				}
 				else if(status.equalsIgnoreCase("COMP")) {
 					
@@ -137,26 +141,8 @@ public class CustomWOHandler extends DefaultEventHandler {
 						if(wodatabean.getValue("IRV_NOSIGNATURECODE").length()==0) {
 							throw new MobileApplicationException("irvNoSignature");
 						}
-					}
-					// Commented out as failure code reference data will not be in for go-live			
-//					// A failure code is required before a work order can be completed.
-//					String failureclass = (wodatabean.getValue("FAILURECODE") == null) ? "" : wodatabean.getValue("FAILURECODE");
-//					String problem = (wodatabean.getValue("FAILURECODE1") == null) ? "" : wodatabean.getValue("FAILURECODE1");
-//					String cause = (wodatabean.getValue("FAILURECODE2") == null) ? "" : wodatabean.getValue("FAILURECODE2");
-//					String remedy = (wodatabean.getValue("FAILURECODE3") == null) ? "" : wodatabean.getValue("FAILURECODE3");
-//
-//					if (failureclass.trim().length() <= 0) {
-//						throw new MobileApplicationException("irvFailValidation", new Object[] { "Failure Class" });
-//					} else if (problem.trim().length() <= 0) {
-//						throw new MobileApplicationException("irvFailValidation", new Object[] { "Problem" });
-//					} else if (cause.trim().length() <= 0) {
-//						throw new MobileApplicationException("irvFailValidation", new Object[] { "Cause" });
-//					} else if (remedy.trim().length() <= 0) {
-//						throw new MobileApplicationException("irvFailValidation", new Object[] { "Remedy" });
-//					}
-					
-					
-					
+					}					
+					return EVENT_HANDLED;
 				} 
 				else if (status.equalsIgnoreCase("START")) {
 					// Validate that a risk assessment has been performed
@@ -168,6 +154,8 @@ public class CustomWOHandler extends DefaultEventHandler {
 				}
 				
 				wodatabean.getMobileMbo().setDateValue("NEWSTATUSASOFDATE",wodatabean.getCurrentTime());
+				
+				return EVENT_HANDLED;
 			}
 		}
 		return EVENT_HANDLED;
@@ -388,17 +376,5 @@ public class CustomWOHandler extends DefaultEventHandler {
 		return EVENT_HANDLED;
 	}
 	
-//	Stay with core product for this.  i.e. should not allow modification of location and asset when INPRG
-//	private boolean isReadOnlyBasedOnStatus(UIEvent event) throws MobileApplicationException {
-//		MobileMboDataBean wodatabean = ((AbstractMobileControl) event.getCreatingObject()).getDataBean();
-//		if (wodatabean != null) {
-//			String status = ((WOApp) UIUtil.getApplication()).getInternalValue(wodatabean, "WOSTATUS", wodatabean.getValue("STATUS"));
-//			if ("WMATL,COMP,CLOSE,CAN".indexOf(status) != -1) {
-//				((AbstractMobileControl) event.getCreatingObject()).setReadonly(true);
-//			} else {
-//				((AbstractMobileControl) event.getCreatingObject()).setReadonly(false);
-//			}
-//		}
-//		return true;
-//	}
+
 }
