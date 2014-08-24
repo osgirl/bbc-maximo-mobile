@@ -3897,7 +3897,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mobilemboattribute name="DOMAINID" mboattribute="DOMAINID"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'DATATYPE' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'DATATYPE' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -3957,7 +3957,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'INCIDENTSTATUS' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'INCIDENTSTATUS' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -3999,12 +3999,12 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'PLUSCCALSTATUS' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'PLUSCCALSTATUS' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
 				<match mobilemboattribute="ORGID" dependsonmobilemboattribute="ORGID"/>
-				<filtercondition>(synonymdomain.DOMAINID = 'PLUSCCALSTATUS' )</filtercondition>
+				<filtercondition>(synonymdomain.DOMAINID = 'PLUSCCALSTATUS' ) </filtercondition>
 			</mbodependentfilter>
 			<mbodependentfilter dependson="ORGANIZATION">
 				<match mobilemboattribute="ORGID" dependsonmobilemboattribute="ORGID"/>
@@ -4021,7 +4021,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'PLUSCDSPLANTYPE' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'PLUSCDSPLANTYPE' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4043,7 +4043,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'PLUSCTOLTYPE' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'PLUSCTOLTYPE' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4065,7 +4065,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'PLUSCSUMDIRVLIST' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'PLUSCSUMDIRVLIST' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4087,7 +4087,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'PLUSCDSSETACTION' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'PLUSCDSSETACTION' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4109,7 +4109,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'PLUSCTOLDIRECTION' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'PLUSCTOLDIRECTION' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4131,7 +4131,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'PLUSCDSSTATUS' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'PLUSCDSSTATUS' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4153,7 +4153,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'FREQUNIT' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'FREQUNIT' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4257,7 +4257,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'ASSETSTATUS' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'ASSETSTATUS' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4317,7 +4317,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'ISSUETYP' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'ISSUETYP' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4357,7 +4357,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'LINETYPE' and MAXVALUE in ('MATERIAL', 'ITEM', 'SERVICE', 'STDSERVICE', 'TOOL', 'ALLOWSPORDER') and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'LINETYPE' and MAXVALUE in ('MATERIAL', 'ITEM', 'SERVICE', 'STDSERVICE', 'TOOL', 'ALLOWSPORDER') and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4460,7 +4460,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'CATEGORY' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'CATEGORY' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4480,7 +4480,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'ITEMTYPE' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'ITEMTYPE' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4695,7 +4695,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mobilemboattribute name="DOMAINID" mboattribute="DOMAINID"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'ITEMSTATUS' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'ITEMSTATUS' and 1=2</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
@@ -4714,7 +4714,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mobilemboattribute name="DOMAINID" mboattribute="DOMAINID"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'DISPLAYRESTYPE' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'DISPLAYRESTYPE' and 1=2</filtercondition>
 			</mbofilter>
 		</mobilembo>
 		<!-- Misc Non-Persistant data sources -->
@@ -5484,7 +5484,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
 			<mobilemboattribute name="DOMAINID" mboattribute="DOMAINID"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'DAYNAME' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'DAYNAME' and 1=2</filtercondition>
 			</mbofilter>
 		</mobilembo>
 		<mobilembo name="LABTRANSWOTASKS" usequeries="false" type="localworkset" description="Labtrans wotasks">
@@ -5635,7 +5635,7 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="VALUE" mboattribute="VALUE"/>
 			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
 			<mbofilter>
-				<filtercondition>DOMAINID = 'IRVRETSTATUSCODE' and siteid is null and orgid is null</filtercondition>
+				<filtercondition>DOMAINID = 'IRVRETSTATUSCODE' and siteid is null and orgid is null and value not in ('Quote Required','Reassign to Me','Further Work Required','Require Assistance')</filtercondition>
 			</mbofilter>
 			<mbodependentfilter dependson="SITE">
 				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>

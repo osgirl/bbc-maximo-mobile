@@ -157,6 +157,7 @@ public class CustomWOHandler extends DefaultEventHandler {
 				
 				return EVENT_HANDLED;
 			}
+			return EVENT_HANDLED;
 		}
 		return EVENT_HANDLED;
 	}
@@ -263,9 +264,7 @@ public class CustomWOHandler extends DefaultEventHandler {
             for(int i = dropdownbean.count() - 1; i >= 0; i--) {            	
                 System.out.println(dropdownbean.getValue(i, "VALUE"));                
                 String ddValue = dropdownbean.getValue(i, "VALUE");
-                if(ddValue.equalsIgnoreCase("Quote Required") || ddValue.equalsIgnoreCase("Reassign to Me")  ||ddValue.equalsIgnoreCase("Further Work Required") ||ddValue.equalsIgnoreCase("Require Assistance")) {
-                	dropdownbean.remove(i);
-	            }
+
                 if(!status.equals("TRAVEL") && ddValue.equalsIgnoreCase("Abandon")) {
                 	dropdownbean.remove(i);
 	            }
