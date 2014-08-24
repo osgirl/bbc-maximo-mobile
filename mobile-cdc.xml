@@ -357,7 +357,6 @@
 		<menubar id="loginmenubar">
 			<menu id="loginmenu1" label="Menu">
 			    <menuitem id="loginMenuItem0" label="Connection Settings" event="gotopage" value="connectionprefs"/>
-				<menuitem id="loginMenuItem2" label="About" event="gotopage" value="aboutadvanced" seperator="true"/>
 				<menuitem id="loginMenuItem1" label="Exit" event="exitnoprompt"/>				
 			</menu>
 		</menubar>
