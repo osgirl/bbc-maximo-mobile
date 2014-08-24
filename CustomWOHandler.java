@@ -51,7 +51,7 @@ public class CustomWOHandler extends DefaultEventHandler {
 	        	return hideIfNotRETURN(event);
 	        }
 	        if(eventId.equals("hideIfNotSTART")) {
-	        	return hideIfNotRETURN(event);
+	        	return hideIfNotSTART(event);
 	        }
 	        if(eventId.equals("hideIfNotCOMP")) {
 	        	return hideIfNotCOMP(event);
@@ -334,9 +334,9 @@ public class CustomWOHandler extends DefaultEventHandler {
 
 	public boolean hideIfNotSTART(UIEvent event) throws MobileApplicationException {
 		MobileMboDataBean databean = UIUtil.getCurrentScreen().getDataBean();
-		String status = databean.getValue("NEWSTATUSDISPLAY");
+		String status = databean.getValue("STATUS");
 
-		if (status.equals("START")) {
+		if (status.equals("ONSITE")) {
 			((AbstractMobileControl)event.getCreatingObject()).setVisibility(true);
 		} else {
 			((AbstractMobileControl)event.getCreatingObject()).setVisibility(false);
