@@ -725,6 +725,14 @@
 		</messagebox>
 		<page id="login" label="Login" handler="loginhandler" backgroundimage="/img/loginbg_mobile.jpg"
 			 valign="center" align="center" styleoverride="login-font" menubar="loginmenubar">
+			 <section id="login_section1" label="Login" padding-top="73" indents="1" labelstyle="login-large">
+			 		<sectionrow id="login_sectionrow11" indents="2">
+					<sectioncol id="login_sectionrow1col11">
+										<textbox id="aboutadvanced_metaversion" label="Metadata Version" dataattribute="METADATAVERSION"
+					 inputmode="readonly"/>
+					</sectioncol>
+				</sectionrow>
+			 </section>
 			<section id="login_section" label="Login" padding-top="73" indents="1" labelstyle="login-large">
 				<sectionrow id="login_sectionrow1" indents="2">
 					<sectioncol id="login_sectionrow1col1">
