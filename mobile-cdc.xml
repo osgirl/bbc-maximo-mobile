@@ -1,0 +1,1572 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+
+<!DOCTYPE mobileapp-cdc SYSTEM "../../ui/rc/mobileapp-cdc.dtd">
+
+-->
+<mobileapp-cdc name="MOBILECDC" version="7.5.1.0" >
+	<mobilembos>
+		<!-- Common Table Column Selector screen -->
+
+		<mobilembo name="TABCOLSEL" type="localworkset">
+			<mobilemboattribute name="DISPLAYORDER" maxtype="INTEGER"/>
+			<mobilemboattribute name="CTRLID" maxtype="ALN" key="true"/>
+			<mobilemboattribute name="TABLEID" maxtype="ALN" key="true"/>
+			<mobilemboattribute name="COLID" maxtype="ALN" key="true"/>
+			<mobilemboattribute name="COLUMNNAME" maxtype="ALN"/>
+			<mobilemboattribute name="COLTITLE" maxtype="ALN"/>
+			<mobilemboattribute name="COLWIDTH" maxtype="ALN" length="10"/>
+			<mobilemboattribute name="FIXED" maxtype="YORN"/>
+			<mobilemboattribute name="DISPLAY" maxtype="YORN"/>
+			<mobilemboattribute name="PRIMARYSCAN" maxtype="YORN"/>
+			<mobilemboattribute name="SECONDARYSCAN" maxtype="YORN"/>
+			<mobilemboattribute name="TEMP_COLWIDTH" maxtype="INTEGER" persistent="false"/>
+			<mboorderby>
+				<ascending mobilemboattribute="CTRLID"/>
+				<ascending mobilemboattribute="DISPLAYORDER"/>
+			</mboorderby>
+		</mobilembo>
+		<mobilembo name="WORKQUERY" mboname="MOBILEQUERY" type="localworksetdownload" description="Work Queries">
+			<mobilemboattribute name="DATAGROUPID" mboattribute="DATAGROUP"/>
+			<mobilemboattribute name="QUERYNAME" mboattribute="QUERYNAME"/>
+			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
+			<mobilemboattribute name="DOWNLOADDEFAULT" mboattribute="DOWNLOAD"/>
+			<mobilemboattribute name="DATAGROUP" mboattribute="DATAGROUP"/>
+			<mbofilter>
+                <!-- ISSUE 09-20067: Made the datatype value translatable in the query -->
+				<filtercondition>app=:app and DATAGROUP in (select DATAGROUP from MOBILEDATAGROUP where datatype in (select value from synonymdomain where domainid='MOBDATAGRPTYPE' and maxvalue='WORKSET') and app=:app) and groupname in (select groupname from groupuser where userid=:user)</filtercondition>
+			</mbofilter>
+			<mboorderby>
+				<descending mobilemboattribute="DOWNLOADDEFAULT"/>
+				<ascending mobilemboattribute="DESCRIPTION"/>
+			</mboorderby>
+		</mobilembo>
+		<mobilembo name="RELATEDQUERY" mboname="MOBILEQUERY" type="localworksetdownload" description="Additional Queries">
+			<mobilemboattribute name="DATAGROUPID" mboattribute="DATAGROUP"/>
+			<mobilemboattribute name="QUERYNAME" mboattribute="QUERYNAME"/>
+			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
+			<mobilemboattribute name="DOWNLOADDEFAULT" mboattribute="DOWNLOAD"/>
+			<mobilemboattribute name="DATAGROUP" mboattribute="DATAGROUP"/>
+			<mbofilter>
+                <!-- ISSUE 09-20067: Made the datatype value translatable in the query -->
+				<filtercondition>app=:app and DATAGROUP in (select DATAGROUP from MOBILEDATAGROUP where datatype in (select value from synonymdomain where domainid='MOBDATAGRPTYPE' and maxvalue='ADDITIONAL') and app=:app) and groupname in (select groupname from groupuser where userid=:user)</filtercondition>
+			</mbofilter>
+			<mboorderby>
+				<descending mobilemboattribute="DOWNLOADDEFAULT"/>
+				<ascending mobilemboattribute="DESCRIPTION"/>
+			</mboorderby>
+		</mobilembo>
+		<mobilembo name="SITE" mboname="SITE" description="Sites">
+			<mobilemboattribute name="SITEID" mboattribute="SITEID"/>
+			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
+			<mobilemboattribute name="ORGID" mboattribute="ORGID"/>
+			<mboorderby>
+				<ascending mobilemboattribute="SITEID"/>
+			</mboorderby>
+		</mobilembo>
+		<mobilembo name="ORGANIZATION" mboname="ORGANIZATION" description="Organizations">
+			<mobilemboattribute name="ORGID" mboattribute="ORGID"/>
+			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
+			<mobilemboattribute name="ITEMSETID" mboattribute="ITEMSETID"/>
+			<mobilemboattribute name="COMPANYSETID" mboattribute="COMPANYSETID"/>
+		</mobilembo>
+		<mobilembo name="SETS" mboname="SETS" description="Sets">
+			<mobilemboattribute name="SETID" mboattribute="SETID"/>
+			<mobilemboattribute name="SETTYPE" mboattribute="SETTYPE"/>
+			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
+		</mobilembo>
+		<mobilembo name="USER" mboname="MAXUSER" type="localworksetdownload" description="User Defaults">
+			<mobilemboattribute name="USERID" mboattribute="USERID"/>
+			<mobilemboattribute name="DEFSITE" mboattribute="DEFSITE"/>
+			<mobilemboattribute name="PWEXPIRATION" mboattribute="PWEXPIRATION"/>
+			<mobilemboattribute name="FORCEEXPIRATION" mboattribute="FORCEEXPIRATION"/>
+			<mobilemboattribute name="DEFSTOREROOM" mboattribute="DEFSTOREROOM"/>
+			<mobilemboattribute name="STOREROOMSITE" mboattribute="STOREROOMSITE"/>
+			<mbofilter>
+				<filtercondition>userid=:user</filtercondition>
+			</mbofilter>
+		</mobilembo>
+		<!--  Issue 07-13393 start -->
+		<mobilembo name="USEREMAIL" mboname="EMAIL" description="Email" type="localworksetdownload"
+			 relationship="EMAIL">
+			<mobilemboattribute name="PERSONID" mboattribute="PERSONID"/>
+			<mobilemboattribute name="EMAILADDRESS" mboattribute="EMAILADDRESS"/>
+			<mbofilter>
+				<filtercondition>personid = (select personid from maxuser where userid=:user) and isprimary=:yes</filtercondition>
+			</mbofilter>
+		</mobilembo>
+		<!--  Issue 07-13393 end -->
+		<mobilembo name="PERSON" mboname="PERSON" description="User Details">
+			<mobilemboattribute name="PERSONID" mboattribute="PERSONID"/>
+			<mobilemboattribute name="DISPLAYNAME" mboattribute="DISPLAYNAME"/>
+			<mobilemboattribute name="TITLE" mboattribute="TITLE"/>
+			<mobilemboattribute name="FIRSTNAME" mboattribute="FIRSTNAME"/>
+			<mobilemboattribute name="LASTNAME" mboattribute="LASTNAME"/>
+			<mobilemboattribute name="EMAIL" mboattribute="PRIMARYEMAIL.EMAILADDRESS"/>
+			<mbofilter>
+				<filtercondition>personid = (select personid from maxuser where userid=:user)</filtercondition>
+			</mbofilter>
+		</mobilembo>
+		<mobilembo name="ESIGREASON" mboname="ALNDOMAIN" usequeries="false" multisitetype="SYSTEM" siteattribute="SITEID"
+			 orgattribute="ORGID">
+			<mobilemboattribute name="ORGID" mboattribute="ORGID"/>
+			<mobilemboattribute name="SITEID" mboattribute="SITEID"/>
+			<mobilemboattribute name="VALUE" mboattribute="VALUE"/>
+			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
+			<mbofilter>
+				<filtercondition>DOMAINID = 'CHANGEREASON' and siteid is null and orgid is null</filtercondition>
+			</mbofilter>
+			<mbodependentfilter dependson="SITE">
+				<match mobilemboattribute="SITEID" dependsonmobilemboattribute="SITEID"/>
+				<match mobilemboattribute="ORGID" dependsonmobilemboattribute="ORGID"/>
+				<filtercondition>(alndomain.DOMAINID = 'CHANGEREASON' )</filtercondition>
+			</mbodependentfilter>
+			<mbodependentfilter dependson="ORGANIZATION">
+				<match mobilemboattribute="ORGID" dependsonmobilemboattribute="ORGID"/>
+				<filtercondition>(alndomain.DOMAINID = 'CHANGEREASON' and alndomain.siteid is null)</filtercondition>
+			</mbodependentfilter>
+		</mobilembo>
+		<mobilembo name="MOBILEDATATXNQERR" mboname="MOBILEDATATXNQ" type="localworksetdownload" description="AdHoc Transaction Errors">
+			<mobilemboattribute name="OWNERDATAGROUPNAME" mboattribute="OWNERDATAGROUPNAME"/>
+			<mobilemboattribute name="OWNERRECORDID" mboattribute="OWNERRECORDID"/>
+			<mobilemboattribute name="TXNPOSTTIME" mboattribute="TXNPOSTTIME"/>
+			<mbofilter>
+				<filtercondition>app=:app and userid=:user and iserror=:yes</filtercondition>
+			</mbofilter>
+			<mboorderby>
+				<ascending mobilemboattribute="TXNPOSTTIME"/>
+			</mboorderby>
+		</mobilembo>
+		<mobilembo name="PREFERENCES" type="localworkset" description="Preferences">
+			<mobilemboattribute name="_ID" maxtype="INTEGER" key="true"/>
+			<mobilemboattribute name="REFONSIGNIN" maxtype="YORN"/>
+			<mobilemboattribute name="AUTOREFWORK" maxtype="YORN"/>
+			<mobilemboattribute name="ATTEMPTREFMIN" maxtype="INTEGER"/>
+			<mobilemboattribute name="DEFSITE" persistent="false" maxtype="ALN"/>
+			<mobilemboattribute name="REVIEWWORK" maxtype="YORN"/>
+			<mobilemboattribute name="CONFQISSUE" maxtype="YORN"/>
+			<mobilemboattribute name="ENABROTAUTOKEY" maxtype="YORN"/>
+			<mobilemboattribute name="CHKAVALITEM" maxtype="YORN"/>
+			<mobilemboattribute name="PWDURATION" maxtype="INTEGER"/>
+			<mobilemboattribute name="AUTOSENDALL" maxtype="YORN"/>
+			<!--  Issue 08-23217 -->
+			<mobilemboattribute name="MOBFONTIMAGESIZE" maxtype="ALN"/>
+			<mobilemboattribute name="MOBFONTIMAGESIZE_OLD" maxtype="ALN"/>
+		</mobilembo>
+		<!--  Issue 08-23217 -->
+		<mobilembo name="MOBFONTIMAGESIZE" mboname="SYNONYMDOMAIN" domain="true" usequeries="false"
+			 multisitetype="SYSTEM" siteattribute="SITEID" orgattribute="ORGID" description="Fonts &amp; Images">
+			<mobilemboattribute name="ORGID" mboattribute="ORGID"/>
+			<mobilemboattribute name="SITEID" mboattribute="SITEID"/>
+			<mobilemboattribute name="MAXVALUE" mboattribute="MAXVALUE"/>
+			<mobilemboattribute name="VALUE" mboattribute="VALUE"/>
+			<mobilemboattribute name="DESCRIPTION" mboattribute="DESCRIPTION"/>
+			<mobilemboattribute name="DEFAULTS" mboattribute="DEFAULTS"/>
+			<mbofilter>
+				<filtercondition>DOMAINID = 'MOBFONTIMAGESIZE' and siteid is null and orgid is null</filtercondition>
+			</mbofilter>
+		</mobilembo>
+		<mobilembo name="ABOUT" type="localworkset" description="About">
+			<mobilemboattribute name="_ID" maxtype="INTEGER" key="true"/>
+			<mobilemboattribute name="APPNAME" maxtype="ALN"/>
+			<mobilemboattribute name="APPDESCRIPTION" maxtype="ALN"/>
+			<mobilemboattribute name="VERSION" maxtype="ALN"/>
+			<mobilemboattribute name="METADATAVERSION" maxtype="ALN"/>
+			<mobilemboattribute name="USERNAME" maxtype="ALN"/>
+			<mobilemboattribute name="HOSTNAME" maxtype="ALN"/>
+			<mobilemboattribute name="PORT" maxtype="ALN"/>
+			<mobilemboattribute name="SSL" maxtype="YORN"/>
+			<mobilemboattribute name="DEVICEID" maxtype="ALN"/>
+		</mobilembo>
+		<!--  Issue 07-27222 -->
+		<mobilembo name="MOBILEOPTIONS" mboname="MOBILEOPTION" type="localworksetdownload" description="Mobile options for work order">
+			<mobilemboattribute name="NAME" mboattribute="NAME"/>
+			<mobilemboattribute name="APP" mboattribute="APP"/>
+			<mobilemboattribute name="VALUE" mboattribute="VALUE"/>
+			<mbofilter>
+				<filtercondition>deviceonly = 1</filtercondition>
+			</mbofilter>
+		</mobilembo>
+		<!-- Begin of Issue #07-27225 -->
+		<mobilembo name="DEVICEREGISTEREDUSERS" type="localworkset" description="All registed users on device">
+			<mobilemboattribute name="USERNAME" maxtype="ALN" key="true"/>
+			<mobilemboattribute name="SELECTED" maxtype="YORN"/>
+		</mobilembo>
+		<!-- End of Issue #07-27225 -->
+		<!-- Enhancement 07-27228 Start -->
+		<!-- This is a local MBO that is used for entering data in the "Download Now -> *" screen -->
+		<mobilembo name="MBODOWNLOAD" type="localworkset">
+			<mobilemboattribute name="_ID" maxtype="INTEGER"/>
+			<mobilemboattribute name="ORGID" maxtype="UPPER" length="8" persistent="false"/>
+			<mobilemboattribute name="SITEID" maxtype="UPPER" length="8" persistent="false"/>
+			<!-- RECORDKEY - logical primary key (e.g. WONUM, TICKEDID) -->
+			<!-- ISSUE 09-17057: Changed the length so ASSETNUM, LOCATION and CINUM values fit  -->
+			<mobilemboattribute name="RECORDKEY" maxtype="UPPER" length="12" persistent="false"/>
+			<!-- DATASRCNAME - holds the data source name for the current download screen -->
+			<mobilemboattribute name="DATASRCNAME" maxtype="ALN" length="50" persistent="false"/>
+			<!-- MBO_DESCRIPTION - holds the description for the mobile mbo of the current download screen -->
+			<mobilemboattribute name="MBO_DESCRIPTION" maxtype="ALN" length="50" persistent="false"/>
+		</mobilembo>
+		<!-- Enhancement 07-27228 End -->
+		<!--  Issue 09-11155  -->
+		<!-- Local MBO to get Update file -->
+		<!-- ISSUE 09-17879: Added multisitety=system to avoid unnecessary queries to ORGANIZATION and SITE tables -->
+		<mobilembo name="MOBILEUPDATE" type="localworkset" multisitetype="SYSTEM">
+			<mobilemboattribute name="UPDATEJAR" maxtype="BLOB" persistent="false"/>
+			<mobilemboattribute name="VERSION" maxtype="ALN" length="20" persistent="false"/>
+		</mobilembo>
+		<!-- ISSUE 09-17879: Local mobilembo for displaying dependencies -->
+		<mobilembo name="DEPENDENCIESDISPLAY" type="localworkset" multisitetype="SYSTEM">
+			<mobilemboattribute name="MOBILEMBONAME" maxtype="STRING" length="30" persistent="false"/>
+			<mobilemboattribute name="MOBILEMBODISPLAYNAME" maxtype="STRING" length="100" persistent="false"/>
+			<mobilemboattribute name="RECID" maxtype="LONG" persistent="false"/>
+			<mobilemboattribute name="RECNUM" maxtype="STRING" persistent="false" length="12"/>
+			<mobilemboattribute name="DESCRIPTION" maxtype="STRING" persistent="false" length="100"/>
+		</mobilembo>
+		<mobilembo name="DEPENDENCYTITLE" type="localworkset" multisitetype="SYSTEM">
+			<mobilemboattribute name="MOBILEMBODISPLAYNAME" maxtype="STRING" length="100" persistent="false"/>
+			<mobilemboattribute name="RECNUM" maxtype="STRING" persistent="false" length="12"/>
+		</mobilembo>
+
+        <!-- ISSUE 09-19396: MobileMbo to download bulletin board messages -->
+        <mobilembo name="MOBBULLETINBOARD" mboname="MOBBULLETINBOARD" type="localworksetdownload">
+            <mobilemboattribute name="SUBJECT" mboattribute="SUBJECT"/>
+            <mobilemboattribute name="MESSAGE" mboattribute="MESSAGE"/>
+            <mobilemboattribute name="DATECREATED" mboattribute="DATECREATED"/>
+            <mobilemboattribute name="TOGROUP" mboattribute="TOGROUP"/>
+            <mobilemboattribute name="ISREAD" maxtype="YORN" persistent="true" trackchanges="false"/>
+            <mobilemboattribute name="DATEREAD" maxtype="DATETIME" persistent="true" trackchanges="false"/>
+			<!-- ISSUE 11-12112: Updated filter condition 
+			to refer to the app name transalted -->
+            <mbofilter>
+               <filtercondition>
+                  (touser=:user or exists (select 1 from groupuser where groupname=togroup and userid=:user)) 
+                  and (onlymobileapp is null or onlymobileapp in (select value from synonymdomain where domainid='MOBILEAPPS' and maxvalue=:app))
+               </filtercondition>
+            </mbofilter>
+
+        </mobilembo>
+        
+        <!-- APAR 12-10827/IV15456  -->
+		<mobilembo name="PENDINGRECORDSTODELETE" type="localworkset">
+			<mobilemboattribute name="_ID" maxtype="INTEGER" key="true"/>
+            <mobilemboattribute name="DATAGROUPNAME" maxtype="UPPER" length="100"/>
+            <mobilemboattribute name="RECORDID" maxtype="LONG"/>
+            <mobilemboattribute name="CREATEDWHEN" maxtype="DATETIME"/>
+        </mobilembo>
+        		
+	</mobilembos>
+
+	<mobilescreens>
+        <!-- ISSUE 09-19396: Bulletin board messages list -->
+         <page id="bulletinlist" label="Bulletin Board Messages" toolbar="deptbar" mobilembo="MOBBULLETINBOARD" datasrcname="MOBBULLETINBOARD" initevent="filterNotRead">
+            <table id="bulletinlisttable" rowsperpage="10" toolbar="bulletintabletbar" filterpage="bulletinlisttablefilter">
+               <tablecolumn id="bulletinlisttable1" dataattribute="DATECREATED" displaymode="fixed" colwidth="90" label="Posted Date">
+                  <link id="bulletinlisttablec1L" event="gotopage" value="bulletindetails" dataattribute="DATECREATED"/>
+               </tablecolumn>
+               <tablecolumn id="bulletinlisttablec2" dataattribute="SUBJECT" displaymode="fixed"/>
+               <tablecolumn id="bulletinlisttable3" label="Read?" sortable="false">
+                  <button id="bulletinlisttablec3B" image="/img/btn_commitTransaction.png" event="markRead"/>
+               </tablecolumn>
+            </table>
+         </page>
+         <page id="bulletindetails" label="Bulletin Board Message" toolbar="bulletindetbar" mobilembo="MOBBULLETINBOARD" datasrcname="MOBBULLETINBOARD" titleinappbar="true">
+            <section id="bulletindetails_sec1">
+               <textbox id="bulletindetails_datecreated" dataattribute="DATECREATED" label="Posted Date" inputmode="readonly"/>
+               <textbox id="bulletindetails_subject" dataattribute="SUBJECT" inputmode="readonly"/>
+               <textbox id="bulletindetails_group" dataattribute="TOGROUP" inputmode="readonly" displayevent="hideifpermsg"/>
+               <sectionrow id="bulletindetails_sec2_r1">
+                  <sectioncol id="bulletindetails_sec2_r1_c1">
+                     <multilinetextbox id="bulletindetails_msg" dataattribute="MESSAGE" rows="8" cols="80" label="" inputmode="readonly"/>
+                  </sectioncol>
+               </sectionrow>
+            </section>
+         </page>
+         <page id="bulletinlisttablefilter" datasrcname="MOBBULLETINBOARD" toolbar="searchtoolbar" inputmode="query">
+            <section id="bulletinlisttablefilter_sec1">
+               <textbox id="bulletinlisttablefilter_datecreated" dataattribute="DATECREATED" label="Posted Date" lookup="calendar"/>
+               <textbox id="bulletinlisttablefilter_subject" dataattribute="SUBJECT"/>
+               <textbox id="bulletinlisttablefilter_group" dataattribute="TOGROUP"/>
+            </section>
+            <section id="bulletinlisttablefilter_sec2" label="Message">
+               <sectionrow id="bulletinlisttablefilter_sec2_r1">
+                  <sectioncol id="bulletinlisttablefilter_sec2_r1_c1">
+                     <multilinetextbox id="bulletinlisttablefilter_msg" dataattribute="MESSAGE" rows="8" cols="80" label=""/>
+                  </sectioncol>
+               </sectionrow>
+            </section>
+         </page>
+		<toolbar id="bulletintabletbar">
+			<left id="bulletintabletbar_left">
+				<includecontrol id="btablebarincld1" controlid="filterstatebutton"></includecontrol>
+				<image  id="baldimg1" image="/img/btntb_divider.png"></image>
+				<includecontrol id="btablebarppg" controlid="showprevstatebtn"></includecontrol>
+				<label id="batlab" messagekey="tablerecordset" labelattribute="recordset,recordcount"></label>
+				<includecontrol id="btablebarnpg" controlid="shownextstatebtn"></includecontrol>
+			</left>
+            <right id="bulletintabletbar_right">
+               <link id="btbar_markallread" event="markAllRead" label="Mark All Read"></link>
+               <image  id="btbar_dvdr" image="/img/btntb_divider.png"></image>
+               <link id="btbar_close" event="closepage" label="Close"></link>
+            </right>
+		</toolbar>
+		<toolbar id="bulletindetbar">
+			<left id="lbdbar_left">
+				<label id="bdbar_subject" label="Message" labelattribute="SUBJECT"></label>
+			</left>
+			<right id="bdbar_right">
+               <link id="bdbar_markallread" event="markRead" label="Mark As Read"></link>
+               <image  id="bdbar_dvdr" image="/img/btntb_divider.png"></image>
+               <link id="bdbar_close" event="closepage" label="Close"></link>
+			</right>
+		</toolbar>
+
+		<!-- ISSUE 09-17879: Page for displaying dependencies -->
+
+		<page id="dependencies" label="Dependencies List" toolbar="deptbar">
+			<label id="dependencies_label" labeldatasrc="DEPENDENCYTITLE" mobilembo="DEPENDENCYTITLE"
+				 wrap="true" width="250" labelattribute="MOBILEMBODISPLAYNAME,RECNUM" label="The {0} {1} you are trying to send has other new records associated with it. These associated records must be sent as well."/>
+			<page id="dependencieslist" mobilembo="DEPENDENCIESDISPLAY" datasrcname="DEPENDENCIESDISPLAY">
+				<table id="dependencieslisttable" rowsperpage="10" toolbar="deplisttabletbar">
+					<tablecolumn id="dependencieslisttablec1" dataattribute="MOBILEMBODISPLAYNAME" label="Record Type"
+						 displaymode="fixed" sortable="false"/>
+					<tablecolumn id="dependencieslisttablec2" dataattribute="RECNUM" displaymode="fixed" sortable="false"
+						 label="Record #">
+						<link id="dependencieslisttablec2L" event="openDependency" dataattribute="RECNUM" displayevent="showDependencyLink"/>
+					</tablecolumn>
+					<tablecolumn id="dependencieslisttablec3" dataattribute="DESCRIPTION" displaymode="fixed" label="Description"
+						 sortable="false"/>
+				</table>
+			</page>
+		</page>
+		
+		<toolbar id="deplisttabletbar">
+			<left id="deptabletbar_left">
+				<includecontrol id="dtablebarppg" controlid="showprevstatebtn"/>
+				<label id="datlab" messagekey="tablerecordset" labelattribute="recordset,recordcount"/>
+				<includecontrol id="dtablebarnpg" controlid="shownextstatebtn"/>
+			</left>
+		</toolbar>
+		<toolbar id="deptbar">
+			<right id="deptbar_left">
+				<link id="deptbar_clear" event="doneAllDependencies" label="Send All"/>
+				<image id="deptbar_dvdr" image="/img/btntb_divider.png"/>
+				<link id="deptbar_cancel" event="canceldeppage" label="Cancel"/>
+			</right>
+		</toolbar>
+		<menubar id="loginmenubar">
+			<menu id="loginmenu1" label="Menu">
+			    <menuitem id="loginMenuItem0" label="Connection Settings" event="gotopage" value="connectionprefs"/>
+				<menuitem id="loginMenuItem1" label="Exit" event="exitnoprompt"/>				
+			</menu>
+		</menubar>
+		<menubar id="menubar1">
+			<menu id="menu1" label="Actions">
+				<menuitem id="menuItem1" label="Create WO" event="insert" targetid="WO_DETAILS" image="/img/btntb_cancelchanges.png"/>
+				<menuitem id="menuItem2" label="Search WO's" event="showfilter" image="/img/btntb_cancelchanges.png"/>
+				<!--<menu id="menusub">
+						<menuitem id="menuSubItem1" label="SubMenu" event="selectvalue" image="/img/btntb_cancelchanges.png" />
+					</menu> -->
+				<menuitem id="menuItem3" label="Connect.." seperator="true" event="testevent2"/>
+			</menu>
+			<menuview id="menuview1" label="View"/>
+		</menubar>
+		<menubar id="menubar2">
+			<menu id="menu21" label="Actions">
+				<menuitem id="menuItem21" label="Search" event="filter" image="/img/btntb_cancelchanges.png"/>
+				<menuitem id="menuItem22" label="Clear" event="selectvalue" seperator="true" image="/img/btntb_cancelchanges.png"/>
+				<menuitem id="menuItem23" label="Cancel" event="closepage" image="/img/btntb_cancelchanges.png"/>
+			</menu>
+			<menuview id="menuview2" label="View"/>
+		</menubar>
+		<menubar id="menubar3">
+			<menu id="menu31" label="Actions">
+				<menuitem id="menuItem31" label="Save" event="save" image="/img/btntb_cancelchanges.png"/>
+				<menuitem id="menuItem32" label="Cancel" seperator="true" event="closepage" image="/img/btntb_cancelchanges.png"/>
+				<menuitem id="womenubar32" label="Attach Document" targetid="wofilediag" event="attachdoc"
+					 seperator="true"/>
+			</menu>
+			<menuview id="menuview3" label="View"/>
+		</menubar>
+		<menubar id="menubar4">
+			<menu id="menu41" label="Actions">
+				<menuitem id="menuItem41" label="Save" event="saveclose" image="/img/btntb_cancelchanges.png"/>
+				<menuitem id="menuItem42" label="Cancel" seperator="true" event="closepage" image="/img/btntb_cancelchanges.png"/>
+			</menu>
+			<menuview id="menuview4" label="View"/>
+		</menubar>
+		<menubar id="startmenubar">
+			<menu id="sm1" label="Menu">
+				<menuitem id="smItem7" label="Work List Refresh" event="refreshworkset"/>
+				<menuitem id="smItem8" label="Full Refresh" event="refreshalldata"/>
+				<menuitem id="smItem1" label="Preferences" event="preferences" sigoption="PREFERENCE" seperator="true"/>
+				<menuitem id="smItem2" label="Manage Data" event="managedata" sigoption="MANAGEDATA"/>
+				<menuitem id="smItem3" label="Change Password" event="gotopage" value="changepassword" sigoption="CHANGEPASSWORD"/>
+				<menuitem id="smItem4" label="Reset Application" event="resetapp" seperator="true" sigoption="RESET"/>
+				<!-- Issue 09-11155 -->
+				<menuitem id="smItem9" label="Check for Update" event="checkForUpdateDisplayMessages" sigoption="CHECKMANUALUPDATE"/>
+				<menuitem id="smItem5" label="About" event="gotopage" value="about" seperator="true"/>
+				<menuitem id="smItem6" label="Exit" event="exit" seperator="true"/>
+			</menu>
+		</menubar>
+		<menubar id="aboutmenubar">
+			<menu id="aboutmenu1" label="Menu">
+				<menuitem id="aboutMenuItem1" label="Return to Start Center" event="startcenter"/>
+			</menu>
+		</menubar>
+		<menubar id="managedatamenubar">
+			<menu id="mdmenu1" label="Menu">
+				<menuitem id="mdMenuItem1" label="Preferences" event="preferences" sigoption="PREFERENCE"/>
+				<menuitem id="mdMenuItem2" label="Return to Start Center" event="startcenter"/>
+			</menu>
+		</menubar>
+		<menu id="filterpopup" label="Filter">
+			<menuitem id="filterpopup1" label="Change Filter" event="showfilter"/>
+			<menuitem id="filterpopup2" label="Clear Filter" event="clearfilter"/>
+		</menu>
+		<menu id="detailsmenuwithlu" label="Actions">
+			<menuitem id="popmenuItem1" label="Select Value" event="lookup"/>
+			<menuitem id="popmenuItem2" label="View Details" event="details"/>
+		</menu>
+		<lookup id="assetlookup" datasrcname="assetlu" mobilembo="ASSET" rowsperpage="6" returnattribute="ASSETNUM">
+			<table id="assetlutbl" rowsperpage="6" toolbar="lookuptoolbar" filterpage="assetlufilter">
+				<tablecolumn id="luasset1" colwidth="50" displaymode="fixed">
+					<link id="selectlink" event="select" label="{0}" labelattribute="ASSETNUM"/>
+				</tablecolumn>
+				<tablecolumn id="luasset2" colwidth="140" dataattribute="DESCRIPTION"/>
+			</table>
+		</lookup>
+		<lookup id="sitelookup" datasrcname="SITE" mobilembo="SITE" returnattribute="SITEID">
+			<table id="sitelookuptbl" rowsperpage="10" toolbar="locallookuptoolbar" filterpage="sitefilter">
+				<tablecolumn id="sitelookup1" colwidth="50" displaymode="fixed" dataattribute="SITEID">
+					<link id="sitelookup1L" event="select" label="{0}" labelattribute="SITEID"/>
+				</tablecolumn>
+				<tablecolumn id="sitelookup2" dataattribute="DESCRIPTION"/>
+				<tablecolumn id="sitelookup3" dataattribute="ORGID"/>
+			</table>
+		</lookup>
+		<toolbar id="lookuptoolbar">
+			<left id="lookuptoolbar_left">
+				<includecontrol id="lookuptoolbarfilter" controlid="filterstatebutton"/>
+				<image id="lubar2" image="/img/btntb_divider.png"/>
+				<includecontrol id="lubarppg" controlid="showprevstatebtn"/>
+				<label id=" lubar4" messagekey="tablerecordset" labelattribute="recordset,recordcount"/>
+				<includecontrol id="lubarnpg" controlid="shownextstatebtn"/>
+			</left>
+			<right id="lookuptoolbar_right">
+				<includecontrol id="lubar5" controlid="luconnectstatebtn"/>
+				<button id="lubar8" image="/img/btntb_arrangecolumns.png" event="columnselector"/>
+				<image id="lubar7" image="/img/btntb_divider.png"/>
+				<link id="lucancel" event="closepage" label="Cancel"/>
+			</right>
+		</toolbar>
+		<toolbar id="locallookuptoolbar">
+			<left id="locallookuptoolbar_left">
+				<includecontrol id="locallookuptoolbarfilter" controlid="filterstatebutton"/>
+				<image id="locallubar2" image="/img/btntb_divider.png"/>
+				<includecontrol id="locallubarppg" controlid="showprevstatebtn"/>
+				<label id="locallubar4" messagekey="tablerecordset" labelattribute="recordset,recordcount"/>
+				<includecontrol id="locallubarnpg" controlid="shownextstatebtn"/>
+			</left>
+			<right id="locallookuptoolbar_right">
+				<button id="locallubar6" image="/img/btntb_arrangecolumns.png" event="columnselector"/>
+				<image id="locallubar7" image="/img/btntb_divider.png"/>
+				<link id="locallucancel" event="closepage" label="Cancel"/>
+			</right>
+		</toolbar>
+		<toolbar id="searchtoolbar">
+			<left id="searchtoolbar_left">
+				<label id="searchtoolbar_label" label="Filter"/>
+			</left>
+			<right id="searchtoolbar_right">
+				<link id="searchtoolbar_find" event="filter" label="Find"/>
+				<image id="searchtoolbar_dvdr1" image="/img/btntb_divider.png"/>
+				<!-- Issue 09-22254 - new event name -->
+				<link id="searchtoolbar_clear" event="clearfiltervalues" label="Clear"></link>
+				<image id="searchtoolbar_dvdr2" image="/img/btntb_divider.png"/>
+				<link id="searchtoolbar_cancel" event="cancelfilter" label="Cancel"/>
+			</right>
+		</toolbar>
+		<toolbar id="ldreadonlybar">
+			<left id="ldreadonlybar_left">
+				<label id="ldreadonlybar_label" label="{0}" labelattribute="pagelabel"/>
+			</left>
+			<right id="ldreadonlybar_right">
+				<link id="ldreadonlybar_cls" event="closepage" label="Close"/>
+			</right>
+		</toolbar>
+		<!-- Begin of issue 07-27225 -->
+		<toolbar id="reset_users_toolbar">
+			<left id="reset_users_toolbar_left">
+				<label id="reset_users_toolbar_label" label="Reset Users"/>
+			</left>
+			<right id="reset_users_toolbar_right">
+				<link id="reset_users_toolbar_link_ok" label="OK" event="commitResetUsers"/>
+				<image id="reset_users_toolbar_link_divider" image="/img/btntb_divider.png"/>
+				<link id="reset_users_toolbar_link_cancel" label="Cancel" event="startcenter"/>
+			</right>
+		</toolbar>
+		<!-- End of issue 07-27225 -->
+		<stateful id="luconnectstatebtn" displayevent="isluconnected">
+			<button id="luconnectstatebtn1" state="disconnected" image="/img/btntb_ConnectToServer.png"
+				 event="luconnect"/>
+			<button id="luconnectstatebtn2" state="connected" image="/img/btntb_DisconnectFromServer.png"
+				 event="luconnect"/>
+		</stateful>
+		<stateful id="filterstatebutton" displayevent="togglefilterbutton">
+			<button id="filterstatebutton1" state="notfiltered" image="/img/btntb_filter.png" event="showfilter"/>
+			<popupmenu id="filterstatebutton2" state="filtered" image="/img/btntb_FilterDropdown.png" menu="filterpopup"/>
+		</stateful>
+		<stateful id="scanstatebutton" displayevent="togglescanbutton">
+		    <!-- do not rename scaninfo - it is used to show the barcode reader screen in some platforms -->
+			<button id="scanstatebutton1" state="0" image="/img/btntb_barcode1.png" event="scaninfo"/>
+			<button id="scanstatebutton2" state="1" image="/img/btntb_barcode2.png" event="scaninfo"/>
+		</stateful>
+		<stateful id="errorstatebutton" displayevent="trackerrors">
+			<button id="errorstatebutton1" state="notfiltered" image="/img/btntb_errorList.png" event="showerrorlist"/>
+			<button id="errorstatebutton2" state="filtered" image="/img/btntb_ReturnToList.png" event="reseterrorlist"/>
+		</stateful>
+		<stateful id="nextrecstatebtn" displayevent="togglenextrec">
+			<button id="nextrecstatebtnon" state="on" image="/img/btntb_nextRecord.png" event="nextrec"/>
+			<image id="nextrecstatebtnoff" state="off" image="/img/btntb_nextRecordOff.png"/>
+		</stateful>
+		<stateful id="prevrecstatebtn" displayevent="toggleprevrec">
+			<button id="prevrecstatebtnon" state="on" image="/img/btntb_previousRecord.png" event="prevrec"/>
+			<image id="prevrecstatebtnoff" state="off" image="/img/btntb_previousRecordOff.png"/>
+		</stateful>
+		<stateful id="shownextstatebtn" displayevent="toggleshownext">
+			<button id="shownextstatebtnon" state="on" image="/img/btntb_nextPage.png" event="showNext"/>
+			<image id="shownextstatebtnoff" state="off" image="/img/btntb_nextPageOff.png"/>
+		</stateful>
+		<stateful id="showprevstatebtn" displayevent="toggleshowprev">
+			<button id="showprevstatebtnon" state="on" image="/img/btntb_previousPage.png" event="showPrev"/>
+			<image id="showprevstatebtnoff" state="off" image="/img/btntb_previousPageOff.png"/>
+		</stateful>
+		<toolbar id="changepwdtool">
+			<left id="changepwdtool_left">
+				<label id="changepwdtool_label" label="Change Password"/>
+			</left>
+		</toolbar>
+		<!-- Used by Table -->
+		<toolbar id="tabletbar">
+			<left id="tabletbar_left">
+				<includecontrol id="tablebarincld1" controlid="filterstatebutton"/>
+				<image id="aldimg1" image="/img/btntb_divider.png"/>
+				<includecontrol id="tablebarppg" controlid="showprevstatebtn"/>
+				<label id=" atlab" messagekey="tablerecordset" labelattribute="recordset,recordcount"/>
+				<includecontrol id="tablebarnpg" controlid="shownextstatebtn"/>
+				<image id="aldimg2" image="/img/btntb_divider.png"/>
+				<includecontrol id="errorst1" controlid="errorstatebutton"/>
+			</left>
+			<right id="tabletbar_right">
+				<includecontrol id="tbartb2b" controlid="scanstatebutton"/>
+				<button id="tbartb3" image="/img/btntb_arrangecolumns.png" event="columnselector"/>
+				<image id="tbartb4" image="/img/btntb_divider.png"/>
+				<button id="tbartb5" image="/img/btntb_startcenter.png" event="startcenter"/>
+			</right>
+		</toolbar>
+		<toolbar id="errtabletbar">
+			<left id="errtabletbar_left">
+				<includecontrol id="errtablebarincld1" controlid="filterstatebutton"/>
+				<image id="erraldimg1" image="/img/btntb_divider.png"/>
+				<includecontrol id="errtablebarppg" controlid="showprevstatebtn"/>
+				<label id=" erratlab" messagekey="tablerecordset" labelattribute="recordset,recordcount"/>
+				<includecontrol id="errtablebarnpg" controlid="shownextstatebtn"/>
+				<image id="erraldimg2" image="/img/btntb_divider.png"/>
+			</left>
+			<right id="errtabletbar_right">
+				<button id="errtbartb3" image="/img/btntb_arrangecolumns.png" event="columnselector"/>
+				<image id="errtbartb4" image="/img/btntb_divider.png"/>
+				<button id="errtbartb5" image="/img/btntb_startcenter.png" event="startcenter"/>
+			</right>
+		</toolbar>
+		<toolbar id="querytabletbar">
+			<left id="querytabletbar_left">
+				<includecontrol id="qtablebarincld1" controlid="filterstatebutton"/>
+				<image id="qaldimg1" image="/img/btntb_divider.png"/>
+				<includecontrol id="qtablebarppg" controlid="showprevstatebtn"/>
+				<label id="qatlab" messagekey="tablerecordset" labelattribute="recordset,recordcount"/>
+				<includecontrol id="qtablebarnpg" controlid="shownextstatebtn"/>
+			</left>
+		</toolbar>
+		<!-- Used by Table col selector-->
+		<toolbar id="tabletbar2">
+			<left id="tabletbar2_left">
+				<button id="dbartb21" image="/img/btntb_ReturnToList.png" event="listpage"/>
+				<includecontrol id="tablebar2ppg" controlid="showprevstatebtn"/>
+				<label id="tlab23" messagekey="tablerecordset" labelattribute="recordset,recordcount"/>
+				<includecontrol id="tablebar2npg" controlid="shownextstatebtn"/>
+			</left>
+			<right id="tabletbar2_right">
+				<button id="tbartb25" image="/img/btntb_startcenter.png" event="startcenter"/>
+			</right>
+		</toolbar>
+		<!-- Used by Details Page -->
+		<toolbar id="detailsbar">
+			<left id="detailsbar_left">
+				<button id="ldbartb0" image="/img/btntb_ReturnToList.png" event="listpage"/>
+			</left>
+			<right id="detailsbar_right">
+				<includecontrol id="detailsbarnextrec" controlid="prevrecstatebtn"/>
+				<includecontrol id="detailsbarprevrec" controlid="nextrecstatebtn"/>
+				<image id="dbartb5" image="/img/btntb_divider.png"/>
+				<button id="dbartb6" image="/img/btntb_startcenter.png" event="startcenter"/>
+			</right>
+		</toolbar>
+		<toolbar id="abouttool">
+			<left id="abouttool_left">
+				<label id="abouttool_label" label="About"/>
+			</left>
+			<right id="abouttool_right">
+				<button id="abouttool_sc" image="/img/btntb_startcenter.png" event="startcenter"/>
+			</right>
+		</toolbar>
+		<toolbar id="connprefstool">
+			<left id="connprefstool_left">
+				<label id="conprefstool_label" label="Connection Settings"/>
+			</left>
+			<right id="connprefs_right">
+               <link id="connprefs_link_save" event="saveConnPrefs" label="Save"></link>
+               <image  id="connprefs_div" image="/img/btntb_divider.png"></image>
+               <link id="connprefs_link_close" event="closepage" label="Cancel"></link>
+			</right>			
+		</toolbar>
+		<toolbar id="columnResizerMenuBar">
+         <left id="columnResizerMenuBar_left">
+             <label id="columnResizerMenuBar_left_label" label="New Column Size"/>
+         </left>
+         <right id="columnResizerMenuBar_right">
+             <link id="columnResizerMenuBar_right_link_save" event="saveNewColumnSize" label="Save"></link>
+               <image  id="columnResizerMenuBar_right_div" image="/img/btntb_divider.png"></image>
+               <link id="columnResizerMenuBar_right_link_close" event="closepage" label="Cancel"></link>
+         </right>
+      </toolbar>
+		<toolbar id="managedatatool">
+			<left id="managedatatool_left">
+				<label id="managedatatool_label" label="Manage Data"/>
+			</left>
+			<right id="managedatatool_right">
+				<button id="managedatatool_sc" image="/img/btntb_startcenter.png" event="startcenter"/>
+			</right>
+		</toolbar>
+		<toolbar id="worklisttool">
+			<left id="worklisttool_left">
+				<label id="worklisttool_label" label="Manage Work List Queries"/>
+			</left>
+		</toolbar>
+		<toolbar id="relatedlisttool">
+			<left id="relatedlisttool_left">
+				<label id="relatedtool_label" label="Manage Additional Data Queries"/>
+			</left>
+		</toolbar>
+		<toolbar id="dialogbar">
+			<left id="dialogbar_left">
+				<label id="dialogbar_label" label="{0}" labelattribute="pagelabel"/>
+			</left>
+			<right id="dialogbar_right">
+				<link id="dialogtb_ok" event="saveclose" label="OK"/>
+				<image id="dialogtb_dvdr" image="/img/btntb_divider.png"/>
+				<link id="dialogtb_cncl" event="cancelpage" label="Cancel"/>
+			</right>
+		</toolbar>
+		<toolbar id="dialogbar1">
+			<left id="dialogbar1_left">
+				<label id="dialogbar_label1" label="{0}" labelattribute="pagelabel"/>
+			</left>
+			<right id="dialogbar1_right">
+				<link id="dialogtb_cncl1" event="cancelpage" label="Cancel"/>
+			</right>
+		</toolbar>
+		<toolbar id="capsigbar">
+			<left id="capsigbar_left">
+				<label id="capsigbar1" label="{0}" labelattribute="pagelabel"/>
+			</left>
+			<right id="capsigbar_right">
+				<link id="capsigbar2" event="savesignature" label="OK" esignature="CAPTURESIG" targetid="sig1"/>
+				<image id="capsigbar3" image="/img/btntb_divider.png"/>
+				<link id="capsigbar4" event="clearsignature" label="Clear" targetid="sig1"/>
+				<image id="capsigbar5" image="/img/btntb_divider.png"/>
+				<link id="capsigbar6" event="cancelpage" label="Cancel"/>
+			</right>
+		</toolbar>
+		<toolbar id="treebar1">
+			<left id="treebar1_left">
+				<label id="Treebar1_label1" label="Drill down"/>
+			</left>
+			<right id="treebar1_right">
+				<button id="Treebar1_button1" image="/img/btntb_startcenter.png" event="startcenter"/>
+			</right>
+		</toolbar>
+		<messagebox id="descbox">
+			<msgboxok id="descbox_ok" seteventresponse="false"/>
+			<msgboxlink id="descbox_ld" label="View Long Description" event="viewld" displayevent="canhaveld"/>
+		</messagebox>
+		<messagebox id="scanbox">
+			<msgboxok id="scanbox_ok" seteventresponse="false"/>
+			<msgboxlink id="scanbox_clr" label="Clear Scan" event="clearscan" displayevent="hasscanned"/>
+		</messagebox>
+		<messagebox id="scan_insert_ask">
+			<msgboxyes id="scanask_yes" label="Insert"/>
+			<msgboxno id="scanask_no" label="View"/>
+			<msgboxcancel id="scanbox_cls"/>
+		</messagebox>
+		<messagebox id="invaliduserandverify">
+			<msgboxok id="invaliduserandverify_ok" label="Continue"/>
+			<msgboxcancel id="invaliduserandverify_cancel"/>
+		</messagebox>
+		<messagebox id="exitmessagepagebox">
+			<msgboxlink id="exitmessagepage_savesessionexit" label="Save Session &amp; Exit" event="savesessionandexitapp"/>
+			<msgboxlink id="exitmessagepage_exit" label="Exit" event="exitapp"/>
+			<msgboxlink id="exitmessagepage_cancel" label="Cancel" event="cancelexitapp"/>
+		</messagebox>
+		<messagebox id="storesnapshotfailbox">
+			<msgboxlink id="snapshotfailbox_exit" label="Exit" event="exitapp"/>
+			<msgboxlink id="snapshotfailbox_cancel" label="Cancel" event="cancelexitapp"/>
+		</messagebox>
+		<page id="login" label="Login" handler="loginhandler" backgroundimage="/img/loginbg_mobile.jpg"
+			 valign="center" align="center" styleoverride="login-font" menubar="loginmenubar">
+			<section id="login_section" label="Login" padding-top="73" indents="1" labelstyle="login-large">
+				<sectionrow id="login_sectionrow1" indents="2">
+					<sectioncol id="login_sectionrow1col1">
+						<label id="loginscreen_label_username" label="user name" labelstyle="login-bold"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="login_sectionrow2" indents="2">
+					<sectioncol id="login_sectionrow2col1">
+						<textbox id="username" editmode="always" size="12"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="login_sectionrow3" indents="2" padding-top="4">
+					<sectioncol id="login_sectionrow3col1">
+						<label id="loginscreen_label_password" label="password" labelstyle="login-bold"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="login_sectionrow4" indents="2">
+					<sectioncol id="login_sectionrow4col1">
+						<textbox id="password" inputmode="password" editmode="always" size="12"/>
+						<link id="login_btn" event="signin" label="Go" defaultbutton="true"/>
+					</sectioncol>
+				</sectionrow>
+			</section>
+		</page>
+		<page id="changepassword" toolbar="changepwdtool" handler="loginhandler">
+			<section id="changepassword_section" padding-top="40" indents="1">
+				<sectionrow id="changepassword_sectionrow1" indents="2">
+					<sectioncol id="changepassword_sectionrow1col1">
+						<section id="changepassword_section2">
+							<textbox id="curpassword" label="Current Password" inputmode="password" editmode="always"/>
+							<textbox id="newpassword" label="New Password" inputmode="password" editmode="always"/>
+							<textbox id="confirmnewpassword" label="Verify Password" inputmode="password" editmode="always"/>
+						</section>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="changepassword_sectionrow2" indents="10" padding-top="10">
+					<sectioncol id="changepassword_sectionrow2col1">
+						<link id="changepassword_ok" event="changepwd" label="Submit" image="/img/btn_save.png"/>
+						<link id="changepassword_cancel" event="cancelchangepwd" label="Cancel" image="/img/btn_cancel.png"/>
+					</sectioncol>
+				</sectionrow>
+			</section>
+		</page>
+		<toolbar id="esigbar">
+			<left id="esigbarleft">
+				<label id="esigbar_label" label="E-Signature"/>
+			</left>
+			<right id="esigbarright">
+				<link id="esig_ok" event="verifyesig" label="OK"/>
+				<image id="esigbar_dvdr" image="/img/btntb_divider.png"/>
+				<link id="esig_cncl" event="cancelesig" label="Cancel"/>
+			</right>
+		</toolbar>
+		<page id="esigDialog" toolbar="esigbar">
+			<section id="esigDialog_sec" padding-top="20">
+				<textbox id="unametxt" label="User Name" displayevent="setusername" inputmode="required" editmode="always"/>
+				<textbox id="pwd" inputmode="passwordrequired" label="Password" editmode="always"/>
+				<!-- ISSUE 09-17216: Made the reason for change field required as it is on server -->
+				<reasonchange id="rc1" label="Reason For Change" inputmode="required"/>
+			</section>
+		</page>
+		<page id="managedata" toolbar="managedatatool" valign="center" menubar="managedatamenubar">
+			<section id="managedatamainsec" indents="1">
+				<section id="managedata_section2" padding-top="10">
+					<sectionrow id="managedata_section2row1">
+						<sectioncol id="managedata_section2row1col1">
+							<section id="managedata_section2_1">
+								<link id="dl1" event="gotopage" value="wlquery" label="View Work List Queries" displayattribute=""/>
+							</section>
+						</sectioncol>
+					</sectionrow>
+				</section>
+				<section id="managedata_section3" padding-top="5">
+					<sectionrow id="managedata_section3row1">
+						<sectioncol id="managedata_section3row1col1">
+							<section id="managedata_section3_1">
+								<link id="dl2" event="gotopage" value="rlquery" label="View Additional Data Queries" displayattribute=""/>
+							</section>
+						</sectioncol>
+					</sectionrow>
+				</section>
+				<section id="managedata_section4" padding-top="5">
+					<sectionrow id="managedata_section4row1">
+						<sectioncol id="managedata_section4row1col1">
+							<label id="managedata_refreshalllbl" label="Refresh All Data: "/>
+							<button id="managedata_refreshallbtn" event="refreshalldata" image="/img/btn_refresh.png"/>
+						</sectioncol>
+					</sectionrow>
+					<sectionrow id="managedata_section4row2">
+						<sectioncol id="managedata_section4row2col1">
+							<label id="managedata_lastrefresh" label="Last Refresh: {0}" labelattribute="lastrefreshall"/>
+						</sectioncol>
+					</sectionrow>
+				</section>
+			</section>
+		</page>
+		<toolbar id="preferencesbar">
+			<left id="preferencesbar_left">
+				<label id="prefsbar_label" label="{0}" labelattribute="pagelabel"/>
+			</left>
+			<right id="preferencesbar_right">
+				<link id="prefsbar_sv" event="savepreferences" label="Save"/>
+				<image id="prefsbar_dvdr" image="/img/btntb_divider.png"/>
+				<link id="prefsbar_cncl" event="cancelpage" label="Cancel"/>
+			</right>
+		</toolbar>
+		<page id="preferences" label="Preferences" datasrcname="PREFERENCES" mobilembo="PREFERENCES"
+			 initevent="initpreferencespage" toolbar="preferencesbar">
+			<section id="preferences_section">
+				<checkbox id="preference_autosendall" label="Auto Send all Changes on Refresh" dataattribute="AUTOSENDALL"/>
+				<checkbox id="preference_refworkonsignin" label="Refresh Work List(s) on Sign In" dataattribute="REFONSIGNIN"/>
+				<checkbox id="preference_autorefwork" label="Auto-Refresh Work List(s)" dataattribute="AUTOREFWORK"/>
+				<!-- Issue 10-11995 - added validateevent -->	
+				<textbox id="preference_attemptref" label="Attempt Refresh Every (min)" dataattribute="ATTEMPTREFMIN" validateevent="validatePreferencesIntegerFields"/>
+				<!-- ISSUE 09-22444: Set a displayevent to make DEFSITE readonly or required -->
+				<textbox id="preference_definssite" label="Default Insert Site" dataattribute="DEFSITE" lookup="sitelookup"
+					 domain="SITE" domainattribute="SITEID" displayevent="setdefsiteattributes"/>
+				<!-- Issue 10-11995 - added validateevent -->	
+				<textbox id="preference_pwdura" label="Password notification in Days" dataattribute="PWDURATION" validateevent="validatePreferencesIntegerFields"/>
+				<!--  Issue 08-23217 -->
+				<!--  10-19149: need to use maxvalue as the value attribute -->
+				<dropdown id="preference_fontimage" dataattribute="MOBFONTIMAGESIZE" label="Fonts &amp; Images"
+					 addblankitem="false" listdatasrcname="MOBFONTIMAGESIZE" displaydataattribute="DESCRIPTION"
+					 valuedataattribute="MAXVALUE" displayevent="displayfontimagesize"/>
+					 
+				<!--  09-11155 - Check for update link
+				<sectionseparator id="preference_lineseparator" linestyle="line"></sectionseparator>
+
+				<section id="preference_chkupdsec">
+					<link id="preference_chkupdlink" event="checkForUpdateDisplayMessages" label="Check for update" sigoption="CHECKUPDATE" ></link>
+				</section> -->
+			</section>
+		</page>
+		<page id="about" toolbar="abouttool" datasrcname="ABOUT" mobilembo="ABOUT" menubar="aboutmenubar"
+			 displayevent="about">
+			<section id="about_section" valign="center" indents="1">
+				<sectionrow id="aboutmainsec0">
+					<sectioncol id="aboutmainsec0col1">
+						<label id="about_appnamel" label="{0}" labelattribute="APPDESCRIPTION"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="aboutmainsec1">
+					<section id="aboutmainsec1_sec">
+						<textbox id="about_version" label="Version" dataattribute="VERSION" inputmode="readonly"/>
+						<label id="about_copyright" label="(C) COPYRIGHT IBM CORP. 2013. All Rights Reserved."/>
+					</section>
+				</sectionrow>
+				<sectionseparator id="aboutmainsec11" linestyle="line"/>
+				<sectionrow id="aboutmainsec2">
+					<section id="aboutmainsec2_sec">
+						<link id="about_advanced" label="View Advanced Details" event="gotopage" value="aboutadvanced"/>
+					</section>
+				</sectionrow>
+			</section>
+		</page>
+		<page id="aboutadvanced" toolbar="abouttool" datasrcname="ABOUT" mobilembo="ABOUT" valign="center"
+			 menubar="aboutmenubar" displayevent="about">
+			<section id="aboutadvancedmainsec" padding-top="10" valign="center" indents="1">
+				<textbox id="aboutadvanced_version" label="Version" dataattribute="VERSION" inputmode="readonly"/>
+				<textbox id="aboutadvanced_metaversion" label="Metadata Version" dataattribute="METADATAVERSION"
+					 inputmode="readonly"/>
+				<textbox id="aboutadvanced_user" label="User" dataattribute="USERNAME" inputmode="readonly"/>
+				<textbox id="aboutadvanced_hostname" label="Host Name" dataattribute="HOSTNAME" inputmode="readonly"/>
+				<textbox id="aboutadvanced_port" label="Port" dataattribute="PORT" inputmode="readonly"/>
+				<checkbox id="aboutadvanced_ssl" label="SSL Enabled" dataattribute="SSL" inputmode="readonly"/>
+				<textbox id="aboutadvanced_deviceid" label="Mobile Id" dataattribute="DEVICEID" inputmode="readonly"/>
+			</section>
+		</page>
+		<page id="wlqueryfilter" label="Search Queries" datasrcname="WORKQUERY" mobilembo="WORKQUERY"
+			 toolbar="searchtoolbar">
+			<section id="wlquerydetails" inputmode="query">
+				<textbox id="wlsrchquerydesctxt1" dataattribute="DESCRIPTION" label="Query" inputmode="query"/>
+				<textbox id="wlsrchquerydesctxt3" dataattribute="DATAGROUP" label="Object Name" inputmode="query"/>
+				<textbox id="wlsrchquerydeftxt2" dataattribute="DOWNLOADDEFAULT" label="Download?" inputmode="query"/>
+			</section>
+		</page>
+		<page id="rlqueryfilter" label="Search Queries" datasrcname="RELATEDQUERY" mobilembo="RELATEDQUERY"
+			 toolbar="searchtoolbar">
+			<section id="rlquerydetails" inputmode="query">
+				<textbox id="rlsrchquerydesctxt1" dataattribute="DESCRIPTION" label="Query" inputmode="query"/>
+				<textbox id="rlsrchquerydesctxt3" dataattribute="DATAGROUP" label="Object Name" inputmode="query"/>
+				<textbox id="rlsrchquerydeftxt2" dataattribute="DOWNLOADDEFAULT" label="Download?" inputmode="query"/>
+			</section>
+		</page>
+		<page id="wlquery" datasrcname="WORKQUERY" mobilembo="WORKQUERY" toolbar="worklisttool">
+			<table id="qrytbl" toolbar="querytabletbar" filterpage="wlqueryfilter" rowsperpage="9">
+				<tablecolumn id="qry" label="Query" dataattribute="DESCRIPTION" displaymode="fixed"/>
+				<tablecolumn id="qry2" label="Object" dataattribute="DATAGROUP" displaymode="visible"/>
+				<tablecolumn id="dldef" label="Download" dataattribute="DOWNLOADDEFAULT" displaymode="fixed">
+					<checkbox id="dldefchkb" label="" dataattribute="DOWNLOADDEFAULT"/>
+				</tablecolumn>
+			</table>
+			<sectionrow id="wlquery_sectionrow1">
+				<sectioncol id="wlquery_sectionrow1col1">
+					<section id="wlquery_section2">
+						<link id="wssave" label="Save" image="/img/btn_save.png" event="savequeries"/>
+						<link id="wscancelbtn" label="Cancel" image="/img/btn_cancel.png" event="cancelpage"/>
+					</section>
+				</sectioncol>
+			</sectionrow>
+		</page>
+		<page id="rlquery" datasrcname="RELATEDQUERY" mobilembo="RELATEDQUERY" toolbar="relatedlisttool">
+			<table id="rqrytbl" toolbar="querytabletbar" filterpage="rlqueryfilter" rowsperpage="9">
+				<tablecolumn id="rqry" label="Query" dataattribute="DESCRIPTION" displaymode="fixed"/>
+				<tablecolumn id="rqry2" label="Object" dataattribute="DATAGROUP" displaymode="visible"/>
+				<tablecolumn id="rdldef" label="Download" dataattribute="DOWNLOADDEFAULT" displaymode="fixed">
+					<checkbox id="rdldefchkb" label="" dataattribute="DOWNLOADDEFAULT"/>
+				</tablecolumn>
+			</table>
+			<sectionrow id="rlquery_sectionrow1">
+				<sectioncol id="rlquery_sectionrow1col1">
+					<section id="rlquery_section2">
+						<link id="rssave" label="Save" image="/img/btn_save.png" event="savequeries"/>
+						<link id="rscancelbtn" label="Cancel" image="/img/btn_cancel.png" event="cancelpage"/>
+					</section>
+				</sectioncol>
+			</sectionrow>
+		</page>
+		<!-- Common Table Column Selector screen WITH Column Size column -->
+		<page id="TABLE_COL_SELECTOR_COL_RESIZER" label="Column Selector" datasrcname="TABCOLSEL" mobilembo="TABCOLSEL"
+			 menubar="menubar4">
+			<table id="tabcol_2" rowsperpage="25" toolbar="dialogbar">
+				<tablecolumn id="c1_2" label="Column" dataattribute="COLTITLE" displaymode="fixed"/>
+				<tablecolumn id="d1_2" label="Display" dataattribute="DISPLAY" displaymode="fixed">
+					<checkbox id="wd1_2" label="" dataattribute="DISPLAY"/>
+				</tablecolumn>
+				<tablecolumn id="col_size_col1_2" label="Column Size" dataattribute="COLWIDTH" displaymode="fixed">
+					<link id="col_size_col1_1_2" label="" dataattribute="COLWIDTH" event="gotopage" value="TABLE_COL_RESIZER"/>
+				</tablecolumn>
+			</table>
+		</page>
+      <!-- Common Table Column Selector screen WITHOUT Column Size column -->
+      <page id="TABLE_COL_SELECTOR" label="Column Selector" datasrcname="TABCOLSEL" mobilembo="TABCOLSEL"
+          menubar="menubar4">
+         <table id="tabcol" rowsperpage="25" toolbar="dialogbar">
+            <tablecolumn id="c1" label="Column" dataattribute="COLTITLE" displaymode="fixed"/>
+            <tablecolumn id="d1" label="Display" dataattribute="DISPLAY" displaymode="fixed">
+               <checkbox id="wd1" label="" dataattribute="DISPLAY"/>
+            </tablecolumn>
+         </table>
+      </page>
+		<!-- Common Table Column Selector screen WITH Column Size column-->
+		<page id="TABLE_COL_SEL_SCAN_COL_RESIZER" label="Column Selector" datasrcname="TABCOLSEL" mobilembo="TABCOLSEL"
+			 menubar="menubar4">
+			<table id="tabcolselscan_2" rowsperpage="25" toolbar="dialogbar">
+				<tablecolumn id="c_scan1_2" label="Column" dataattribute="COLTITLE" displaymode="fixed" colwidth="98"/>
+				<tablecolumn id="d_scan1_2" label="Display" dataattribute="DISPLAY" displaymode="fixed" colwidth="40">
+					<checkbox id="wd_scan1_2" label="" dataattribute="DISPLAY"/>
+				</tablecolumn>
+				<tablecolumn id="col_size_col2_2" label="Column Size" dataattribute="COLWIDTH" displaymode="fixed">
+               <link id="col_size_col1_2_2" label="" dataattribute="COLWIDTH" event="gotopage" value="TABLE_COL_RESIZER"/>
+            </tablecolumn>
+				<tablecolumn id="p_scan1_2" label="Primary" dataattribute="PRIMARYSCAN" displaymode="fixed" colwidth="40">
+					<checkbox id="pckb_scan1_2" label="" dataattribute="PRIMARYSCAN" validateevent="primarycheck"/>
+				</tablecolumn>
+				<tablecolumn id="s_scan2_2" label="Secondary" dataattribute="SECONDARYSCAN" displaymode="fixed"
+					 colwidth="54">
+					<checkbox id="sckb_scan2_2" label="" dataattribute="SECONDARYSCAN" validateevent="secondarycheck"/>
+				</tablecolumn>
+			</table>
+		</page>
+		<!-- Common Table Column Selector screen WITHOUT Column Size column -->
+      <page id="TABLE_COL_SEL_SCAN" label="Column Selector" datasrcname="TABCOLSEL" mobilembo="TABCOLSEL"
+          menubar="menubar4">
+         <table id="tabcolselscan" rowsperpage="25" toolbar="dialogbar">
+            <tablecolumn id="c_scan1" label="Column" dataattribute="COLTITLE" displaymode="fixed" colwidth="98"/>
+            <tablecolumn id="d_scan1" label="Display" dataattribute="DISPLAY" displaymode="fixed" colwidth="40">
+               <checkbox id="wd_scan1" label="" dataattribute="DISPLAY"/>
+            </tablecolumn>
+            <tablecolumn id="p_scan1" label="Primary" dataattribute="PRIMARYSCAN" displaymode="fixed" colwidth="40">
+               <checkbox id="pckb_scan1" label="" dataattribute="PRIMARYSCAN" validateevent="primarycheck"/>
+            </tablecolumn>
+            <tablecolumn id="s_scan2" label="Secondary" dataattribute="SECONDARYSCAN" displaymode="fixed"
+                colwidth="54">
+               <checkbox id="sckb_scan2" label="" dataattribute="SECONDARYSCAN" validateevent="secondarycheck"/>
+            </tablecolumn>
+         </table>
+      </page>
+		<page id="TABLE_COL_RESIZER" label="Column Resizer" datasrcname="TABCOLSEL" mobilembo="TABCOLSEL"
+		    toolbar="columnResizerMenuBar" initevent="initColumnResizerPage">
+		   <section id="table_col_resizer_section" label="" scrollable="false">
+		       <textbox id="table_col_resizer_section_textbox" label="New Size" dataattribute="TEMP_COLWIDTH"/>
+		   </section>
+      </page>
+		<page id="progress" label="In Progress ..." backgroundimage="/img/dialog_bgImage.jpg">
+			<section id="progress_section" label="" scrollable="false" padding-top="-10">
+				<sectionrow id="progress_sectionrow1" indents="2">
+					<sectioncol id="progress_sectionrow1col1">
+						<image id="info" image="/img/flgdialog_information.png"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="progress_sectionrow2" indents="2" padding-top="4">
+					<sectioncol id="progress_sectionrow2col1">
+						<progress id="progressbar" label=""/>
+					</sectioncol>
+				</sectionrow>
+				<sectionseparator id="newline" linestyle="line"/>
+            
+            <!-- ISSUE 09-22246: Removed the cancel link 
+				<sectionrow id="progress_sectionrow3" indents="16">
+					<sectioncol id="progress_sectionrow3col1" align="right">
+						<link id="progresscancel" label="Cancel" event="cancel"/>
+					</sectioncol>
+				</sectionrow>
+            -->
+			</section>
+		</page>
+		<page id="calendar" label="Calendar">
+			<section id="calendar_section" label="" indents="4">
+				<sectionrow id="calendar_sectionrow1">
+					<sectioncol id="calendar_sectionrow1col1">
+						<calendar id="thecalendar" label="Time:"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionseparator id="calline" linestyle="line"/>
+				<sectionrow id="calendar_sectionrow2" indents="10">
+					<sectioncol id="calendar_sectionrow2col1">
+						<link id="calOK" label="OK" event="setdatevalue" targetid="thecalendar"/>
+						<link id="calCancel" label="Cancel" event="closepage"/>
+					</sectioncol>
+				</sectionrow>
+			</section>
+		</page>
+		<page id="message1" label="Message" backgroundimage="/img/dialog_bgImage.jpg">
+			<section id="message1_section" label="" indents="4">
+				<sectionrow id="message1_sectionrow1">
+					<sectioncol id="message1_sectionrow1col1">
+						<message id="msgbox1"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="message1_sectionrow2" indents="10">
+					<sectioncol id="message1_sectionrow2col1">
+						<link id="msgOK1" label="OK" event="setresponse" targetid="msgbox"/>
+						<link id="msgCancel1" label="Cancel" event="closepage"/>
+					</sectioncol>
+				</sectionrow>
+			</section>
+		</page>
+		<!-- Signature screen CHANGED TO GENERIC REMOVE DATASOURCE AFTER SCOTT FIX-->
+		<page id="signature" usepanellayout="true" label="Capture Signature" datasrcname="WOATTACHMENTS" parentdatasrc="WORKORDER"
+			 mobilembo="WOATTACHMENTS" toolbar="capsigbar">
+			<section id="signature_section" label="">
+				<sectionrow id="signature_sectionrow1">
+					<sectioncol id="signature_sectionrow1col1">
+						<signature id="sig1"/>
+					</sectioncol>
+				</sectionrow>
+			</section>
+		</page>
+		<!-- Sample file dialog CHANGED TO GENERIC REMOVE DATASOURCE AFTER SCOTT FIX-->
+		<page id="attachdocdialogue" usepanellayout="true" label="Attach Document" datasrcname="WOATTACHMENTS" parentdatasrc="WORKORDER"
+			 mobilembo="WOATTACHMENTS" toolbar="dialogbar1">
+			<section id="attachdocdialogue_section" userelativelayout="true">
+				<sectionrow id="attachdocdialogue_sectionrow1" indents="1">
+					<sectioncol id="attachdocdialogue_sectionrow1col1">
+						<!-- ISSUE 09-23202: Set the default dir to root -->
+						<filedialogue id="fdd" directory="\"></filedialogue>
+					</sectioncol>
+				</sectionrow>
+				<sectionseparator id="cs1111" linestyle="line"/>
+				<sectionrow id="attachdocdialogue_sectionrow2" indents="1">
+					<sectioncol id="attachdocdialogue_sectionrow2col1">
+						<link id="cfd1" label="Attach" event="savedoc" image="/img/btn_attach.png" targetid="fdd"
+							 esignature="ATTACHDOCS"/>
+					</sectioncol>
+				</sectionrow>
+			</section>
+		</page>
+		<page id="requiredvalue" backgroundimage="/img/dialog_bgImage.jpg">
+			<section id="rvmainsec" scrollable="false">
+				<sectionrow id="rvmainsec_row1">
+					<sectioncol id="rvmainsec_row1col1">
+						<section id="rvmainseclink" padding-top="10">
+							<image id="rvmainsecinfo" image="/img/flgdialog_information.png"/>
+						</section>
+					</sectioncol>
+					<sectioncol id="rvmainsec_row1col2">
+						<section id="rvsubsec1">
+							<section id="rvsec" indents="1">
+								<label id="rvlabel" label="This value cannot be validated."/>
+							</section>
+							<section id="rvsec2" indents="1" padding-top="10">
+								<link id="rvlink2" label="Cancel &amp; Clear" event="clearfield" targetid="currentinput"/>
+								<link id="rvlink3" label="Lookup" event="lookup" targetid="currentinput"/>
+							</section>
+						</section>
+					</sectioncol>
+				</sectionrow>
+			</section>
+		</page>
+		<page id="invalidvalue" backgroundimage="/img/dialog_bgImage.jpg">
+			<section id="ivmainsec" scrollable="false">
+				<sectionrow id="ivmainsec_row1">
+					<sectioncol id="ivmainsec_row1col1">
+						<section id="ivmainseclink" padding-top="10">
+							<image id="ivmainsecinfo" image="/img/flgdialog_information.png"/>
+						</section>
+					</sectioncol>
+					<sectioncol id="ivmainsec_row1col2">
+						<section id="ivsubsec1">
+							<section id="ivsec" indents="1">
+								<label id="ivlabel" label="This value cannot be validated."/>
+							</section>
+							<section id="ivsec2" indents="1" padding-top="10">
+								<link id="ivlink1" label="Accept Value" event="acceptvalue" targetid="currentinput"/>
+								<link id="ivlink2" label="Cancel &amp; Clear" event="clearfield" targetid="currentinput"/>
+								<link id="ivlink3" label="Lookup" event="lookup" targetid="currentinput"/>
+							</section>
+						</section>
+					</sectioncol>
+				</sectionrow>
+			</section>
+		</page>
+		<page id="longdesc" label="Long Description">
+			<section id="ts1">
+				<longdescription id="longdesctb" toolbar="dialogbar"/>
+			</section>
+		</page>
+		<!-- Begin of Issue #07-27225 -->
+		<page id="resetusers" label="Reset User Application" datasrcname="DEVICEREGISTEREDUSERS"
+			 mobilembo="DEVICEREGISTEREDUSERS" menubar="aboutmenubar">
+			<table id="resetusers_tb1" rowsperpage="9" toolbar="reset_users_toolbar">
+				<tablecolumn id="resetusers_tb1_c1" dataattribute="SELECTED" label="" COLWIDTH="32" displaymode="fixed">
+					<checkbox id="resetusers_tb1_c1_cb" dataattribute="SELECTED" label=""/>
+				</tablecolumn>
+				<tablecolumn id="resetusers_tb1_c2" dataattribute="USERNAME" label="User Name" displaymode="fixed"/>
+			</table>
+			<section id="resetusers_section_sec2">
+				<sectionrow id="resetusers_sec2_r1">
+					<sectioncol id="resetusers_sec2_r1_c1">
+						<link id="resetusers_sec2_selall" label="Select All Users" event="selectAllUsers"/>
+					</sectioncol>
+				</sectionrow>
+			</section>
+		</page>
+		<!-- End of Issue #07-27225 -->
+		<!-- Enhancement 07-27228 Start -->
+		<!--  Issue 09-12918 - Transfering this page from mobilewo.xml -->
+		<page id="sitefilter" label="Search Sites" datasrcname="SITE" toolbar="searchtoolbar">
+			<section id="sitelufilterdetails" inputmode="query">
+				<textbox id="sitelufilter1" dataattribute="ORGID"/>
+				<textbox id="sitelufilter2" dataattribute="SITEID"/>
+				<textbox id="sitelufilter3" dataattribute="DESCRIPTION"/>
+			</section>
+		</page>
+		<!-- "Download Now" functionality -->
+		<page id="downloadNow" toolbar="downloadNowtool" label="Download {0}" titleattribute="MBO_DESCRIPTION"
+			 mobilembo="MBODOWNLOAD" datasrcname="MBODOWNLOAD" handler="directdownloadeventhandler"
+			 initevent="initpage">
+			<section id="downloadNowsec1" padding-top="20">
+				<sectionrow id="downloadNow_sectionrow1" indents="1">
+					<sectioncol id="downloadNow_sectionrow1col1">
+						<label id="downloadNow_sectionrow1col1_msg1" label="Downloading an entire Work List record may"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="downloadNow_sectionrow2" indents="1">
+					<sectioncol id="downloadNow_sectionrow2col1">
+						<label id="downloadNow_sectionrow2col1_msg1" label="take several minutes depending on how much"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="downloadNow_sectionrow3" indents="1">
+					<sectioncol id="downloadNow_sectionrow3col1">
+						<label id="downloadNow_sectionrow3col1_msg1" label="associated data it has."/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="downloadNow_sectionrow4" padding-top="20" indents="1">
+					<sectioncol id="downloadNow_sectionrow4col1">
+						<label id="downloadNow_sectionrow4col1_msg1" label="Enter the {0} number you would" labelattribute="MBO_DESCRIPTION"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="downloadNow_sectionrow5" indents="1">
+					<sectioncol id="downloadNow_sectionrow5col1">
+						<label id="downloadNow_sectionrow5col1_msg2" label="like to download:"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="downloadNow_sectionrow6" indents="1" padding-top="10">
+               <sectioncol id="downloadNow_sectionrow6col1">
+                  <label id="downloadNow_sectionrow6col1_msg1" label="{0}" labelattribute="MBO_DESCRIPTION"/>
+               </sectioncol>
+            </sectionrow>
+				<sectionrow id="downloadNow_sectionrow6_b" indents="1" padding-top="10">
+					<sectioncol id="downloadNow_sectionrow6col1_b">
+						<textbox id="downloadNow_wonum" dataattribute="RECORDKEY" label="" lookup="mbolookup" handler="directdownloadeventhandler"/>
+						<!-- "mbolookup" is a dummy value, it will be replaced in the lookup event handler -->
+					</sectioncol>
+				</sectionrow>
+				<!-- ISSUE 09-11159: Added displayevent for each textfield below so it maybe hidden if it's a system mbo -->
+				<sectionrow id="downloadNow_sectionrow7" indents="1">
+					<sectioncol id="downloadNow_sectionrow7col1">
+						<textbox id="downloadNow_orgid" label="Organization" displayevent="showhidemultisitefield"
+							 dataattribute="ORGID" domain="ORGANIZATION" domainattribute="ORGID" inputmode="READONLY"/>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="downloadNow_sectionrow8" indents="1">
+					<sectioncol id="downloadNow_sectionrow8col1">
+						<textbox id="downloadNow_siteid" label="Site" displayevent="showhidemultisitefield" dataattribute="SITEID"
+							 lookup="sitelookup" domain="SITE" domainattribute="SITEID" validateevent="setsiteid"/>
+					</sectioncol>
+				</sectionrow>
+			</section>
+		</page> 			  
+		<page id="connectionprefs" label="Connection Settings" displayevent="displayconnprefs" toolbar="connprefstool" valign="center">
+			<section id="connprefs_section">
+				<sectionrow id="connprefs_sectionrow1" indents="2">
+					<sectioncol id="connprefs_sectionrow1col1">
+						<label id="connprefs.label.host" label="host"></label>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="connprefs_sectionrow2" indents="2">
+					<sectioncol id="connprefs_sectionrow2col1">
+						<textbox id="maximo.mobile.hostname" editmode="always" size="50"></textbox>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="connprefs_sectionrow3" indents="2">
+					<sectioncol id="connprefs_sectionrow1col3">
+						<label id="connprefs.label.port" label="port"></label>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="instconnprefs_sectionrow4" indents="2">
+					<sectioncol id="instconnprefs_sectionrow4col1">
+						<textbox id="maximo.mobile.port" editmode="always" size="7"></textbox>
+					</sectioncol>
+				</sectionrow>															
+				<sectionrow id="connprefs_sectionrow9" indents="2">
+					<sectioncol id="connprefs_sectionrow9col1">
+						<label id="connprefs.label.ssl" label="ssl"></label>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="connprefs_sectionrow10" indents="2">
+					<sectioncol id="connprefs_sectionrow10col1">
+						<checkbox id="maximo.mobile.ssl" editmode="always"></checkbox>
+					</sectioncol>
+				</sectionrow>
+				<sectionrow id="connprefs_sectionrow11" indents="2">
+					<sectioncol id="connprefs_sectionrow11col1">
+						<link id="connprefs_sectionrow11col1_reset" label="Reset Connection Settings" event="resetConnSettings"></link>
+					</sectioncol>					
+				</sectionrow>
+			</section>
+		</page>		
+		
+		<toolbar id="downloadNowtool">
+			<left id="downloadNowtool_left">
+				<label id="downloadNowtool_label" label="Download {0}" labelattribute="MBO_DESCRIPTION"/>
+			</left>
+			<right id="downloadNowtool_right">
+				<link id="downloadNowtool_ok" event="saveclose" label="OK"/>
+				<image id="downloadNowtool_dvdr" image="/img/btntb_divider.png"/>
+				<link id="downloadNowtool_cncl" event="cancelpage" label="Cancel"/>
+			</right>
+		</toolbar>
+		<!-- Enhancement 07-27228 End -->
+	</mobilescreens>
+	<mobilemessages>
+		<mobilemessage key="dourefreshworksetdata" value="Do you want to refresh your work list data?" msgid="BMXAF1028E"
+			 prefix="false"/>
+		<mobilemessage key="dourefreshalldata" value="Do you want to refresh both your work list and additional data?"
+			 msgid="BMXAF1029E" prefix="false"/>
+		<mobilemessage key="dourefreshreldata" value="Do you want to refresh your additional data?" msgid="BMXAF1030E"
+			 prefix="false"/>
+		<mobilemessage key="undochanges" value="This will clear all changes made to this record. A work list refresh is required to get any updates from the server."
+			 msgid="BMXAF1031E" prefix="false"/>
+		<mobilemessage key="deletenew" value="Are you sure you want to Delete this {0} without submitting the transaction?"
+			 msgid="BMXAF1032E" prefix="false"/>
+		<mobilemessage key="requiredblank" value="Required field {0} is blank." msgid="BMXAF1033E" prefix="false"/>
+		<mobilemessage key="tablerecordset" value="{0} of {1}" msgid="BMXAF1034E" prefix="false"/>
+		<mobilemessage key="appcontextloadfailed" value="Failed to load AppContext." msgid="BMXAF1035E"
+			 prefix="false"/>
+		<mobilemessage key="systemsettingloadfailed" value="Failed to load System settings." msgid="BMXAF1036E"
+			 prefix="false"/>
+		<mobilemessage key="invaliduser" value="User name and password are not valid.  Please try again."
+			 msgid="BMXAF1037E" prefix="false"/>
+		<mobilemessage key="authenticationfailure" value="Failed to authenticate user." msgid="BMXAF1038E"
+			 prefix="false"/>
+		<mobilemessage key="unknownmobilembo" value="Information about {0} does not exist." msgid="BMXAF1039E"
+			 prefix="false"/>
+		<mobilemessage key="unknownrdo" value="Information about {0} does not exist." msgid="BMXAF1040E"
+			 prefix="false"/>
+		<mobilemessage key="noproxy" value="Proxy is not setup." msgid="BMXAF1041E" prefix="false"/>
+		<mobilemessage key="nomobilecontextprovider" value="MobileContextProvider is not setup." msgid="BMXAF1042E"
+			 prefix="false"/>
+		<mobilemessage key="nocommchannel" value="Communication Channel is not setup." msgid="BMXAF1043E"
+			 prefix="false"/>
+		<mobilemessage key="mbodefcreatefailed" value="Failed to create business object definition for {0}"
+			 msgid="BMXAF1044E" prefix="false"/>
+		<mobilemessage key="savefailed" value="Failed to save data on device." msgid="BMXAF1045E" prefix="false"/>
+		<mobilemessage key="failedtoqueuereq" value="Failed to queue request." msgid="BMXAF1046E" prefix="false"/>
+		<mobilemessage key="operationfailed" value="The requested operation failed because of an internal error. Please try again later."
+			 msgid="BMXAF1047E" prefix="false"/>
+		<mobilemessage key="dbconnectfailed" value="Failed to get connection from database." msgid="BMXAF1048E"
+			 prefix="false"/>
+		<mobilemessage key="dbdisconnectfailed" value="Failed to Disconnect from database." msgid="BMXAF1049E"
+			 prefix="false"/>
+		<mobilemessage key="txncommitfailed" value="Transaction Commit Failed." msgid="BMXAF1050E" prefix="false"/>
+		<mobilemessage key="txnrollbackfailed" value="Transaction Rollback Failed." msgid="BMXAF1051E" prefix="false"/>
+		<mobilemessage key="alreadyintxn" value="Transaction already started." msgid="BMXAF1052E" prefix="false"/>
+		<mobilemessage key="notxnstart" value="Transaction Not started." msgid="BMXAF1053E" prefix="false"/>
+		<mobilemessage key="noattributeorder" value="Order is not set for attribute {0}." msgid="BMXAF1054E"
+			 prefix="false"/>
+		<mobilemessage key="invalidvalue" value="Cannot set value for object {0} and attribute {1}." msgid="BMXAF1055E"
+			 prefix="false"/>
+		<mobilemessage key="commfailure" value="Unable to connect to the Maximo Server." msgid="BMXAF1056E"
+			 prefix="false"/>
+		<mobilemessage key="rdodefcreatefailed" value="Failed to register {0}." msgid="BMXAF1057E" prefix="false"/>
+		<mobilemessage key="rdoremoveallinfofailed" value="Failed remove all info." msgid="BMXAF1058E" prefix="false"/>
+		<mobilemessage key="rdoremoveinfofailed" value="Failed remove info for {0}." msgid="BMXAF1059E"
+			 prefix="false"/>
+		<mobilemessage key="rdocheckexistfailed" value="Failed to check existance for {0} having key {1}."
+			 msgid="BMXAF1060E" prefix="false"/>
+		<mobilemessage key="rdofinddepsizefailed" value="Failed to find dependent size for {0} dependent = {1}."
+			 msgid="BMXAF1061E" prefix="false"/>
+		<mobilemessage key="rdogetbykeyfailed" value="Failed to get data for {0} having key {1}." msgid="BMXAF1062E"
+			 prefix="false"/>
+		<mobilemessage key="rdogetdepfailed" value="Failed to retrieve dependents for {0} dependent = {1}."
+			 msgid="BMXAF1063E" prefix="false"/>
+		<mobilemessage key="rdogetfailed" value="Failed to retrieve {0}." msgid="BMXAF1064E" prefix="false"/>
+		<mobilemessage key="rdoinsertfailed" value="Failed to insert data object {0}." msgid="BMXAF1065E"
+			 prefix="false"/>
+		<mobilemessage key="rdoremovefailed" value="Failed to remove all data objects {0}." msgid="BMXAF1066E"
+			 prefix="false"/>
+		<mobilemessage key="rdoremoveallfailed" value="Failed to remove all data objects {0}." msgid="BMXAF1067E"
+			 prefix="false"/>
+		<mobilemessage key="rdogetsizefailed" value="Failed to find size of data object {0}." msgid="BMXAF1068E"
+			 prefix="false"/>
+		<mobilemessage key="rdoupdatefailed" value="Failed to update data object {0} having key {1}." msgid="BMXAF1069E"
+			 prefix="false"/>
+		<mobilemessage key="rdogetinfofailed" value="Failed to check information about data object {0}."
+			 msgid="BMXAF1070E" prefix="false"/>
+		<mobilemessage key="refreshwork" value="Determining work to be refreshed." msgid="BMXAF1071E" prefix="false"/>
+		<mobilemessage key="refreshall" value="Determining all data to be refreshed." msgid="BMXAF1072E"
+			 prefix="false"/>
+		<mobilemessage key="refreshmbo" value="Refreshing {0}." msgid="BMXAF1073E" prefix="false"/>
+		<!-- ISSUE 09-18613: Deleted refreshmbowtime mobilemessage -->
+		<mobilemessage key="determineadhoc" value="Determining data to download. This may take several minutes."
+			 msgid="BMXAF1075E" prefix="false"/>
+		<mobilemessage key="refreshauth" value="Refreshing User Profile from the Maximo Server." msgid="BMXAF1076E"
+			 prefix="false"/>
+		<mobilemessage key="noappauth" value="You do not have authorization for the application." msgid="BMXAF1077E"
+			 prefix="false"/>
+		<mobilemessage key="noappauthparam" value="You do not have authorization for the application. {0}"
+			 msgid="BMXAF1078E" prefix="false"/>
+		<mobilemessage key="autokeyprefix" value="NEW-{0}" msgid="BMXAF1079E" prefix="false"/>
+		<mobilemessage key="initapp" value="Initializing Application." msgid="BMXAF1080E" prefix="false"/>
+		<mobilemessage key="initappauth" value="Downloading User Profile from the Maximo Server." msgid="BMXAF1081E"
+			 prefix="false"/>
+		<mobilemessage key="initsystemdata" value="Updating device profile and downloading latest system data from the Maximo Server.  This may take several minutes."
+			 msgid="BMXAF1082E" prefix="false"/>
+		<mobilemessage key="verifyuser" value="Authenticating user {0}." msgid="BMXAF1083E" prefix="false"/>
+		<mobilemessage key="exitapp" value="Are you sure you want to Exit the app?  You will lose any unsaved changes."
+			 msgid="BMXAF1084E" prefix="false"/>
+		<mobilemessage key="resetapp" value="This will exit the application and remove all application related data from the device, including changes that have not yet been sent, user preferences and profile information."
+			 msgid="BMXAF1085E" prefix="false"/>
+		<mobilemessage key="markalldone" value="Would you like to Send all modified records?" msgid="BMXAF1086E"
+			 prefix="false"/>
+		<mobilemessage key="markalldoneprogress" value="Marking all work as done." msgid="BMXAF1087E" prefix="false"/>
+		<mobilemessage key="uploadpending" value="Upload in progress." msgid="BMXAF1088E" prefix="false"/>
+		<mobilemessage key="appversionmismatch" value="Application version is incorrect or old. Please update the application."
+			 msgid="BMXAF1089E" prefix="false"/>
+		<mobilemessage key="sessioninitfail" value="Session initialization with the server failed. {0}"
+			 msgid="BMXAF1090E" prefix="false"/>
+		<mobilemessage key="passwordexpired" value="Your password has expired. Enter your old password and then choose your new password."
+			 msgid="BMXAF1091E" prefix="false"/>
+		<mobilemessage key="passwordentriesdonotmatch" value="Your password entries do not match." msgid="BMXAF1092E"
+			 prefix="false"/>
+		<mobilemessage key="passwordnewequalsold" value="Your current password cannot be used as your new password.  Please enter a new password."
+			 msgid="BMXAF1093E" prefix="false"/>
+		<mobilemessage key="curpasswordinvalid" value="Current Password entered does not match. Please enter a valid password."
+			 msgid="BMXAF1094E" prefix="false"/>
+		<mobilemessage key="changingpassword" value="Changing password." msgid="BMXAF1095E" prefix="false"/>
+		<mobilemessage key="defaultlabelformat" value="{0}" msgid="BMXAF1096E" prefix="false"/>
+		<!-- ISSUE 08-20418: need a different format for checkbox and table cols YORN labels in spanish -->
+		<mobilemessage key="checkboxlabelformat" value="{0}?" msgid="BMXAF1097E" prefix="false"/>
+		<mobilemessage key="checkboxlabelformat_es" value="¿{0}?" msgid="BMXAF1097I" prefix="false"/>
+		<mobilemessage key="tablecolYORNlabelformat" value="{0}?" msgid="BMXAF1098E" prefix="false"/>
+		<mobilemessage key="tablecolYORNlabelformat_es" value="¿{0}?" msgid="BMXAF1098I" prefix="false"/>
+		<mobilemessage key="internalerror" value="The requested operation failed because of an internal Maximo Server error. Please contact your system administrator."
+			 msgid="BMXAF1099E" prefix="false"/>
+		<mobilemessage key="invalidnumber" value="You must enter a valid numeric value." msgid="BMXAF1100E"
+			 prefix="false"/>
+		<mobilemessage key="maximumlength" value="The value specified exceeds the maximum field length."
+			 msgid="BMXAF1101E" prefix="false"/>
+		<mobilemessage key="invalidduration" value="You must enter a valid duration value (Example - 1:20 for 1 hour and 20 minutes)."
+			 msgid="BMXAF1102E" prefix="false"/>
+		<mobilemessage key="invaliddateparam" value="You must enter a valid date value (Example - {0})."
+			 msgid="BMXAF1103E" prefix="false"/>
+		<mobilemessage key="invaliddate" value="You must enter a valid date value." msgid="BMXAF1104E" prefix="false"/>
+		<mobilemessage key="invaliddatetimeparam" value="You must enter a valid date/time value (Example - {0})."
+			 msgid="BMXAF1105E" prefix="false"/>
+		<mobilemessage key="invaliddatetime" value="You must enter a valid date/time value." msgid="BMXAF1106E"
+			 prefix="false"/>
+		<mobilemessage key="invalidtimeparam" value="You must enter a valid time value (Example - {0})."
+			 msgid="BMXAF1107E" prefix="false"/>
+		<mobilemessage key="invalidtime" value="You must enter a valid time value." msgid="BMXAF1108E" prefix="false"/>
+		<mobilemessage key="MSG_BTNOK" value="OK" msgid="BMXAF1109E" prefix="false"/>
+		<mobilemessage key="MSG_BTNCANCEL" value="Cancel" msgid="BMXAF1110E" prefix="false"/>
+		<mobilemessage key="MSG_BTNYES" value="Yes" msgid="BMXAF1111E" prefix="false"/>
+		<mobilemessage key="MSG_BTNNO" value="No" msgid="BMXAF1112E" prefix="false"/>
+		<mobilemessage key="MSG_BTNCLOSE" value="Close" msgid="BMXAF1113E" prefix="false"/>
+		<mobilemessage key="invaliduserandverify" value="Your user name or password is either invalid or has been changed on the server since the last time you signed in.  To proceed and attempt verification with the server as is, click Continue. Otherwise click Cancel and re-enter your information."
+			 msgid="BMXAF1114E" prefix="false"/>
+		<mobilemessage key="noappauthandverify" value="You do not have authorization for the application. Your authorization may have been changed on the server since the last time you signed in.  To proceed and attempt verification with the server as is, click Continue. Otherwise click Cancel and re-enter your information."
+			 msgid="BMXAF1115E" prefix="false"/>
+		<!-- ISSUE 09-22551: Made the message clearer -->
+		<mobilemessage key="nodefaultsite" value="Cannot create a record without a default insert site. Update your preferences on maximo and select a site in your default information profile."
+			 msgid="BMXAF1116E" prefix="false"/>
+		<mobilemessage key="refreshallfirstlogin" value="A full refresh of all data on the device is required to run this application. Would you like to refresh all data now?"
+			 msgid="BMXAF1117E" prefix="false"/>
+		<mobilemessage key="_ESIGOPTION" value="Access to Application Actions" msgid="BMXAF1118E" prefix="false"/>
+		<mobilemessage key="nopageauth" value="You do not have permission to view this data." msgid="BMXAF1119E"
+			 prefix="false"/>
+		<mobilemessage key="sendeventtopagenoauth" value="You do not have permission to perform this action."
+			 msgid="BMXAF1120E" prefix="false"/>
+		<mobilemessage key="passworddurationnotify" value="Your password will expire in {0} days.  Would you like to change your password?"
+			 msgid="BMXAF1121E" prefix="false"/>
+		<mobilemessage key="readonly" value="{0} is read only." msgid="BMXAF1122E" prefix="false"/>
+		<mobilemessage key="readonlyattr" value="{0} of {1} is readonly." msgid="BMXAF1123E" prefix="false"/>
+		<mobilemessage key="alertInvalidESig" value="The Electronic Signature entered is not valid for the user currently logged on to the application!"
+			 msgid="BMXAF1124E" prefix="false"/>
+		<mobilemessage key="pwchangepermissionneeded" value="You do not have permission to change password. Please contact your system administrator."
+			 msgid="BMXAF1125E" prefix="false"/>
+		<mobilemessage key="nouseridpswd" value="Please enter user name and password." msgid="BMXAF1126E"
+			 prefix="false"/>
+		<mobilemessage key="failedtoupload" value="Failed to upload transactions to the server." msgid="BMXAF1127E"
+			 prefix="false"/>
+		<mobilemessage key="YES" value="Y" msgid="BMXAF1128E" prefix="false"/>
+		<mobilemessage key="NO" value="N" msgid="BMXAF1129E" prefix="false"/>
+		<mobilemessage key="firstrec" value="At first record" msgid="BMXAF1130E" prefix="false"/>
+		<mobilemessage key="lastrec" value="At last record" msgid="BMXAF1131E" prefix="false"/>
+		<mobilemessage key="adhocdownload" value="This may take a few minutes if there is a lot of associated data. Do you want to continue?"
+			 msgid="BMXAF1132E" prefix="false"/>
+		<mobilemessage key="resetadhocdata" value="Additional data retrieved from the Download Complete Record and/or Add to Work List actions exist on the device. Would you like to retain this data after the refresh? If you select No, this data will be removed."
+			 msgid="BMXAF1133E" prefix="false"/>
+		<mobilemessage key="docextractinfo" value="The document has been extracted to {0}" msgid="BMXAF1134E"
+			 prefix="false"/>
+		<mobilemessage key="docextractallinfo" value="The documents have been extracted to {0}" msgid="BMXAF1135E"
+			 prefix="false"/>
+		<mobilemessage key="deleteattachdoc" value="Are you sure you want to delete the document?" msgid="BMXAF1136E"
+			 prefix="false"/>
+		<mobilemessage key="determinelookupadhoc" value="Connected lookup in progress. It may take a few minutes."
+			 msgid="BMXAF1137E" prefix="false"/>
+		<mobilemessage key="gettimediff" value="Determining server time and approximate adjustment needed."
+			 msgid="BMXAF1138E" prefix="false"/>
+		<mobilemessage key="rfiderror" value="Failure in RFID operation." msgid="BMXAF1139E" prefix="false"/>
+		<mobilemessage key="dbproblem" value="Corrupted data associated with the current user was found. This will remove all application data for the current user from this device and exit the application. Do you want to continue?"
+			 msgid="BMXAF1140E" prefix="false"/>
+		<mobilemessage key="fetchsizex" value="Fetching more than {0} records. Please use filters to reduce the data"
+			 msgid="BMXAF1141E" prefix="false"/>
+		<!-- Begin of ISSUE #07-27225 -->
+		<mobilemessage key="resetappusers" value="This will remove all selected users' application related data from the device, including changes that have not yet been sent, user preferences and profile information."
+			 msgid="BMXAF1142E" prefix="false"/>
+		<mobilemessage key="resettingappusers" value="Resetting Application. This may take several minutes."
+			 msgid="BMXAF1143E" prefix="false"/>
+		<mobilemessage key="identifyingusers" value="Identifying current users. This may take several minutes."
+			 msgid="BMXAF1144E" prefix="false"/>
+		<!-- End of ISSUE #07-27225 -->
+		<mobilemessage key="storesnapshotprogress" value="Saving session data. This may take few minutes."
+			 msgid="BMXAF1145E" prefix="false"/>
+		<mobilemessage key="retrievesnapshotprogress" value="Restoring session data. This may take few minutes."
+			 msgid="BMXAF1146E" prefix="false"/>
+		<mobilemessage key="failedtostoresnapshot" value="Failed to store the snapshot data on the server. Please contact your system administrator."
+			 msgid="BMXAF1147E" prefix="false"/>
+		<mobilemessage key="failedtoretrievesnapshot" value="Failed to retrieve the snapshot data from the server. Please check the space on device."
+			 msgid="BMXAF1148E" prefix="false"/>
+		<mobilemessage key="saveotherusersnapshot" value="Session data from user {0} is present on this device. This session data must be saved before you can use this device. Would you like to save this user session data?"
+			 msgid="BMXAF1149E" prefix="false"/>
+		<mobilemessage key="savesessionexitapp" value="Are you sure you want to Exit the application?  Would you like to Save your session data?"
+			 msgid="BMXAF1150E" prefix="false"/>
+		<!-- Enhancement 07-27228 Start -->
+		<!-- "Download Now" messages -->
+		<mobilemessage key="alreadydownloaded" value="{0} {1} has already been downloaded." msgid="BMXAF1151E"
+			 prefix="false"/>
+		<mobilemessage key="notfound" value="{0} {1} was not found for site {2}." msgid="BMXAF1152E" prefix="false"/>
+		<!-- Enhancement 07-27228 End -->
+		<mobilemessage key="scannotfound" value="No records were found for {0} {1}." msgid="BMXAF1153E"
+			 prefix="false"/>
+		<mobilemessage key="scannotfoundinsert" value="{0} {1} could not be found.  Would you like to create a new record for the {2}?"
+			 msgid="BMXAF1154E" prefix="false"/>
+		<mobilemessage key="scandetail" value="The next scan will be against: {0}\n\nPrimary Scan: {1}\nSecondary Scan: {2}"
+			 msgid="BMXAF1155E" prefix="false"/>
+		<mobilemessage key="scandetailnosec" value="The next scan will be against: {0}\n\nPrimary Scan: {1}\nSecondary Scan: none"
+			 msgid="BMXAF1156E" prefix="false"/>
+		<mobilemessage key="scaninsertask" value="Do you want to view the record(s) or insert a new record for {0} {1}?"
+			 msgid="BMXAF1157E" prefix="false"/>
+		<mobilemessage key="scannoaccess" value="You are not authorized to insert rows into this table."
+			 msgid="BMXAF1158E" prefix="false"/>
+		<!-- ISSUE 08-15663 -->
+		<mobilemessage key="formattedmaximumlength" value="The value specified after be formatted exceeds the maximum field length."
+			 msgid="BMXAF1159E" prefix="false"/>
+		<!--  Issue 09-11140 -->
+		<mobilemessage key="splashlockfilenotfound" value="Lock file not found in the path {0}." msgid="BMXAF1160E"
+			 prefix="false"/>
+		<mobilemessage key="splashlockfilefailedtoremove" value="Failed to remove lock file {0}." msgid="BMXAF1167E"
+			 prefix="false"/>
+		<!--  Issue 08-23217 -->
+		<mobilemessage key="preferencesneedrestart" value="To these changes take effect you must restart the application. Do you want to do it now?"
+			 msgid="BMXAF1161E" prefix="false"/>
+		<!--  Issue 09-11155  -->
+		<mobilemessage key="updateavialablenow" value="A newer version of this mobile application has been detected and must be downloaded and installed on this device. Do you want to perform the update now?"
+			 msgid="BMXAF1162E" prefix="false"/>
+		<mobilemessage key="updateavialablerefresh" value="A newer version of this mobile application has been detected and must be downloaded and installed on this device. All of the modified records will need to be 'Sent' to core Maximo. Do you want to 'Send' all modifications now and proceed with the update?"
+			 msgid="BMXAF1163E" prefix="false"/>
+		<mobilemessage key="updatefailed" value="It was not possible to download the update file. Check if the server contain a valid update package or if the destination file '{0}' is not being used or locked by another application."
+			 msgid="BMXAF1164E" prefix="false"/>
+		<mobilemessage key="updatedownloadfailed" value="Application downloaded from the server side is invalid. Check with administrator by inconsistence of package file."
+			 msgid="BMXAF1165E" prefix="false"/>
+		<mobilemessage key="updatecompleted" value="Update completed successfully. It's necessary to restart the application for changes to take effect."
+			 msgid="BMXAF1166E" prefix="false"/>
+		<mobilemessage key="updateneeded" value="A newer version of the application has been detected. You must perform the update before any connected activity can occur."
+			 msgid="BMXAF1168E" prefix="false"/>
+		<mobilemessage key="updatedeterminejarfailed" value="Failed to validate file location at {0}."
+			 msgid="BMXAF1169E" prefix="false"/>
+		<mobilemessage key="updatederunning" value="Downloading update file." msgid="BMXAF1170E" prefix="false"/>
+		<mobilemessage key="updateavialablenowforce" value="A newer version of this mobile application has been detected and must be downloaded and installed on this device. This task will be perfomed now."
+			 msgid="BMXAF1171E" prefix="false"/>
+		<mobilemessage key="updateappuptodate" value="Mobile application is up to date." msgid="BMXAF1172E"
+			 prefix="false"/>
+		<mobilemessage key="updatechecking" value="Checking for update." msgid="BMXAF1175E" prefix="false"/>
+		<!-- ISSUE 09-16839: Added messages to display to the user if adhoc download fails -->
+		<mobilemessage key="invalidmobilembo" value="Invalid mobile business object {0}." msgid="BMXAF1173E"
+			 prefix="false"/>
+		<mobilemessage key="invalidmboset" value="Invalid business object {0}." msgid="BMXAF1174E" prefix="false"/>
+		<mobilemessage key="mobilemboprocessing" value="Record is being processed by the server. Please try again later."
+			 msgid="BMXAF1176E" prefix="false"/>
+		<!-- ISSUE 09-18118: Multi site filter, required fields -->
+		<mobilemessage key="siteidnull" value="Site is a required field." msgid="BMXAF1177E" prefix="false"/>
+		<mobilemessage key="orgidnull" value="Organization is a required field." msgid="BMXAF1178E" prefix="false"/>
+		<mobilemessage key="itemsetidnull" value="Item Set is a required field." msgid="BMXAF1179E" prefix="false"/>
+		<mobilemessage key="companysetidnull" value="Company Set is a required field." msgid="BMXAF1180E"
+			 prefix="false"/>
+		<!--  09-18717  -->
+		<mobilemessage key="httpoperationfailed" value="The requested operation returned from server with HTTP {0}. Please try again later." msgid="BMXAF1181E" prefix="false"/>
+		<!-- ISSUE 09-19148: Message for progressbar -->
+		<mobilemessage key="extractingdbzip" value="Extracting Database Archive." msgid="BMXAF1182E" prefix="false"/>	  
+        <!-- ISSUE 09-19396: New message for marking all messages as read -->
+        <mobilemessage key="markallreadconfig" value="All messages will be removed from the list. Do you want to proceed?" msgid="BMXAF1183E" prefix="false" />        
+        <mobilemessage key="databeanmustbeclose" value="DataBean must be closed to be indexed." msgid="BMXAF1184E" prefix="false" />
+		<mobilemessage key="submitdata" value="Sending record(s) to Maximo Server." msgid="BMXAF1185I" prefix="false"/>
+		<mobilemessage key="sysconnectingserver" value="Connecting to Maximo Server." msgid="BMXAF2186I" prefix="false"/>        
+		<mobilemessage key="processdatainprogress" value="Data process in progress." msgid="BMXAF2187I" prefix="false"/>
+		<mobilemessage key="nfilechooser_parentfolder" value=".. (Parent Folder)" msgid="BMXAF2188I" prefix="false"/>
+		<mobilemessage key="nfilechooser_noresults" value="No Results" msgid="BMXAF2189I" prefix="false"/>
+		<mobilemessage key="erroropeningcamera" value="Failed to open camera: {0}" msgid="BMXAF2190I" prefix="false"/>
+		<mobilemessage key="photoattachedsuccess" value="Picture {0} was successfully attached to the record." msgid="BMXAF2191I" prefix="false"/>
+	</mobilemessages>
+</mobileapp-cdc>
