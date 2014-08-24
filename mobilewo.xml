@@ -11150,6 +11150,7 @@ END CAL -->
 				<textbox id="wochgstatus2" dataattribute="STATUS" inputmode="readonly" label="Current Status"/>
 				<dropdown id="wochgstatus3" dataattribute="NEWSTATUSDISPLAY" label="New Status" listdatasrcname="WOSTATUS" displaydataattribute="DESCRIPTION" valuedataattribute="VALUE" filterevent="filterstatusvalues" inputmode="required" handler="customwohandler" validateevent="validateStatusChange"/>
 				<!-- IRV Start -->
+				<dropdown id="woother32" dataattribute="IRVRISKASSESSMENT" label="Have you reviewed the Risk Assessment?" addblankitem="true" listdatasrcname="IRVRISKASSESSMENT" displaydataattribute="VALUE" valuedataattribute="VALUE" displayevent="hideIfNotSTART"/>
 				<dropdown id="wochgstatus7" dataattribute="IRV_RETURNSTATUSCODE" label="Return Status Code" addblankitem="true" listdatasrcname="IRVRETSTATUSCODE" displaydataattribute="VALUE" valuedataattribute="VALUE" displayevent="hideIfNotRETURN" filterevent="filterreturncodevalues"/>
 				<dropdown id="wochgstatus8" dataattribute="IRV_NOSIGNATURECODE" label="No Signature Code" addblankitem="true" listdatasrcname="IRVNOSIGCODE" displaydataattribute="VALUE" valuedataattribute="VALUE" displayevent="hideIfNotCOMP" />
 				<textbox id="wochgstatus5" dataattribute="NEWSTATUSMEMO" label="Memo" />

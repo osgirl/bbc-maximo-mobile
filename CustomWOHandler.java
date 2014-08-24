@@ -50,6 +50,9 @@ public class CustomWOHandler extends DefaultEventHandler {
 	        if(eventId.equals("hideIfNotRETURN")) {
 	        	return hideIfNotRETURN(event);
 	        }
+	        if(eventId.equals("hideIfNotSTART")) {
+	        	return hideIfNotRETURN(event);
+	        }
 	        if(eventId.equals("hideIfNotCOMP")) {
 	        	return hideIfNotCOMP(event);
 	        }
@@ -329,6 +332,19 @@ public class CustomWOHandler extends DefaultEventHandler {
 		return EVENT_HANDLED;
 	}
 
+	public boolean hideIfNotSTART(UIEvent event) throws MobileApplicationException {
+		MobileMboDataBean databean = UIUtil.getCurrentScreen().getDataBean();
+		String status = databean.getValue("NEWSTATUSDISPLAY");
+
+		if (status.equals("START")) {
+			((AbstractMobileControl)event.getCreatingObject()).setVisibility(true);
+		} else {
+			((AbstractMobileControl)event.getCreatingObject()).setVisibility(false);
+		}
+		return EVENT_HANDLED;
+	}
+	
+	
 	/**
 	 * Default the mitigation status on the work order to requested.
 	 * 
