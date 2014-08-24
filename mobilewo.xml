@@ -11152,6 +11152,7 @@ END CAL -->
 				<!-- IRV Start -->
 				<dropdown id="woother321" dataattribute="IRVRISKASSESSMENT" label="Have you reviewed the Risk Assessment?" addblankitem="true" listdatasrcname="IRVRISKASSESSMENT" displaydataattribute="VALUE" valuedataattribute="VALUE" displayevent="hideIfNotSTART"/>
 				<dropdown id="wochgstatus7" dataattribute="IRV_RETURNSTATUSCODE" label="Return Status Code" addblankitem="true" listdatasrcname="IRVRETSTATUSCODE" displaydataattribute="VALUE" valuedataattribute="VALUE" displayevent="hideIfNotRETURN" filterevent="filterreturncodevalues"/>
+				<link id="tksignaturelnk1" label="Capture Signature" image="/img/btn_edit.png" event="showpagenosave" value="wocapturesig" dataattribute="CONTENT" displayevent="hideIfNotCOMP"/>
 				<dropdown id="wochgstatus8" dataattribute="IRV_NOSIGNATURECODE" label="No Signature Code" addblankitem="true" listdatasrcname="IRVNOSIGCODE" displaydataattribute="VALUE" valuedataattribute="VALUE" displayevent="hideIfNotCOMP" />
 				<textbox id="wochgstatus5" dataattribute="NEWSTATUSMEMO" label="Memo" />
 				<!-- textbox id="wochgstatus4" dataattribute="NEWSTATUSASOFDATE" label="Status Date" lookup="calendar"/ -->
