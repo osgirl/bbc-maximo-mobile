@@ -1,0 +1,56 @@
+--------------------------------------------------------------------------------------
+Mobile Deployment Instructions
+--------------------------------------------------------------------------------------
+
+Supporting Files:
+
+*** For PREPROD ***
+mobiletools-PREPROD.properties
+mobile-PREPROD.properties
+
+*** For LIVE ***
+mobiletools-LIVE.properties
+mobile-LIVE.properties
+
+reactive work.sql
+planned work.sql
+
+--------------------------------------------------------------------------------------
+Replace Build Properties File
+--------------------------------------------------------------------------------------
+1. Logon to the machine bbc-mbs-t01.bbc-irv.local
+2. Go to D:\IBM\SMP\maximo\mobiletools
+3. Delete mobiletools.properties
+4. Copy mobiletools-PREPROD.properties/mobiletools-LIVE.properties
+5. Rename the file to mobiletools.properties
+
+--------------------------------------------------------------------------------------
+Replace Application Properties File
+--------------------------------------------------------------------------------------
+1. Logon to the machine bbc-mbs-t01.bbc-irv.local
+2. Go to D:\IBM\SMP\maximo\mobiletools\profiles\android\common\appsetup
+3. Delete mobile.properties
+4. Copy mobile-PREPROD.properties/mobile-LIVE.properties
+5. Rename the file to mobile.properties
+
+--------------------------------------------------------------------------------------
+Rebuild Mobile Application
+--------------------------------------------------------------------------------------
+1. Logon to the machine bbc-mbs-t01.bbc-irv.local
+2. Open a windows command prompt 
+3. Navigate to the directory D:\IBM\SMP\maximo\mobiletools\maximo
+4. Run importall.cmd
+5. Run packagemobile.cmd
+6. Run importinstallers.cmd
+
+
+--------------------------------------------------------------------------------------
+Change Mobile Queries
+--------------------------------------------------------------------------------------
+1. Logon to maximo with an admin user
+2. Go To Administration -> Mobile Data Manager
+3. Open group TYPE5A
+4. Select Mobile Work Manager from the list of applications.
+5. Select WORKORDER from the Types of Data.
+6. For the Query "Reactive Work" paste the text in the Clause file with the content of "reactive work.sql"
+7. For the Query "Planned Work" paste the text in the Clause file with the content of "planned work.sql"
