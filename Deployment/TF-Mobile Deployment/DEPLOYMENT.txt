@@ -54,3 +54,4 @@ Change Mobile Queries
 5. Select WORKORDER from the Types of Data.
 6. For the Query "Reactive Work" paste the text in the Clause file with the content of "reactive work.sql"
 7. For the Query "Planned Work" paste the text in the Clause file with the content of "planned work.sql"
+8. Save the record
