@@ -56,8 +56,14 @@ public class CustomWOHandler extends DefaultEventHandler {
 	        if(eventId.equals("hideIfNotCOMP")) {
 	        	return hideIfNotCOMP(event);
 	        }
+	        if(eventId.equals("readOnlyIfCOMP")) {
+	        	return readOnlyIfCOMP(event);
+	        }
 	        if(eventId.equals("readOnlyIfNotNew")) {
 	        	return readOnlyIfNotNew(event);
+	        }
+			if(eventId.equals("assetbarcode")) {
+	        	return assetbarcode(event);
 	        }
 		    if(eventId.equalsIgnoreCase("createPrimaryMultiEntry")) {
 	            return interceptCreatePrimaryMultiEntry(event);
@@ -312,6 +318,22 @@ public class CustomWOHandler extends DefaultEventHandler {
 			    }
 			    return EVENT_HANDLED;
 			  }
+	
+	public boolean readOnlyIfCOMP(UIEvent event) throws MobileApplicationException{
+	    MobileMboDataBean wodatabean = ((AbstractMobileControl)event.getCreatingObject()).getDataBean();
+	    if (wodatabean != null)
+	    {
+	      WOApp app = (WOApp)UIUtil.getApplication();
+	      String status = app.getInternalValue(wodatabean, "WOSTATUS", wodatabean.getValue("STATUS"));
+	     
+	      if (status.equals("WOCOMP")||status.equals("COMP") ) {
+	        ((AbstractMobileControl)event.getCreatingObject()).setReadonly(true);
+	      } else {
+	        ((AbstractMobileControl)event.getCreatingObject()).setReadonly(false);
+	      }
+	    }
+	    return EVENT_HANDLED;
+	  }
 
 	/**
 	 * Hides the drop down for No Signature Code on the Change Status page if the status is not COMP
@@ -367,6 +389,20 @@ public class CustomWOHandler extends DefaultEventHandler {
 		return EVENT_HANDLED;
 	}
 
+	public boolean assetbarcode(UIEvent event) throws MobileApplicationException {
+		MobileMboDataBean databean = UIUtil.getCurrentScreen().getDataBean();
+		String sAssetNum = databean.getValue("ASSETNUM");
+
+	    sAssetNum = sAssetNum.replace(" ","")
+		
+		if(databean != null)
+	    {
+	        databean.setValue("ASSETNUM",sAssetNum)
+	    }
+		
+		return EVENT_HANDLED;
+    }
+	
 	/**
 	 * When creating a follow-up SR and the assetnum was not specified the SR was not created when synchonised
 	 * with Maximo.  The error was BMXAA4198E - The GL attribute GLACCOUNT on object {1} requires an organization. Specify a value in the Organization field.
