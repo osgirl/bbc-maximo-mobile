@@ -62,9 +62,6 @@
 			<mobilemboattribute name="COUNTRY" mboattribute="SERVICEADDRESS.COUNTRY" /> 
 			<mobilemboattribute name="IRVOLDSTATUS" maxtype="UPPER" persistent="false"/>
 			<mobilemboattribute name="LOC_DESC" mboattribute="LOCATION.DESCRIPTION"/>
-			<mobilemboattribute name="JP_TEMPLATETYPE" mboattribute="JOBPLAN.TEMPLATETYPE"/>
-			<mobilemboattribute name="JP_FREQVALUE" mboattribute="JOBPLAN.IDS_JOBPLANFREQ.NUMVALUE"/>
-			<mobilemboattribute name="JP_FREQUNIT" mboattribute="JOBPLAN.IDS_JOBPLANFREQ.MEASUREUNITID"/>
 			<!-- IRV Modification Finish-->
 			<mobilemboattribute name="ISTASK" mboattribute="ISTASK"/>
 			<mobilemboattribute name="ACTFINISH" mboattribute="ACTFINISH"/>
@@ -4740,9 +4737,6 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 			<mobilemboattribute name="_RECID" maxtype="INTEGER"/>
 			<mobilemboattribute name="IRVCUSTPRI" mboattribute="ORIGTICKET.IRVCUSTPRI"/>
 			<mobilemboattribute name="IRV_SERVPRIO" mboattribute="IRV_SERVPRIO"/>
-			<mobilemboattribute name="JP_TEMPLATETYPE" mboattribute="JOBPLAN.TEMPLATETYPE"/>
-			<mobilemboattribute name="JP_FREQVALUE" mboattribute="JOBPLAN.IDS_JOBPLANFREQ.NUMVALUE"/>
-			<mobilemboattribute name="JP_FREQUNIT" mboattribute="JOBPLAN.IDS_JOBPLANFREQ.MEASUREUNITID"/>
 			<!-- COMMON fields -->
 			<mobilemboattribute name="ORGID" sameas="ORGANIZATION.ORGID"/>
 			<mobilemboattribute name="SITEID" sameas="SITE.SITEID"/>
@@ -5880,9 +5874,6 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 				<textbox id="srchwodesctxt6" dataattribute="WORKTYPE" label="Work Type" lookup="multiworktypelookup"/>
 				<textbox id="srchwodesctxt7" dataattribute="ASSETNUM" label="Asset" lookup="multiassetlookup"/>
 				<textbox id="srchwodesctxt8" dataattribute="LOCATION" label="Location" lookup="multiloclookup"/>
-				<textbox id="srchwopmjp1" dataattribute="JP_TEMPLATETYPE"  label="Job Plan Type"/>
-				<textbox id="srchwopmjp2" dataattribute="JP_FREQVALUE"  label="Frequency Value" />
-				<textbox id="srchwopmjp3" dataattribute="JP_FREQUNIT"  label="Frequency Unit" />
 				<textbox id="srchwodesctxt9" dataattribute="CLASSSTRUCTURE_HIERARCHYPATH" label="Classification"/>
 				<textbox id="srchwodesctxt10" dataattribute="COMMODITYGROUP" label="Service Group"/>
 				<textbox id="srchwodesctxt11" dataattribute="COMMODITY" label="Service"/>
@@ -5936,8 +5927,6 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 						<tablecolumn id="woresults12" dataattribute="SCHEDSTART" label="Start" colwidth="60" displaymode="visible" />
 						<tablecolumn id="woresultsirv22" dataattribute="POSTALCODE" label="Post Code" colwidth="60" displaymode="visible" />
 						<tablecolumn id="woresultsirv23" dataattribute="WORKTYPE" label="Work Type" colwidth="70" displaymode="visible" />
-						<tablecolumn id="woresultsirv31" dataattribute="JP_TEMPLATETYPE" label="Job Plan Type" colwidth="70" displaymode="visible" />
-						<tablecolumn id="woresultsirv32" dataattribute="JP_FREQUNIT" label="PM Frequency" colwidth="70" displaymode="visible" />
 						<tablecolumn id="woresults04" dataattribute="STATUS" label="Status" displaymode="visible" />
 						<tablecolumn id="woresults05" dataattribute="ASSETNUM" label="Asset" displaymode="invisible" scantype="primary"/>
 						<tablecolumn id="woresults06" dataattribute="LOCATION" label="Location" displaymode="invisible" />
@@ -7411,9 +7400,6 @@ AND   (($MOBILE_WORKORDER.ORGID is not null AND itemnum IN (SELECT itemnum
 							<!-- IRV Updated dropdown id="wodesctxt7a" dataattribute="WORKTYPE" label="Work Type" addblankitem="true" displayevent="iswooractivity" listdatasrcname="WORKTYPE" displaydataattribute="WORKTYPE" valuedataattribute="WORKTYPE" filterevent="filterworktype">
 							</dropdown-->
 							<textbox id="wodesctxt7a" dataattribute="WORKTYPE" inputmode="readonly"/>
-							<textbox id="wopmjp1" dataattribute="JP_TEMPLATETYPE"  label="Job Plan Type" inputmode="readonly"/>
-							<textbox id="wopmjp2" dataattribute="JP_FREQVALUE"  label="Frequency Value" inputmode="readonly"/>
-							<textbox id="wopmjp3" dataattribute="JP_FREQUNIT"  label="Frequency Unit" inputmode="readonly"/>
 							<dropdown id="wodesctxt7b" dataattribute="WORKTYPE" label="Change Type" addblankitem="true" displayevent="ischange" listdatasrcname="WORKTYPE" displaydataattribute="WORKTYPE" valuedataattribute="WORKTYPE" filterevent="filterworktype">
 							</dropdown>
 							<dropdown id="wodesctxt7c" dataattribute="WORKTYPE" label="Release Type" addblankitem="true" displayevent="isrelease" listdatasrcname="WORKTYPE" displaydataattribute="WORKTYPE" valuedataattribute="WORKTYPE" filterevent="filterworktype">
