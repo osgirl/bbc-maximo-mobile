@@ -1,0 +1,51 @@
+--------------------------------------------------------------------------------------
+Mobile Deployment Instructions
+--------------------------------------------------------------------------------------
+
+Supporting Files:
+
+*** For PREPROD ***
+mobiletools-PREPROD.properties
+mobile-PREPROD.properties
+
+*** For LIVE ***
+mobiletools-LIVE.properties
+mobile-LIVE.properties
+
+
+--------------------------------------------------------------------------------------
+Remove Current Presentation XML
+--------------------------------------------------------------------------------------
+1. Logon to maximo database with admin privileges
+2. Run the following statement:
+
+select * from maxpresentation where app = 'MOBILEWO'; 
+
+--------------------------------------------------------------------------------------
+Replace Build Properties File
+--------------------------------------------------------------------------------------
+1. Logon to the machine bbc-mbs-t01.bbc-irv.local
+2. Go to D:\IBM\SMP\maximo\mobiletools
+3. Delete mobiletools.properties
+4. Copy mobiletools-PREPROD.properties/mobiletools-LIVE.properties
+5. Rename the file to mobiletools.properties
+
+--------------------------------------------------------------------------------------
+Replace Application Properties File
+--------------------------------------------------------------------------------------
+1. Logon to the machine bbc-mbs-t01.bbc-irv.local
+2. Go to D:\IBM\SMP\maximo\mobiletools\profiles\android\common\appsetup
+3. Delete mobile.properties
+4. Copy mobile-PREPROD.properties/mobile-LIVE.properties
+5. Rename the file to mobile.properties
+
+--------------------------------------------------------------------------------------
+Rebuild Mobile Application
+--------------------------------------------------------------------------------------
+1. Logon to the machine bbc-mbs-t01.bbc-irv.local
+2. Open a windows command prompt 
+3. Navigate to the directory D:\IBM\SMP\maximo\mobiletools\maximo
+4. Run importall.cmd
+5. Run packagemobile.cmd
+6. Run importinstallers.cmd
+
